@@ -1,0 +1,35 @@
+# Ownership for this repo. A context file without a named owner rots inside a quarter,
+# and a rotted context file is worse than none — so this file is the other half of the
+# "owned by name" line in AGENTS.md.
+#
+# CODEOWNERS only has teeth once the repository is configured to give it teeth. Three
+# settings, all under Settings -> Branches -> branch protection rule for `main`:
+#   1. Require a pull request before merging
+#   2. Require review from Code Owners
+#   3. Require status checks to pass — add `tier1` ONLY. Never add the tier-2 job.
+# Those need repo admin. Until they are set, this file documents intent and blocks nothing.
+#
+# The copy-me version with placeholders is templates/CODEOWNERS.example.
+
+*                       @limsijie93
+/AGENTS.md              @limsijie93
+/templates/             @limsijie93
+/.github/               @limsijie93
+/example/               @limsijie93
+
+# The control plane, named separately from the `*` rule above, and not because `*` failed to
+# cover it. `*` covers it for review; what `*` does not do is SAY that this is the file the
+# tier-0 guards are wired through, so a reviewer skimming a diff has nothing telling them the
+# stakes are different here.
+#
+# tools/guard_protected_paths.py already refuses AGENT edits to both of these, on the argument
+# that a guard the agent can disable is not a guard. This is the other half of the same
+# argument, one level up: a guard the agent cannot disable, and a human can delete in a pull
+# request nobody looked closely at, is also not a guard. Catch-all review is not guard
+# self-protection.
+#
+# It changes nothing mechanically today — the owner is the same person, and CODEOWNERS has no
+# teeth until branch protection is configured (three settings, above). It is here so that when
+# there is more than one owner, the split is already drawn at the place it matters.
+/.claude/               @limsijie93
+/tools/guard_*.py       @limsijie93

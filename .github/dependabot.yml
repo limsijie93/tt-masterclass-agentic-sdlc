@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # GitHub Actions only. Dependabot does NOT understand pre-commit `rev:` pins or the
+  # versions in `additional_dependencies:` — those need `pre-commit autoupdate` (or
+  # pre-commit.ci) run by hand. Stale pins in a repo built to be copied are a slow rot
+  # vector, so the gap is written down rather than assumed.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3

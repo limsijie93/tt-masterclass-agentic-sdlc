@@ -1,0 +1,195 @@
+# The review ladder, as three jobs, so the tier split is structural rather than described.
+#
+#   tier 1  deterministic   BLOCKS   -- add THIS job to required status checks
+#   tier 2  agent judgment  COMMENTS -- never add this one
+#   tier 3  human           DECIDES  -- CODEOWNERS + the PR template, not CI
+#
+# Green as committed on this repo: tier1 runs six real checks over real content, the Python
+# steps skip on a clear condition, and tier2 skips without a key. Every skipped step
+# activates unedited the moment this file lands in a repo that has application code.
+
+name: review
+
+on:
+  pull_request:
+
+# Least privilege at the workflow level; tier2 widens it for itself and nothing else.
+permissions:
+  contents: read
+
+concurrency:
+  group: review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  # Why this job exists at all: `hashFiles()` in a JOB-LEVEL `if` resolves before any
+  # checkout has happened and returns an empty string, so gating a job that way silently
+  # never runs. Compute it in a step after checkout, publish it as an output.
+  #
+  # It reports the STACK rather than "is it Python". Nothing below branches on the answer
+  # any more — the tier-1 gates come from .pre-commit-config.yaml, which is where the repo
+  # already declared them — but the coverage step needs to know, and a reader of the run
+  # summary should be able to see what CI thought it was looking at.
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      stack: ${{ steps.probe.outputs.stack }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: probe
+        run: |
+          stack="none"
+          [ -f pyproject.toml ] || [ -f setup.cfg ] && stack="python"
+          [ -f package.json ] && stack="node"
+          [ -f go.mod ] && stack="go"
+          echo "stack=$stack" >> "$GITHUB_OUTPUT"
+          echo "Detected stack: \`$stack\`" >> "$GITHUB_STEP_SUMMARY"
+
+  tier1:
+    name: tier1
+    needs: detect
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 is MANDATORY. --from-ref and merge-base both need history, and the
+      # default shallow checkout makes diff-scoping silently do nothing.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # pre-commit is the only tool CI needs to know about by name. Everything the repo
+      # actually enforces is declared in .pre-commit-config.yaml, in whatever language it
+      # is written, and pre-commit installs each hook's own runtime. This is why tier 1
+      # ports across ecosystems even though none of the tools inside it do.
+      # requirements-dev.txt rather than a hand-listed set. The hand-listed one drifted the
+      # moment labs/ arrived: labs 02 and 03 shell out to `lint-imports` and `pytest`, which
+      # were not installed here, so their checks failed with the learner-facing message
+      # "your contract has to name shop.api.bad" when the truth was "the tool is missing".
+      # A hand-listed install is a second source of truth for the toolchain, and this is
+      # what the second one being wrong looks like.
+      - name: Install tooling
+        run: pip install --quiet -r requirements-dev.txt
+
+      # Always runs: this repo's own content.
+      - name: Skills — portability rules and the chain
+        run: python3 scripts/lint_skills.py --check-agents
+
+      - name: Skills — host symlinks match the canonical directory
+        run: ./scripts/sync-skills.sh --check
+
+      - name: Custom rules — their own unit tests
+        # NOT `semgrep --test --config`: that form reports success even with a broken
+        # fixture. See .semgrep/README.md.
+        run: semgrep test .semgrep/
+
+      - name: AGENTS.md Commands and the pre-commit config agree
+        run: python3 tools/check_commands_sync.py
+
+      - name: Tests
+        run: pytest -q
+
+      # Diff-scoped, so this costs seconds on a normal pull request. `fetch-depth: 0` is
+      # already set for this job; without it `origin/main` would not exist and the tool
+      # would fall back to a whole-package run rather than pass silently.
+      - name: Mutation gate on myapp/, against what this branch changed
+        run: python3 tools/mutate.py --since origin/${{ github.base_ref || 'main' }}
+
+      # Tier 0, reported as annotations rather than blocking. Both of these warn: the guard
+      # because a deliberate test change is legitimate, check_touchpoints because it cannot
+      # see a refactor that stays inside the touchpoints and changes meaning.
+      #
+      # check_touchpoints.py had been built, unit-tested and wired to nothing since the
+      # slices layer. Wiring it here retires the repo's only orphaned script.
+      - name: Test edits do not weaken assertions (advisory)
+        run: |
+          python3 tools/guard_test_edits.py \
+            --diff-range "origin/${{ github.base_ref }}...HEAD"
+
+      - name: Changed files against the declared touchpoints (advisory)
+        run: |
+          python3 tools/check_touchpoints.py \
+            --base "origin/${{ github.base_ref }}" || true
+
+      # The load-bearing line for the whole "same rule, two enforcement points" claim: CI
+      # and the developer's machine run the same hook definitions over the same file set.
+      - name: pre-commit (changed files only)
+        run: |
+          pre-commit run \
+            --from-ref "origin/${{ github.base_ref }}" \
+            --to-ref HEAD \
+            --show-diff-on-failure
+
+      # There is deliberately NO per-language step here any more.
+      #
+      # An earlier version ran `pytest` and a Python coverage gate behind an `if
+      # has_python` condition. That was language lock hiding in the one file that had no
+      # reason to carry any: the repo already declares its gates in
+      # .pre-commit-config.yaml, and the step above runs exactly those over exactly the
+      # changed files. Adding a hardcoded test runner alongside it meant a TypeScript repo
+      # copying this workflow silently ran nothing.
+      #
+      # Coverage on changed lines is the one gate pre-commit cannot express, because it
+      # needs a report artefact. It stays commented rather than guessed at, since the
+      # command genuinely differs per stack — see
+      # .github/skills/gates-draft/references/gates-by-stack.md.
+      #
+      # Python:      coverage run -m pytest -q && coverage xml
+      # TypeScript:  vitest run --coverage   (lcov)
+      # Then, either way:
+      #   diff-cover <report> --compare-branch "origin/$BASE" --fail-under 80
+
+  tier2:
+    name: tier2 (advisory)
+    needs: detect
+    runs-on: ubuntu-latest
+    # The belt. The brace is that only `tier1` is in the required-checks list — see
+    # .github/CODEOWNERS. continue-on-error ALONE does not guarantee non-blocking: if
+    # someone adds this job as a required check, it blocks regardless. The guarantee lives
+    # in repo settings, so both are needed and neither is sufficient.
+    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: write
+    # A pull_request from a fork gets a read-only token, so this cannot comment there. The
+    # obvious fix is pull_request_target, and it must NOT be used: untrusted code plus a
+    # write token plus secrets is the standard exfiltration hole. Fork PRs get no tier-2
+    # comment, and that is the correct trade rather than an oversight.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # ---------------------------------------------------------------------------------
+      # SWAP THIS STEP for whichever engine you use. The team's standards live in
+      # .github/skills/code-review/SKILL.md either way, which is the point: the engine is
+      # replaceable, the standards are yours and they are in a file you edit in a PR.
+      #
+      # Default: Qodo PR-Agent (OSS, bring your own key).
+      # Alternative: Kodus (OSS, BYOK, custom review rules).
+      # NOTE: Copilot code review is enabled in repository SETTINGS, not in a workflow —
+      # a reader who took the deck's list literally will look for an action and not find one.
+      #
+      # `secrets` cannot be used in a job-level `if`, so the guard is at step level via env.
+      # Without a key this skips cleanly instead of failing red.
+      # ---------------------------------------------------------------------------------
+      - name: Tier 2 — fresh-context review against the spec
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        if: env.OPENAI_KEY != ''
+        run: |
+          echo "Review standards: .github/skills/code-review/SKILL.md"
+          echo "Output contract: at most 3 findings, at most 1 blocking, advisory only."
+          # docker run --rm -e OPENAI_KEY -e GITHUB_TOKEN codiumai/pr-agent:latest --pr_url "$PR_URL" review
+
+      - name: No key configured
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        if: env.OPENAI_KEY == ''
+        run: |
+          echo "No tier-2 key configured, so no agent review ran." >> "$GITHUB_STEP_SUMMARY"
+          echo "Tier 1 still blocked. Tier 3 still decides. The ladder degrades safely." \
+            >> "$GITHUB_STEP_SUMMARY"

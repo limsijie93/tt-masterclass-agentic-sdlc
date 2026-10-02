@@ -1,0 +1,23 @@
+# The tools tier 1 runs, pinned to the SAME versions .pre-commit-config.yaml pins.
+#
+# Why this file exists: `make tier1` needs ruff, mypy, semgrep, lint-imports and pytest on
+# PATH, and until now nothing in the repository said so. A learner cloning this to do the
+# labs discovered the dependency set by reading error messages, which is the setup tax that
+# kills a self-guided lab before lab 01.
+#
+# The versions here MUST match the `rev:` pins in .pre-commit-config.yaml. When they drift,
+# a developer's local run and CI disagree about what "green" means, and the one that is
+# wrong is always the one you are standing in front of.
+#
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+#   make setup            # the same thing, one line
+#
+# There is deliberately no [project] table in pyproject.toml (see its header), so this is a
+# plain requirements file rather than a dependency group.
+
+ruff==0.6.2                 # .pre-commit-config.yaml: astral-sh/ruff-pre-commit v0.6.2
+mypy==1.11.2                # .pre-commit-config.yaml: mirrors-mypy v1.11.2
+semgrep==1.176.1            # .pre-commit-config.yaml: semgrep/pre-commit v1.176.1
+import-linter==2.15         # .pre-commit-config.yaml: lint-imports additional_dependencies
+pytest==8.3.3               # the local `pytest -q` hook; no pin existed anywhere before
+pre-commit==3.8.0           # runs everything above at commit time

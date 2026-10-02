@@ -1,0 +1,68 @@
+Worked example. Cited paths resolve against myapp/, which is real and deliberately
+minimal. See ./README.md for the canon.
+
+Slide 26 shows the two blocks below, verbatim.
+
+
+  git log --oneline   ·   PROJ-142
+
+  a4f2e1  criterion 2 · status route
+  8c1b09  criterion 2 · async job
+  3e7d55  criterion 1 · stream csv
+  f01a22  spec + touchpoints
+
+  $ git diff --stat
+   4 files changed
+   all inside touchpoints
+
+
+WHY THE COMMIT NAMES MATTER
+
+Every commit is named for the acceptance criterion it satisfies, so a reviewer can read the
+pull request criterion by criterion instead of file by file. It is a two-minute habit that
+takes twenty minutes off someone else's day.
+
+Note that criterion 2 took two commits. That is normal and worth showing: slices are shaped
+by what ships, not by a one-to-one mapping to criteria. The async job and the status route
+are separately reviewable, and neither is separately useful — so they are two commits in one
+slice rather than two slices.
+
+The first commit is the spec and the touchpoints, before any implementation. That is the
+whole of Block 1 arriving as a reviewable file: PR #318 was merged before PR #319 was opened.
+
+
+THE FOUR FILES
+
+  myapp/api/exports/views.py           criterion 1, criterion 2
+  myapp/service/exports/service.py     criterion 1
+  myapp/tasks/queue.py                 criterion 2
+  tests/test_exports.py                both
+
+Compare that against 04-touchpoints.md, which declared five paths. Four were changed. The
+fifth — myapp/service/reports/legacy.py:210 — was NOT, because the spec put it out of scope.
+
+That is the arithmetic that makes this artifact interesting rather than decorative. The
+diff is clean. Every file is inside the plan. `git diff --stat` has nothing to say.
+
+And the change still broke the legacy report, which is finding 1 of 08-review.md.
+
+
+WHAT THIS ARTIFACT CANNOT DO
+
+`git diff --stat` against a touchpoints list catches a file appearing where the spec did
+not expect one. It does not catch a change to a file the spec DID expect, which alters the
+behaviour of something else that reads it — which is exactly what happened here.
+
+That is the honest boundary of a deterministic scope check, and it is the reason tier 2 and
+tier 3 exist at all. A tool that had claimed to catch this would have been trusted for
+something it cannot do, and tools/check_touchpoints.py says so in its own docstring and
+warns rather than blocks for that reason.
+
+
+THE TWO-STRIKE RULE
+
+Not visible in a clean log, which is the point of mentioning it. If two correction attempts
+have not fixed a slice, discard the branch and re-spec. The third correction almost never
+lands, and sunk-cost debugging of agent output is the largest time sink in the room.
+
+What is usually wrong at that point is the spec, not the agent.

@@ -1,0 +1,98 @@
+# Do the skills still honour their own contracts?
+#
+# A separate workflow rather than a job inside review.yml, because the trigger set is entirely
+# different — review.yml is `on: pull_request` for every PR, this fires weekly and only on PRs
+# that touch the configuration steering the agent. A job that skips on 95% of runs would be
+# noise in every review summary.
+#
+# It REPORTS. It is not a required check, and it must not become one: an eval is an agent run,
+# the same input can produce a different verdict, and a flaky gate destroys trust in about a
+# week. See evals/README.md for the full argument and for the human-gate that replaces it.
+
+name: evals
+
+on:
+  schedule:
+    # Weekly, Monday, deliberately off the hour. Nightly would train people to ignore red on a
+    # suite that is non-deterministic by nature.
+    #
+    # NOTE: schedule: only fires on the default branch. None of this stack is merged, so this
+    # will not run until it lands. Stated rather than discovered.
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+  pull_request:
+    # "On any change to the context file, skills, or hooks" — as a paths filter. Emphatically
+    # not every PR: too expensive, and the signal belongs where configuration changed.
+    paths:
+      - ".github/skills/**"
+      - ".claude/settings.json"
+      - "tools/guard_*.py"
+      - "tools/eval_assertions.py"
+      - "tools/run_evals.py"
+      - "AGENTS.md"
+      - "evals/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: evals-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  evals:
+    name: evals (advisory)
+    runs-on: ubuntu-latest
+    # The suite's STRUCTURE is gated in review.yml's tier1, via pytest. Only the results are
+    # advisory, so a red run here blocks nothing.
+    continue-on-error: true
+    steps:
+      # fetch-depth: 0 because the harness creates a git worktree from HEAD.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install the engine
+        run: npm install -g @anthropic-ai/claude-code
+
+      # `secrets` cannot be used in a job-level `if`, so the guard is at step level via env —
+      # the same pattern review.yml uses for its tier-2 engine. A fork PR gets no secrets and
+      # skips cleanly rather than failing red.
+      - name: Run the eval suite
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # --add-dir is not optional: --bare skips skill discovery, so without it the suite
+          # would run with none of the skills it is testing and quietly measure nothing.
+          # No Bash in --allowedTools: the agent must write files, but it does not need a shell.
+          EVAL_ENGINE_CMD: >-
+            claude --bare -p --add-dir .
+            --allowedTools "Read,Grep,Glob,Write,Edit"
+            --permission-mode acceptEdits
+            --output-format json
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          python3 tools/run_evals.py --all | tee eval-run.txt
+          {
+            echo "## Eval results"
+            echo
+            echo '```'
+            tail -n 40 eval-run.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: No key configured
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        if: env.ANTHROPIC_API_KEY == ''
+        run: |
+          {
+            echo "## Eval results"
+            echo
+            echo "No key configured, so no skill was executed."
+            echo "\`scripts/lint_skills.py\` still ran in \`review.yml\`: the contracts are"
+            echo "still checked structurally. Only the behavioural check was skipped."
+          } >> "$GITHUB_STEP_SUMMARY"

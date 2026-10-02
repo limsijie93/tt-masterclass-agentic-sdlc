@@ -1,0 +1,76 @@
+diff --git a/labs/05-review-a-planted-pr/svc/api/middleware.py b/labs/05-review-a-planted-pr/svc/api/middleware.py
+index 93ec635..ab642f3 100644
+--- a/labs/05-review-a-planted-pr/svc/api/middleware.py
++++ b/labs/05-review-a-planted-pr/svc/api/middleware.py
+@@ -1,8 +1,22 @@
+-"""Request middleware. Does nothing yet."""
++"""Request middleware. Enforces the per-plan request limit."""
+ 
+ from __future__ import annotations
+ 
++from svc.repo import counters
++from svc.service.limits import WINDOW_SECONDS, limit_for
++
+ 
+ def handle(tenant_id: str, plan: str, route: str) -> tuple[int, dict[str, str]]:
+-    """Return a status code and response headers."""
++    """Return a status code and response headers.
++
++    Over-quota requests get a 429 and a Retry-After header naming the window.
++    """
++    limit = limit_for(plan)
++    if limit is None:
++        return 200, {}
++
++    key = f"rl:{route}"
++    used = counters.increment(key)
++    if used > limit:
++        return 429, {"Retry-After": str(WINDOW_SECONDS)}
+     return 200, {}
+diff --git a/labs/05-review-a-planted-pr/svc/service/reports.py b/labs/05-review-a-planted-pr/svc/service/reports.py
+index d9e4442..d5bc36c 100644
+--- a/labs/05-review-a-planted-pr/svc/service/reports.py
++++ b/labs/05-review-a-planted-pr/svc/service/reports.py
+@@ -4,4 +4,4 @@ from __future__ import annotations
+ 
+ 
+ def summarise(tenant_id: str, rows: list[str]) -> dict[str, object]:
+-    return {"tenant": tenant_id, "count": len(rows)}
++    return {"tenant": tenant_id, "count": len(rows), "generated": True}
+diff --git a/labs/05-review-a-planted-pr/tests/test_limits.py b/labs/05-review-a-planted-pr/tests/test_limits.py
+index 04c2a3c..7529460 100644
+--- a/labs/05-review-a-planted-pr/tests/test_limits.py
++++ b/labs/05-review-a-planted-pr/tests/test_limits.py
+@@ -2,12 +2,32 @@
+ 
+ from __future__ import annotations
+ 
++from svc.api.middleware import handle
++from svc.repo import counters
+ from svc.service.limits import limit_for
+ 
+ 
++def setup_function() -> None:
++    counters.reset()
++
++
+ def test_internal_callers_are_not_limited() -> None:
+     assert limit_for("internal") is None
+ 
+ 
+ def test_a_plan_has_a_limit() -> None:
+     assert limit_for("free") == 60
++
++
++def test_requests_under_the_limit_are_allowed() -> None:
++    status, _ = handle("tenant-a", "free", "/v1/search")
++    assert status == 200
++
++
++def test_requests_over_the_limit_are_rejected() -> None:
++    for _ in range(60):
++        handle("tenant-a", "free", "/v1/search")
++
++    status, _ = handle("tenant-a", "free", "/v1/search")
++
++    assert status == 429

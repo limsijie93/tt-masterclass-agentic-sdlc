@@ -1,0 +1,45 @@
+rules:
+  - id: unbounded-export-query
+    languages: [python]
+    severity: ERROR
+    message: >-
+      build_export_query() called without an explicit chunk_size. The default is unbounded,
+      which loads the whole result set into memory and is what makes an export time out on a
+      large account. Pass chunk_size explicitly.
+    metadata:
+      category: correctness
+      # THIS IS WHAT A CUSTOM ORG RULE LOOKS LIKE, and why it is worth more than any rule
+      # you could install from a registry: it exists because a human caught this once, in a
+      # review, on PROJ-142. That is the harvest loop's third row — "something a human
+      # caught that a machine could have" becomes a lint rule — and this is the file it
+      # becomes.
+      #
+      # No `paths:` filter. The rule is specific by function name, so it needs no help
+      # narrowing, and every path filter you can avoid is one less thing to keep true.
+      #
+      # ONE RULE PER LANGUAGE, NOT ONE RULE FOR BOTH. The TypeScript twin is
+      # .semgrep/ts/unbounded-export-query.yml. Declaring `languages: [python, typescript]`
+      # on a single rule was tried and is WRONG here — see .semgrep/README.md for the
+      # measurement. The two rules share an id stem, a message and a triage; the patterns
+      # cannot be shared, because they match real syntax.
+      rule-family: unbounded-export-query
+      origin: PROJ-142 review, finding 1
+    # BOTH CALL FORMS, AND THE SECOND ONE IS WHY THIS RULE WAS BROKEN FOR WEEKS.
+    #
+    # `pattern: build_export_query(...)` matches only an unqualified call. Every real caller
+    # in myapp/ says `service.build_export_query(...)`, and the rule matched none of them
+    # while passing `semgrep test .semgrep/` — because the fixture below had been written to
+    # the pattern instead of to the code.
+    #
+    # That is the fixture tautology from evals/README.md, in a rule rather than in a test, and
+    # nothing could catch it until there was an application here to run it against. Keep a
+    # qualified case in the fixture for both the violation and the fix, or this regresses
+    # silently the next time someone simplifies the pattern.
+    patterns:
+      - pattern-either:
+          - pattern: build_export_query(...)
+          - pattern: $MODULE.build_export_query(...)
+      # Two pattern-not clauses rather than one negated either: semgrep has no
+      # `pattern-not-either`, and NOT(a OR b) is NOT a AND NOT b.
+      - pattern-not: build_export_query(..., chunk_size=$N, ...)
+      - pattern-not: $MODULE.build_export_query(..., chunk_size=$N, ...)

@@ -1,0 +1,31 @@
+// WORKED EXAMPLE — TypeScript. Merge into your tsconfig.json.
+//
+// The "type discipline" row of the gates table. The Python column is `mypy --strict` plus a
+// module-level baseline in pyproject.toml; this is the same decision in TypeScript's terms.
+{
+  "compilerOptions": {
+    // `strict` is the equivalent of mypy's strict = true. Same trap, too: switching it on
+    // repo-wide on day one produces thousands of errors, nobody triages them, and it gets
+    // reverted. See templates/README.md before you turn it on.
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    // THE RATCHET, and the closest thing TypeScript has to ruff's RUF100 and mypy's
+    // warn_unused_ignores: an unnecessary @ts-expect-error becomes an ERROR, so once the
+    // underlying problem is fixed the suppression starts failing and gets deleted.
+    //
+    // This is why @ts-expect-error is the right suppression and @ts-ignore is the wrong one:
+    // @ts-ignore never expires. Ban it with eslint's ban-ts-comment rule.
+    "allowUnusedLabels": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+
+  // THE BASELINE. Exclude by path, with a ticket per line, and shrink over time. TypeScript
+  // has no per-module override as clean as [[tool.mypy.overrides]], so the honest options are
+  // path exclusion or a separate looser tsconfig for the legacy tree.
+  "exclude": [
+    "src/legacy/**" // TODO(ARCH-118) retiring in Q4
+  ]
+}

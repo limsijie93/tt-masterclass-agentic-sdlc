@@ -1,0 +1,22 @@
+rules:
+  - id: no-orm-above-service
+    languages: [python]
+    severity: WARNING
+    message: >-
+      Data-layer call in the API layer. Views ask the service layer; the service layer asks
+      the repository. The import-linter contract catches this when it crosses a module
+      boundary as an import — this rule catches the other half, where the object arrived by
+      some other route and the call itself is the violation. Move it into myapp.service.
+    metadata:
+      category: maintainability
+      layer: api
+      # The prose version of this rule is one line in AGENTS.md: "no data-layer calls above
+      # myapp.service". That line is a suggestion. This is the same rule, executable.
+    patterns:
+      - pattern-either:
+          - pattern: $M.objects.$CALL(...)
+          - pattern: $S.query($MODEL)
+          - pattern: $S.execute($SQL)
+    paths:
+      include:
+        - "**/api/**"

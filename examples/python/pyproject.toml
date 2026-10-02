@@ -1,0 +1,110 @@
+# WORKED EXAMPLE — Python. Copy the [tool.*] blocks into your own pyproject.toml.
+#
+# The language-neutral version of the table below is
+# .github/skills/gates-draft/references/gates-by-stack.md. The TypeScript column of that
+# table is realised in examples/typescript/.
+#
+# This file is segment 06's prose-to-executable table, made concrete for Python. One
+# commented section per row of that table. Written for the fictional `myapp` service.
+#
+# THE ONE RULE THAT MATTERS HERE: rule configuration lives in exactly one place per tool —
+# this file, .importlinter, and .semgrep/. No tool flags in .pre-commit-config.yaml or in
+# CI may change WHAT is enforced; they may only change WHICH FILES are looked at. That is
+# what makes "the constraint the agent obeys and the gate the PR passes are the same rule"
+# true, and it is the only version of that claim that cannot drift.
+#
+# Read templates/README.md before switching any of this on across an existing repo.
+
+# --- Row 1: Layering / dependency direction --------------------------------------------
+# Not expressible here. See templates/importlinter.example.ini.
+
+# --- Rows 2, 3: Public API surface, and the complexity ceiling ---------------------------
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["myapp", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F",      # the basics
+    "I",           # import sorting
+    "UP",          # pyupgrade
+    "B",           # bugbear
+    "C901",        # complexity ceiling — row 3
+    "TID",         # banned and relative imports — row 2
+    "S",           # bandit-style security lint
+    "RUF100",      # THE RATCHET: an unnecessary `noqa` becomes a failure
+]
+
+[tool.ruff.lint.mccabe]
+# Row 3. Set this to your CURRENT p95, not to 10, on day one. Then lower it by one every
+# few months. A ceiling below your existing code is not a standard, it is a backlog.
+max-complexity = 10
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+# Row 2, the ruff half. import-linter governs whole-layer direction; this names one module
+# and gives the reader somewhere to go instead, which is the difference between a rule and
+# an obstacle.
+"myapp.repo".msg = "Go through myapp.service. Views ask the service; the service asks the repo."
+
+[tool.ruff.lint.per-file-ignores]
+# THE BASELINE. Every line is debt with a ticket number, and it shrinks in pull-request
+# diffs where somebody has to look at it. That visibility is why a config baseline beats a
+# generated baseline file, which nobody ever reads.
+"myapp/service/reports/legacy.py" = ["C901"]   # TODO(ARCH-118) retiring in Q4
+"tests/conftest.py" = ["S101"]                 # asserts are the point in tests
+
+# --- Row 4: Type discipline -------------------------------------------------------------
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["myapp", "tests"]
+# THE RATCHET, again. Once an ignore is no longer needed it starts failing the build, so it
+# gets deleted rather than accumulating.
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+# THE BASELINE. Do not turn strict on repo-wide on day one — that is the single most
+# reliable way to kill this initiative in week two. Exempt by module, with a ticket, and
+# delete entries as they are fixed.
+module = ["myapp.service.reports.*"]
+ignore_errors = true          # TODO(ARCH-118) retiring in Q4
+
+# --- Row 5: Security invariants ---------------------------------------------------------
+# Ruff's "S" rules above cover the common cases. Rules specific to YOUR codebase — the ones
+# worth the most, because nobody else can write them — live in .semgrep/. See its README.
+
+# --- Row 6: Duplication -----------------------------------------------------------------
+# jscpd is the tool the table names, and it needs a Node toolchain. Do not add one to a
+# Python repo for a single metric unless you already have it for something else. The cost
+# is a second package manager in CI, forever; the benefit is one number. Skip it, and say
+# out loud that you skipped it, so nobody later mistakes the gap for an oversight.
+
+# --- Tests and coverage -----------------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["myapp"]
+branch = true
+
+[tool.coverage.report]
+# Deliberately NO `fail_under` here. A repo-wide coverage floor on an existing codebase is
+# the mypy trap wearing a different hat: it either sits below the current number and does
+# nothing, or above it and blocks every PR until someone deletes it.
+#
+# Gate on CHANGED LINES instead, in CI:
+#
+#     diff-cover coverage.xml --compare-branch=origin/main --fail-under=80
+#
+# That is the only coverage gate that can be adopted mid-life, and it is also what
+# mechanically produces the "(!) queue.py:12 has no test" line in the PR body — a
+# deterministic tool doing a job the deck assigns to an agent, better and cheaper.
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]

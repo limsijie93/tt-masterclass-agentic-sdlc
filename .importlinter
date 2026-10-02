@@ -1,0 +1,68 @@
+# THIS repo's real architecture contract. Runs in tier 1, blocks the pull request.
+#
+# The stack-neutral decision behind it is .github/skills/gates-draft, which emits this file
+# from the prose rule in AGENTS.md plus whatever stack stack-profile detected. The
+# TypeScript equivalent of the same contract is examples/typescript/dependency-cruiser.config.cjs.
+#
+# examples/python/importlinter.example.ini is the annotated worked example, kept because it
+# carries the baseline-and-ratchet commentary a real adopting repo needs and this file does
+# not — there are no violations here to baseline.
+
+[importlinter]
+root_package = myapp
+
+# --- One direction only ------------------------------------------------------------------
+#
+# The rule PROJ-142 nearly broke. The obvious way to make an export fast is to stream rows
+# straight out of the data layer from the view; this is what stops it, and it stops it in CI
+# rather than in review.
+
+[importlinter:contract:layers]
+name = Layered architecture
+type = layers
+layers =
+    myapp.api
+    myapp.service
+    myapp.repo
+
+# --- The API layer may not skip the service layer ----------------------------------------
+#
+# READ THIS BEFORE TRUSTING A LAYERS CONTRACT. A `layers` contract forbids LOWER importing
+# HIGHER. It does NOT forbid a higher layer skipping a layer to reach a lower one, so
+# `myapp.api -> myapp.repo` is KEPT by the contract above. That was verified by adding the
+# import and watching `lint-imports` pass.
+#
+# Which matters, because "a view reached down into the repository layer and lint-imports
+# failed" is the claim in example/PROJ-142/05-spec.md under Constraints, and it is the whole
+# of Demo 4. A layers contract alone does not make it true. This does.
+#
+# import-linter has no closed-layer option in the pinned version, so the rule that actually
+# blocks the shortcut is `forbidden`.
+
+[importlinter:contract:api-never-calls-repo]
+name = The API layer goes through the service layer
+type = forbidden
+source_modules =
+    myapp.api
+forbidden_modules =
+    myapp.repo
+# DIRECT IMPORTS ONLY, and this line is not optional. `forbidden` reports INDIRECT chains by
+# default, so without it this contract flags `api -> service -> repo` — which is the correct
+# path through the layers and the thing the architecture is for. Leaving the default in place
+# makes the contract fail on healthy code, and a gate that fires on correct code gets deleted
+# by the first person in a hurry.
+allow_indirect_imports = true
+
+# --- Background jobs do not call inward --------------------------------------------------
+#
+# myapp.tasks is not one of the three layers, so the layers contract says nothing about it.
+# Jobs may call the service layer; they must never reach back up into the HTTP layer.
+# `forbidden` is the right tool for a rule that is not about ordering.
+
+[importlinter:contract:tasks-never-call-api]
+name = Background tasks do not call the API layer
+type = forbidden
+source_modules =
+    myapp.tasks
+forbidden_modules =
+    myapp.api

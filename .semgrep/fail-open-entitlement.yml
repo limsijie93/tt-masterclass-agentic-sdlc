@@ -1,0 +1,39 @@
+rules:
+  - id: fail-open-entitlement
+    languages: [python]
+    severity: ERROR
+    message: >-
+      has_feature() called without an explicit default. The helper fails open — an account
+      whose entitlement rows have not been written yet is granted the feature — and the two
+      existing callers want opposite answers in that case. Say which one you want.
+    metadata:
+      category: security
+      # THE SECOND CUSTOM RULE, AND THE FIRST ONE THE LEDGER EARNED RATHER THAN THE REVIEW.
+      #
+      # unbounded-export-query exists because a human caught something once. This one exists
+      # because harvest/ledger.md already HELD that finding when the same shape arrived again
+      # in a different module: a shared helper, an optional argument, and a default that is
+      # the dangerous value. One sighting is an incident. Two is how the team writes code.
+      #
+      # It is also the case where the bug cannot be fixed. myapp/api/entitlements/views.py
+      # needs default=False and myapp/service/billing/upgrade.py needs default=True, both for
+      # good reasons, so flipping the signature trades one caller's bug for the other's. The
+      # residual risk is a THIRD caller inheriting silently, and a call-site gate is the only
+      # thing that addresses a residual rather than an instance.
+      #
+      # ONE RULE PER LANGUAGE. There is no TypeScript twin because there is no TypeScript
+      # entitlement helper; when there is, it goes in .semgrep/ts/ as its own file and shares
+      # only the rule-family stem. See .semgrep/README.md for why declaring two languages on
+      # one rule is wrong here.
+      rule-family: fail-open-entitlement
+      origin: PROJ-207 review, finding 1
+    # Both call forms, for the reason unbounded-export-query documents at length: every real
+    # caller in myapp/ writes `service.has_feature(...)`, and a pattern that only matches the
+    # unqualified form matches nothing while its fixture passes.
+    patterns:
+      - pattern-either:
+          - pattern: has_feature(...)
+          - pattern: $MODULE.has_feature(...)
+      # No pattern-not-either in semgrep, so NOT(a OR b) is written as NOT a AND NOT b.
+      - pattern-not: has_feature(..., default=$D, ...)
+      - pattern-not: $MODULE.has_feature(..., default=$D, ...)

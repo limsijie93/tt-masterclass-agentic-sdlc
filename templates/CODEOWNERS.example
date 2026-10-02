@@ -1,0 +1,48 @@
+# Copy to .github/CODEOWNERS.
+#
+# This file is the other half of "owned by name" in AGENTS.md. A context file without a
+# named owner rots inside a quarter, and a rotted context file is worse than none, because
+# it teaches the agent things about your codebase that are no longer true.
+#
+# ---------------------------------------------------------------------------------------
+# CODEOWNERS BLOCKS NOTHING UNTIL THE REPOSITORY IS CONFIGURED TO LET IT.
+#
+# Three settings, under Settings -> Branches -> branch protection rule for your default
+# branch:
+#
+#   1. Require a pull request before merging
+#   2. Require review from Code Owners
+#   3. Require status checks to pass -> add `tier1` and ONLY `tier1`
+#
+# On (3): never add the tier-2 job. Agents are non-deterministic — the same pull request
+# re-run can produce a different verdict — and a gate that flakes destroys trust in about a
+# week. `continue-on-error: true` in the workflow is the belt; keeping tier2 out of this
+# list is the brace. Neither alone is sufficient: if someone adds tier2 here, it blocks
+# regardless of what the workflow says.
+#
+# All three need repository admin, and agreeing to them needs the team. That is the honest
+# boundary of what a lecture can hand you — everything above this line is one pull request,
+# and this part is a conversation.
+# ---------------------------------------------------------------------------------------
+
+# Default owner for anything not matched below.
+*                           @your-org/your-team
+
+# The context file has a named owner, and changes go through review. This line is the
+# whole mechanism.
+/AGENTS.md                  @your-org/tech-leads
+
+# The gates. Changing what blocks a merge should not be a solo decision.
+/.pre-commit-config.yaml    @your-org/tech-leads
+/.importlinter              @your-org/tech-leads
+/.semgrep/                  @your-org/tech-leads
+/.github/workflows/         @your-org/tech-leads
+
+# Team review standards live in a file, so changing them is a pull request and the
+# disagreement happens once, in writing, instead of every sprint in review comments.
+/.github/skills/            @your-org/tech-leads
+
+# Per-service context files in a monorepo. The agent reads the nearest one, so the team
+# that owns the service owns its context.
+/services/billing/AGENTS.md @your-org/billing
+/services/search/AGENTS.md  @your-org/search

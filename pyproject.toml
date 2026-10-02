@@ -1,0 +1,37 @@
+# Config for THIS repo's own tooling (myapp/, scripts/, tools/, tests/).
+#
+# There is deliberately no [project] table and no build backend. myapp IS a package now —
+# it has to be, or lint-imports cannot build a dependency graph and the architecture
+# contract is unenforceable — but it is not a distributable one: no version constraints, no
+# entry points, nothing to publish. It is imported from the repository root, which is why
+# pytest's pythonpath below starts with ".".
+#
+# The copy-me version, with the baseline and ratchet blocks a real codebase needs, is
+# templates/pyproject.toml.
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["myapp", "scripts", "tools", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C901", "TID", "RUF"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+files = ["myapp", "scripts", "tools", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# "." makes myapp importable from the repository root; tools/ and scripts/ hold scripts
+# rather than packages. Putting them on the path here beats sys.path surgery in test files.
+pythonpath = [".", "tools", "scripts"]

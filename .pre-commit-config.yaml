@@ -1,0 +1,149 @@
+# THIS repo's own gates. Green as committed — it is what the README's "this repo dogfoods
+# its own advice" claim rests on, and a companion repo whose own checks fail is an argument
+# against itself.
+#
+# THIS FILE USED TO SAY IT COULD NOT HAVE THE REAL TIER-1 STACK, because there was no
+# application code here. There is now: myapp/, deliberately minimal, existing to be broken
+# in five specific ways. So the full ladder runs — format, lint, types, the architecture
+# contract, the custom rules, tests — against real code rather than against the repo's own
+# scripts alone.
+#
+# Turning it on was not cosmetic. It immediately found that
+# .semgrep/unbounded-export-query.yml matched none of the real call sites while passing its
+# own unit tests, and that the layers contract does not forbid a higher layer skipping a
+# lower one. Both had been "verified" for weeks. That is the argument for an application
+# living here, in one paragraph.
+#
+# The copy-me version, with the baseline and ratchet blocks an established repo needs, is
+# templates/pre-commit-config.python.yaml.
+
+default_install_hook_types: [pre-commit, pre-push]
+minimum_pre_commit_version: "3.5.0"
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      # A patch file is a format where trailing whitespace is load-bearing: a blank context
+      # line in a unified diff is a single space, and stripping it makes `git apply` reject
+      # the hunk. labs/05's pr.diff is a real `git diff`, so these three leave it alone.
+      - id: end-of-file-fixer
+        exclude: '\.diff$'
+      - id: trailing-whitespace
+        exclude: '\.diff$'
+      - id: mixed-line-ending
+        exclude: '\.diff$'
+      - id: check-executables-have-shebangs
+      - id: check-symlinks          # the host skill links must not go stale
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.2
+    hooks:
+      - id: ruff-format
+        files: ^(myapp|scripts|tools|tests)/
+      - id: ruff
+        args: [--fix]
+        files: ^(myapp|scripts|tools|tests)/
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        # Strict, and configured in pyproject.toml. pass_filenames is off because mypy needs
+        # the whole package to resolve types, not the changed files.
+        args: ["--strict"]
+        pass_filenames: false
+        # pytest for tests/conftest.py's instructor_only skip; pinned to requirements-dev.txt.
+        additional_dependencies: ["pytest==8.3.3"]
+
+  - repo: https://github.com/semgrep/pre-commit
+    # NOT an older pin. v1.90.0 imports pkg_resources through its OpenTelemetry path and
+    # dies on any environment with modern setuptools, which is every Python 3.12 env now.
+    rev: v1.176.1
+    hooks:
+      - id: semgrep
+        # NOTE the form. `semgrep --test --config .semgrep/ .semgrep/` reports success even
+        # with a sabotaged fixture — see .semgrep/README.md. This is a scan, not a test run;
+        # the rules' own tests are `semgrep test .semgrep/`, in the Makefile and in CI.
+        # --exclude=.semgrep is load-bearing: the rule fixtures contain deliberate
+        # violations marked `ruleid:`, and a scan that walks them fails on purpose-built
+        # bait. The fixtures are exercised by `semgrep test .semgrep/` instead.
+        args:
+          [
+            "scan",
+            "--config",
+            ".semgrep/",
+            "--exclude=.semgrep",
+            "--error",
+            "--quiet",
+            "--skip-unknown-extensions",
+          ]
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      # The architecture contract. Tier 1, blocks.
+      #
+      # language: python with the dependency pinned here rather than language: system, so it
+      # does not silently pass on a machine where import-linter is not installed. grimp has
+      # no wheel for 3.14 yet, hence the explicit language_version.
+      - id: lint-imports
+        name: lint-imports (architecture contract)
+        entry: lint-imports
+        language: python
+        language_version: python3.12
+        additional_dependencies: ["import-linter==2.15"]
+        files: ^myapp/
+        pass_filenames: false
+
+      # The portability rules from segment 02, enforced on the files that teach them.
+      - id: lint-skills
+        name: lint skills (portability + the chain)
+        entry: python3 scripts/lint_skills.py --check-agents
+        language: system
+        pass_filenames: false
+
+      # The host symlinks must match the canonical directory, or "one file, two tools" is
+      # false in the repo that claims it.
+      - id: sync-skills-check
+        name: sync-skills --check
+        entry: ./scripts/sync-skills.sh --check
+        language: system
+        pass_filenames: false
+
+      # Tier 0's commit-time half. The write-time half is tools/guard_test_edits.py via
+      # .claude/settings.json, which only one host reads; this half is host-agnostic, so the
+      # rule lands everywhere and only the timing differs.
+      #
+      # Warns, exit 0 — like tools/check_touchpoints.py, and for the same reason: the first
+      # legitimate deliberate change must not get the check disabled by someone in a hurry.
+      # verbose: true so the warning is visible on an otherwise-passing run.
+      - id: guard-test-edits
+        name: test edits do not weaken assertions (warns)
+        entry: python3 tools/guard_test_edits.py --staged
+        language: system
+        files: ^tests/
+        verbose: true
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
