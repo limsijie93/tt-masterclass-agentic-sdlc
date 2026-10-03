@@ -59,4 +59,3 @@ This one has no fix at all, which is the more common case in real code.
 once. `fail-open-entitlement.yml` exists because `harvest/ledger.md` was *already holding* that
 finding when the same shape arrived somewhere else. The first chain can assert that the harvest
 loop compounds. Two chains demonstrate it.
-

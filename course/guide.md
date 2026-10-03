@@ -83,6 +83,7 @@ flowchart LR
 
 ## The chain the ticket goes through
 
+
 Every skill reads the file the one before it wrote, and two of them stop for a human. This is
 the backbone of chapters 1.2 to 4.1.
 
@@ -145,8 +146,8 @@ flowchart LR
 | Chapter | Read | Do | Copy |
 |---|---|---|---|
 | 1.1 · The portable skill file | [`SKILL.template.md`](../.github/skills/_template/SKILL.template.md), and one real skill, [`spec-interrogate`](../.github/skills/spec-interrogate/SKILL.md). Demo D11 | Try one skill: [`LEARN.md`](../LEARN.md) step 2 | [Install the skills](../README.md#install-the-skills) |
-| 1.2 · Interrogate, then ground | [`02-interrogation.md`](tickets/PROJ-142/02-interrogation.md), [`03-answers.md`](tickets/PROJ-142/03-answers.md), [`04-touchpoints.md`](tickets/PROJ-142/04-touchpoints.md). Demo D13 | [Lab 04 · Interrogate a real ticket](labs/04-interrogate-a-real-ticket/lab.md) | `spec-interrogate` |
-| 1.3 · The spec as a reviewable artifact | [`05-spec.md`](tickets/PROJ-142/05-spec.md). Demo D14 | — | [`course/templates/spec.md`](templates/spec.md), `spec-draft` |
+| 1.2 · Interrogate, then ground | [`02-interrogation.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/02-interrogation.md), [`03-answers.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/03-answers.md), [`04-touchpoints.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/04-touchpoints.md). Demo D13 | [Lab 04 · Interrogate a real ticket](labs/04-interrogate-a-real-ticket/lab.md) | `spec-interrogate` |
+| 1.3 · The spec as a reviewable artifact | [`05-spec.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/05-spec.md). Demo D14 | — | [`course/templates/spec.md`](templates/spec.md), `spec-draft` |
 
 ## Part 2 · Quality: chapters 2.1–2.3
 
@@ -164,7 +165,7 @@ flowchart LR
 |---|---|---|---|
 | 2.1 · The repo contract | [`00-agents-draft.md`](tickets/PROJ-142/00-agents-draft.md) (166 lines generated), then [`course/templates/python/AGENTS.md`](templates/python/AGENTS.md) (75 kept). Demos D3, D12 | [Lab 01 · Prune the context file](labs/01-prune-the-context-file/lab.md) | [`course/templates/AGENTS.md`](templates/AGENTS.md) |
 | 2.2 · Architecture rules the agent can't argue with | [`.importlinter`](../.importlinter), [`.pre-commit-config.yaml`](../.pre-commit-config.yaml), [`.semgrep/`](../.semgrep/). Demos D4, D8, D10, D17 | [Lab 02 · Make the gate actually bite](labs/02-make-the-gate-bite/lab.md) | `stack-profile`, then `gates-draft`, on your repo |
-| 2.3 · Build in slices, watch the churn | [`06-git-log.txt`](tickets/PROJ-142/06-git-log.txt). Demo D5 | [Lab 06 · Implement one criterion](labs/06-implement-one-criterion/lab.md) | `build-slice` |
+| 2.3 · Build in slices, watch the churn | [`06-git-log.txt`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/06-git-log.txt). Demo D5 | [Lab 06 · Implement one criterion](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/labs/06-implement-one-criterion/lab.md) | `build-slice` |
 
 Labs 01–03 need nothing installed. Labs 04–06 need an assistant, so they come last.
 
@@ -182,8 +183,8 @@ flowchart LR
 | Chapter | Read | Do | Copy |
 |---|---|---|---|
 | 3.1 · The review ladder | [`review.yml`](../.github/workflows/review.yml), [`pull_request_template.md`](../.github/pull_request_template.md), [`CODEOWNERS`](../.github/CODEOWNERS) | — | The PR template and `CODEOWNERS` |
-| 3.2 · Tier 2: fresh-context review | [`08-review.md`](tickets/PROJ-142/08-review.md). One finding is wrong: which one? Demo D6 | [Lab 05 · Review a planted pull request](labs/05-review-a-planted-pr/lab.md) | `code-review` |
-| 3.3 · Make the human's job smaller | [`07-pr-body.md`](tickets/PROJ-142/07-pr-body.md), [`09-tests-that-lie.md`](tickets/PROJ-142/09-tests-that-lie.md). Demos D7, D9, D15 | [Lab 03 · The test that lies](labs/03-the-test-that-lies/lab.md) | `pr-brief` |
+| 3.2 · Tier 2: fresh-context review | [`08-review.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/08-review.md). One finding is wrong: which one? Demo D6 | [Lab 05 · Review a planted pull request](labs/05-review-a-planted-pr/lab.md) | `code-review` |
+| 3.3 · Make the human's job smaller | [`07-pr-body.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/07-pr-body.md), [`09-tests-that-lie.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/09-tests-that-lie.md). Demos D7, D9, D15 | [Lab 03 · The test that lies](labs/03-the-test-that-lies/lab.md) | `pr-brief` |
 
 ## Close · chapter 4.1
 
@@ -198,7 +199,7 @@ flowchart LR
 
 | Chapter | Read | Do | Copy |
 |---|---|---|---|
-| 4.1 · What the manager sees, and the harvest loop | [`10-harvest.md`](tickets/PROJ-142/10-harvest.md), [`harvest/ledger.md`](../harvest/ledger.md), and the rule the loop produced, [`.semgrep/unbounded-export-query.yml`](../.semgrep/unbounded-export-query.yml). Demo D16 | Run `harvest` at the end of your next real ticket | `harvest`, [`course/templates/governance.example.md`](templates/governance.example.md) |
+| 4.1 · What the manager sees, and the harvest loop | [`10-harvest.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/10-harvest.md), [`harvest/ledger.md`](../harvest/ledger.md), and the rule the loop produced, [`.semgrep/unbounded-export-query.yml`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/.semgrep/unbounded-export-query.yml). Demo D16 | Run `harvest` at the end of your next real ticket | `harvest`, [`course/templates/governance.example.md`](templates/governance.example.md) |
 
 ## After the masterclass
 

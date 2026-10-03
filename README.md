@@ -51,6 +51,17 @@ The root also holds the config files the tools look for there (`AGENTS.md`, `Mak
 Your own work (`pruned.md`, `yours.ini`, `test_yours.py`, `specs/LAB-*`, `reviews/LAB-*`, each
 `report.md`) is gitignored, so it never collides with an update.
 
+## Two branches
+
+| Branch | What it holds | Use it to |
+|---|---|---|
+| `main` | Both tickets as they arrived, and the practice app **before** either was fixed | Try the tickets yourself. This is where the masterclass starts |
+| `solution` | The fixed code and every worked answer: the questions, the spec, the review, the harvest, and the rules those reviews produced | Compare your work, and follow the chapters that walk the worked answer |
+
+Read a worked answer without switching: [browse the `solution` branch on GitHub](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/tree/solution). Or switch locally with
+`git switch solution`, and back with `git switch main`. Using **Use this template**? Tick
+**Include all branches** to get both.
+
 ## Install the skills
 
 All eight skills, in one step, from wherever you use Claude:

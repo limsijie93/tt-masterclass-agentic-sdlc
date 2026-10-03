@@ -37,8 +37,11 @@ sitting at `.semgrep/no-orm-above-service.py` does not match `**/api/**`, so the
 never fire on it and the test would be vacuous. Putting both files under `.semgrep/api/`
 satisfies the pairing and the path filter at once.
 
+
 `unbounded-export-query.yml` needs no such trick: it is specific by function name, so it sits
 flat. Every path filter you can avoid is one less thing to keep true.
+
+
 
 ## One rule per language, and why we measured it
 
@@ -63,6 +66,7 @@ is precisely how a tool gets muted.
 The tool ports. The decision ports. The pattern does not. `.github/skills/gates-draft` knows
 this and emits one rule per detected language rather than one rule with a longer list.
 
+
 ## The rules
 
 **`api/no-orm-above-service`** (Python) — the executable half of one line in `AGENTS.md`: "no
@@ -71,10 +75,12 @@ crosses a module boundary as an *import*; this catches the other half, where the
 arrived by another route and the *call* is the violation. Two tools, one rule, neither
 sufficient alone.
 
+
 **`unbounded-export-query`** (and its `ts/` twin) — this is what a custom org rule looks like, and why it is worth
 more than anything you can install from a registry: **it exists because a human caught this
 once**, in the PROJ-142 review. That is the harvest loop's third row — "something a human
 caught that a machine could have" becomes a lint rule — and this is the file it becomes.
+
 
 ## What is deliberately NOT here
 

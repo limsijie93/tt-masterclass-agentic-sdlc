@@ -73,4 +73,3 @@ correctness.
 
 `myapp.repo` holds the data access the service layer calls. It is never imported from `myapp.api`,
 and the contract is what guarantees that rather than a sentence in a document.
-

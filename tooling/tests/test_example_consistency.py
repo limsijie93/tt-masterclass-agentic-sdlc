@@ -20,7 +20,10 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from conftest import instructor_only
+from conftest import instructor_only, solution_only
+
+# Every test here checks the worked answers, which the learner main branch does not carry.
+pytestmark = solution_only
 
 EXAMPLES = Path(__file__).resolve().parents[2] / "course" / "tickets"
 

@@ -17,7 +17,8 @@ source .venv/bin/activate
 | 03 | [The test that lies](03-the-test-that-lies/lab.md) | 3.3 | nothing | 25 min |
 | 04 | [Interrogate a real ticket](04-interrogate-a-real-ticket/lab.md) | 1.2 | an agent | 25 min |
 | 05 | [Review a planted pull request](05-review-a-planted-pr/lab.md) | 3.2 | an agent | 40 min |
-| 06 | [Implement one criterion](06-implement-one-criterion/lab.md) | 2.3 | an agent | 35 min |
+| 06 | [Implement one criterion](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/labs/06-implement-one-criterion/lab.md) | 2.3 | an agent | 35 min |
+
 
 Then the capstone, which has no checker and is the one that transfers:
 [`LEARN.md`](../../LEARN.md#when-you-want-reps-review-code-you-just-wrote), on your own repository.
