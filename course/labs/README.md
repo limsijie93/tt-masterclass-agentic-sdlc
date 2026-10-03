@@ -10,14 +10,14 @@ source .venv/bin/activate
 ./lab start 01
 ```
 
-| # | Lab | Segment | Needs | Time |
+| # | Lab | Chapter | Needs | Time |
 |---|---|---|---|---|
-| 01 | [Prune the context file](01-prune-the-context-file/lab.md) | 05 | nothing | 20 min |
-| 02 | [Make the gate actually bite](02-make-the-gate-bite/lab.md) | 06 | nothing | 20 min |
-| 03 | [The test that lies](03-the-test-that-lies/lab.md) | 10 | nothing | 25 min |
-| 04 | [Interrogate a real ticket](04-interrogate-a-real-ticket/lab.md) | 03 | an agent | 25 min |
-| 05 | [Review a planted pull request](05-review-a-planted-pr/lab.md) | 09 | an agent | 40 min |
-| 06 | [Implement one criterion](06-implement-one-criterion/lab.md) | 07 | an agent | 35 min |
+| 01 | [Prune the context file](01-prune-the-context-file/lab.md) | 2.1 | nothing | 20 min |
+| 02 | [Make the gate actually bite](02-make-the-gate-bite/lab.md) | 2.2 | nothing | 20 min |
+| 03 | [The test that lies](03-the-test-that-lies/lab.md) | 3.3 | nothing | 25 min |
+| 04 | [Interrogate a real ticket](04-interrogate-a-real-ticket/lab.md) | 1.2 | an agent | 25 min |
+| 05 | [Review a planted pull request](05-review-a-planted-pr/lab.md) | 3.2 | an agent | 40 min |
+| 06 | [Implement one criterion](06-implement-one-criterion/lab.md) | 2.3 | an agent | 35 min |
 
 Then the capstone, which has no checker and is the one that transfers:
 [`LEARN.md`](../../LEARN.md#when-you-want-reps-review-code-you-just-wrote), on your own repository.

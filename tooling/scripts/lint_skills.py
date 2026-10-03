@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enforce the rules segment 02 teaches, on the files that teach them.
+"""Enforce the rules chapter 1.1 teaches, on the files that teach them.
 
 The lecture claims four things make a skill portable: no vendor names in the body, no
 absolute paths, declared inputs, and a fixed output shape. Claims in a slide rot. This

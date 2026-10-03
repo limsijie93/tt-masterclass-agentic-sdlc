@@ -37,7 +37,7 @@ def test_every_lab_declares_what_it_needs() -> None:
         lab = parse_lab(path)
         assert lab.number, f"{path} has no lab number"
         assert lab.title, f"{path} has no title"
-        assert lab.segment, f"{path} names no lecture segment"
+        assert lab.chapter, f"{path} names no masterclass chapter"
         assert lab.needs in {"agent", "no-agent"}, f"{path}: needs={lab.needs!r}"
         assert lab.minutes.isdigit(), f"{path}: minutes={lab.minutes!r}"
 

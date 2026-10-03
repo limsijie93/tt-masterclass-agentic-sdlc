@@ -3,7 +3,7 @@
 > **Not course material.** It lives at the root rather than in [`tooling/`](../tooling/) because
 > the tools that read it expect this path. You don't edit it for a lab.
 
-Two rules. Both are the "executable version" column of segment 06's prose-to-executable
+Two rules. Both are the "executable version" column of chapter 2.2's prose-to-executable
 table, and both are unit-tested, which is the part people are surprised by: a lint rule is
 code, and it can be wrong.
 
@@ -23,7 +23,7 @@ semgrep test .semgrep/
 
 The middle row is the dangerous one, because it looks like success. It was verified by
 sabotaging a fixture and watching it report green — which is exactly the tautological-test
-lesson from segment 10, applied to this repo's own test suite. A test that cannot fail is not
+lesson from chapter 3.3, applied to this repo's own test suite. A test that cannot fail is not
 a test.
 
 ## Why one rule lives in a subdirectory

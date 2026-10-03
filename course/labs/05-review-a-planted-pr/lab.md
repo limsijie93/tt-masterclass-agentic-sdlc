@@ -1,7 +1,7 @@
 ---
 lab: 05
 title: Review a planted pull request
-segment: 09
+chapter: "3.2"
 needs: agent
 minutes: 40
 solution_into: reviews

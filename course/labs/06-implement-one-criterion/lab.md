@@ -1,7 +1,7 @@
 ---
 lab: 06
 title: Implement one criterion
-segment: 07
+chapter: "2.3"
 needs: agent
 minutes: 35
 solution_into: specs
@@ -36,7 +36,7 @@ assertions:
 
 This is the step the lecture teaches and never shows: the middle, between a spec and a pull
 request. Everything either side of it produces a file. For a long time this produced commits and
-nothing else, which is why segment 07 was the only one with no artifact in a practice whose
+nothing else, which is why chapter 2.3 was the only one with no artifact in a practice whose
 organising rule is that everything becomes a file.
 
 `spec.md` is one acceptance criterion — the smallest thing that can be implemented, and

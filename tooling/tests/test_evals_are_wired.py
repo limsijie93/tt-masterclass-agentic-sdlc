@@ -3,7 +3,7 @@
 That split matches the one this repo already has. lint_skills.py checks structure and
 blocks; tier 2 exercises judgment and comments. An eval run IS an agent run, and
 code-review/SKILL.md establishes that a flaky gate destroys trust in about a week — so gating
-on the run would invert the ladder Block 3 spends a segment building. Gating on the suite's
+on the run would invert the ladder Part 3 spends a chapter building. Gating on the suite's
 SHAPE costs nothing and never flakes.
 
 The anti-tautology rule is mechanised here rather than left to convention, because "do not

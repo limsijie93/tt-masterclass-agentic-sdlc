@@ -2,7 +2,7 @@
 """Refuse, at write time, an edit that weakens a test's assertions.
 
 Eight places in this repo say some version of "do not modify a test IN ORDER TO make an
-implementation pass". Nothing enforced it. In a repo whose segment 06 argues that a standard a
+implementation pass". Nothing enforced it. In a repo whose chapter 2.2 argues that a standard a
 machine cannot check is a preference rather than a standard, that was a preference.
 
 THE REFRAME THAT MAKES IT CHECKABLE. The clause carrying the meaning in all eight statements is

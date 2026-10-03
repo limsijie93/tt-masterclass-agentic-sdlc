@@ -17,25 +17,25 @@ ground the original seven do not. D13–D17 give the five skills that had no dem
 **Nothing here has been filmed.** `ready` below means the commands exist and produce the output
 quoted beside them; it does not mean an asset exists.
 
-| | Demo | Segment | Skill / artifact | Status |
+| | Demo | Chapter | Skill / artifact | Status |
 |---|---|---|---|---|
-| D1 | Cold open — the confident wrong answer | 00 | `tooling/myapp/repo/analytics.py` (the decoy) | **ready** |
-| D2 | Skill portability — one file, two tools | 02 | all skills | **ready** — see D11, which is the honest version |
-| D3 | `AGENTS.md` A/B | 05 | `00-agents-draft.md` | **ready** |
-| D4 | The architecture contract fails | 06 | `gates-draft` | **ready** — beats lifted from lab 02 |
-| D5 | Invented API + scope creep | 07 | `build-slice` | **ready** |
-| D6 | Tier-2 triaged review | 09 | `code-review` | **ready** — the branch is lab 05 |
-| D7 | The tautological test | 10 | — | **ready** — a still, from `09-tests-that-lie.md` |
-| **D8** | **The guard blocks a weakened test** | **06 / 07** | `guard_test_edits` | **ready** |
-| **D9** | **A test suite that cannot fail** | **10 / 12** | evals | **ready** |
-| **D10** | **The context file and the gate diverge** | **05 / 06** | `check_commands_sync` | **ready** |
-| **D11** | **One file, every host** | **02** | `sync-skills` | **ready** |
-| **D12** | **The pruning, as a diff** | **05** | `00-agents-draft.md` | **ready** |
-| D13 | The question you had not thought of | 03 | `spec-interrogate` | **beats written** — dry run pending |
-| D14 | The out-of-scope section | 04 | `spec-draft` | **beats written** — dry run pending |
-| D15 | The reviewer's read order | 10 | `pr-brief` | **beats written** — dry run pending |
-| D16 | A finding becomes a rule | 12 | `harvest` | **ready** — the loop is walked without an agent |
-| D17 | Reading a repo it has never seen | 06 | `stack-profile` | **beats written** — dry run pending, needs a scratch repo |
+| D1 | Cold open — the confident wrong answer | 0.2 | `tooling/myapp/repo/analytics.py` (the decoy) | **ready** |
+| D2 | Skill portability — one file, two tools | 1.1 | all skills | **ready** — see D11, which is the honest version |
+| D3 | `AGENTS.md` A/B | 2.1 | `00-agents-draft.md` | **ready** |
+| D4 | The architecture contract fails | 2.2 | `gates-draft` | **ready** — beats lifted from lab 02 |
+| D5 | Invented API + scope creep | 2.3 | `build-slice` | **ready** |
+| D6 | Tier-2 triaged review | 3.2 | `code-review` | **ready** — the branch is lab 05 |
+| D7 | The tautological test | 3.3 | — | **ready** — a still, from `09-tests-that-lie.md` |
+| **D8** | **The guard blocks a weakened test** | **2.2 / 2.3** | `guard_test_edits` | **ready** |
+| **D9** | **A test suite that cannot fail** | **3.3 / 4.1** | evals | **ready** |
+| **D10** | **The context file and the gate diverge** | **2.1 / 2.2** | `check_commands_sync` | **ready** |
+| **D11** | **One file, every host** | **1.1** | `sync-skills` | **ready** |
+| **D12** | **The pruning, as a diff** | **2.1** | `00-agents-draft.md` | **ready** |
+| D13 | The question you had not thought of | 1.2 | `spec-interrogate` | **beats written** — dry run pending |
+| D14 | The out-of-scope section | 1.3 | `spec-draft` | **beats written** — dry run pending |
+| D15 | The reviewer's read order | 3.3 | `pr-brief` | **beats written** — dry run pending |
+| D16 | A finding becomes a rule | 4.1 | `harvest` | **ready** — the loop is walked without an agent |
+| D17 | Reading a repo it has never seen | 2.2 | `stack-profile` | **beats written** — dry run pending, needs a scratch repo |
 
 **All seventeen have beats.** Nothing is filmed. D13, D14, D15 and D17 drive a live agent and
 have not had a dry run, so their quoted output is the skill's output contract and the worked
@@ -47,7 +47,7 @@ a point it already makes.
 
 **D1, D3 and D5 need a live agent on camera, and that is a different kind of risk.** Their
 output is non-deterministic — which is the lecture's own thesis, so a take that goes differently
-is not a failure — but a take where the agent gets it *right* leaves the segment with nothing to
+is not a failure — but a take where the agent gets it *right* leaves the chapter with nothing to
 show. Record several, and be ready to narrate the one where it behaves: *"this is the run where
 it worked, and you cannot tell in advance which run you are getting. That is the whole
 argument."*
@@ -56,7 +56,7 @@ argument."*
 
 ## D1 · Cold open — the confident wrong answer
 
-**Segment 00. Roughly 70 seconds, and it is the first thing the room sees.**
+**Chapter 0.2. Roughly 70 seconds, and it is the first thing the room sees.**
 
 The decoy is `tooling/myapp/repo/analytics.py`. It is smaller than `export_row`, it is one row per
 account per day, and its name sounds more like a report than `exports/queries.py` does. An agent
@@ -108,7 +108,7 @@ advance which run you are getting.* Do not stage the wrong answer: a prompt that
 
 ## D3 · `AGENTS.md` A/B
 
-**Segment 05. Roughly 60 seconds.** The same ticket, twice, and the only variable is one file.
+**Chapter 2.1. Roughly 60 seconds.** The same ticket, twice, and the only variable is one file.
 
 **Beat 1 — without.** The D1 take, or a fresh one. It reaches for `analytics.py`.
 
@@ -124,7 +124,7 @@ grep -A4 'is a decoy' AGENTS.md
 decoy, so beat 2 would change nothing and the A/B would show a difference that was not there.
 The file that works is lab 01's answer key, which is the pruned context file for this
 application and is where the decoy is named. Checked, because a demo built on a grep that
-matches nothing is the failure this whole segment is about.
+matches nothing is the failure this whole chapter is about.
 
 **Beat 3 — the diff in behaviour.** It goes to `exports/queries.py`.
 
@@ -146,7 +146,7 @@ comparison worthless.
 
 ## D4 · The architecture contract fails
 
-**Segment 06. Roughly 50 seconds.** Beats lifted from `course/labs/02-make-the-gate-bite/`, where they
+**Chapter 2.2. Roughly 50 seconds.** Beats lifted from `course/labs/02-make-the-gate-bite/`, where they
 are already fixtures with a known answer.
 
 **Beat 1 — the violation, and the contract as the slide writes it.**
@@ -187,7 +187,7 @@ fails on healthy code gets deleted by the first person in a hurry.*
 
 ## D5 · Invented API + scope creep
 
-**Segment 07. Roughly 60 seconds.** The segment that had no artifact until `build-slice`, so
+**Chapter 2.3. Roughly 60 seconds.** The chapter that had no artifact until `build-slice`, so
 this demo shows the artifact rather than the absence.
 
 **Beat 1 — the spec, and one criterion.** `course/labs/06-implement-one-criterion/spec.md`. One
@@ -228,7 +228,7 @@ nothing else in the deck shows an agent stopping because it could not do somethi
 
 ## D6 · Tier-2 triaged review
 
-**Segment 09. Roughly 80 seconds.** The branch already exists: `course/labs/05-review-a-planted-pr/`,
+**Chapter 3.2. Roughly 80 seconds.** The branch already exists: `course/labs/05-review-a-planted-pr/`,
 three real findings and one decoy that is wrong for the characteristic reason.
 
 **Beat 1 — the inputs.** `spec.md`, `touchpoints.md`, `pr.diff`. Seventy-six lines, three files.
@@ -270,7 +270,7 @@ from `course/labs/05-review-a-planted-pr/lab.md` instead and say the run was a g
 
 ## D8 · The guard blocks a weakened test
 
-**Segments 06 and 07. Roughly 60 seconds. Record this one first.**
+**Chapters 2.2 and 2.3. Roughly 60 seconds. Record this one first.**
 
 Why it matters more than its length suggests: slide 22 already promises this — *"Guard
 (strongest): a pre-execution hook that blocks illegal writes before the file changes"* — and then
@@ -347,7 +347,7 @@ one — do not re-record from a clean file and expect matching numbers. And the 
 
 ## D9 · A test suite that cannot fail
 
-**Segments 10 and 12. Roughly 45 seconds.** The most transferable idea in the set, and it needs
+**Chapters 3.3 and 4.1. Roughly 45 seconds.** The most transferable idea in the set, and it needs
 no application.
 
 **Beat 1 — run the suite with an engine that does nothing.**
@@ -383,7 +383,7 @@ that passes with the code deleted; here it is a test suite that passes with the 
 
 ## D10 · The context file and the gate diverge
 
-**Segments 05 and 06. Roughly 40 seconds.** Concrete answer to *"how do you stop the context file
+**Chapters 2.1 and 2.2. Roughly 40 seconds.** Concrete answer to *"how do you stop the context file
 rotting?"*
 
 **Beat 1 — they agree.**
@@ -419,7 +419,7 @@ gate and not in the context file, and I had not noticed.*
 
 ## D11 · One file, every host
 
-**Segment 02. Roughly 50 seconds.** The honest version of D2: the deck's version shows a file
+**Chapter 1.1. Roughly 50 seconds.** The honest version of D2: the deck's version shows a file
 copied into two tools, which asserts portability. This shows it.
 
 ```
@@ -451,7 +451,7 @@ instead on camera.
 
 ## D12 · The pruning, as a diff
 
-**Segment 05. Roughly 40 seconds.** The segment says *the pruning is the teaching*. This makes it
+**Chapter 2.1. Roughly 40 seconds.** The chapter says *the pruning is the teaching*. This makes it
 a diff rather than an assertion.
 
 ```
@@ -477,7 +477,7 @@ gets a draft in thirty seconds. The value is entirely in what a human adds after
 
 ## D13 · The question you had not thought of
 
-**Segment 03. Roughly 60 seconds.** `spec-interrogate` on the real ticket. The shot is that it
+**Chapter 1.2. Roughly 60 seconds.** `spec-interrogate` on the real ticket. The shot is that it
 stops.
 
 **Setup.** This repository, root `AGENTS.md` present: grounding needs to read the code, and the
@@ -519,7 +519,7 @@ towards it.
 
 ## D14 · The out-of-scope section
 
-**Segment 04. Roughly 60 seconds.** `spec-draft`, from three inputs and never the ticket alone.
+**Chapter 1.3. Roughly 60 seconds.** `spec-draft`, from three inputs and never the ticket alone.
 Film straight after D13, because it consumes D13's files.
 
 **Beat 1 — the refusal.** Run `/spec-draft PROJ-142` while every `answer:` is still empty. It
@@ -551,7 +551,7 @@ say so. Do not paste the answers file from `course/tickets/` wholesale — the h
 
 ## D15 · The reviewer's read order
 
-**Segment 10. Roughly 50 seconds.** `pr-brief` describes a pull request and never judges it.
+**Chapter 3.3. Roughly 50 seconds.** `pr-brief` describes a pull request and never judges it.
 
 **Setup.** The lab 05 pull request, which has everything a brief needs: `spec.md`,
 `touchpoints.md` and `pr.diff` in `course/labs/05-review-a-planted-pr/`. Its ticket is `LAB-105`, so the
@@ -583,7 +583,7 @@ request in a fresh session.
 
 ## D16 · A finding becomes a rule
 
-**Segment 12. Roughly 60 seconds.** The harvest loop, walked file to file. It needs no agent: the
+**Chapter 4.1. Roughly 60 seconds.** The harvest loop, walked file to file. It needs no agent: the
 loop already ran, and every hop is committed.
 
 **Beat 1 — a human caught it.**
@@ -630,7 +630,7 @@ proposals will differ from `10-harvest.md`, and the stop line must not.
 
 ## D17 · Reading a repo it has never seen
 
-**Segment 06. Roughly 50 seconds.** `stack-profile`, the step before any gate gets written.
+**Chapter 2.2. Roughly 50 seconds.** `stack-profile`, the step before any gate gets written.
 
 **Setup.** A scratch clone of a small public repository **outside this tree** — one the agent has
 not seen and nobody has primed. Install the skill there with

@@ -177,7 +177,7 @@ That costs nothing and never flakes.
 The **results** report. Three reasons they must not gate:
 
 1. An eval *is* an agent run, and `code-review/SKILL.md` establishes that the same pull request
-   reviewed twice can produce different verdicts. Gating on it inverts the ladder Block 3 spends
+   reviewed twice can produce different verdicts. Gating on it inverts the ladder Part 3 spends
    a segment building.
 2. It needs a secret, so it can never pass on a fork. A required check that cannot pass on a
    fork is a broken gate.

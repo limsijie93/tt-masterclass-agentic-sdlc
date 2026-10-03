@@ -4,7 +4,7 @@
      the fictional myapp service. It is 150-odd lines and about 12 of them are load-bearing.
      course/templates/python/AGENTS.md is what it looks like after pruning.
 
-     Segment 05 says the pruning IS the teaching. Diff this against course/templates/python/AGENTS.md
+     Chapter 2.1 says the pruning IS the teaching. Diff this against course/templates/python/AGENTS.md
      and the teaching is a diff rather than an assertion. Do not "improve" this file. -->
 
 # AGENTS.md — generated draft

@@ -20,7 +20,7 @@ Read this before putting a figure on a slide or in a skill body.
 | +98% more PRs merged · +91% longer review · flat DORA | slide 7 | `unsourced here` — on-slide attribution to *Faros AI telemetry, 2026* only |
 | PR size +154% · AI PRs wait 4.6× longer to be picked up | review-ladder script | `unsourced here` — same |
 | `AGENTS.md` is an open standard under the Linux Foundation's Agentic AI Foundation, read by 20+ agents, adopted in 60,000+ repositories | `course/templates/AGENTS.md`, slide 19 | `unverified` — not checked against a primary source |
-| The skill spec shipped December 2025; OpenAI and Microsoft supported it within 48 hours; 30+ tools read it | segment 02 script | `unverified` — same |
+| The skill spec shipped December 2025; OpenAI and Microsoft supported it within 48 hours; 30+ tools read it | chapter 1.1 script | `unverified` — same |
 | `semgrep` spans 30+ languages | `README.md`, `gates-by-stack.md` | Vendor claim, taken at face value. Low stakes: nothing here depends on the exact number |
 | One semgrep rule cannot span two languages when its patterns use language-specific syntax | `.semgrep/README.md` | **Measured here.** The only claim in this repo with primary evidence in it |
 | Six skills cost roughly 240 tokens of always-loaded context | `README.md` | Estimate, from the name-and-description bytes. Not measured against a tokeniser |

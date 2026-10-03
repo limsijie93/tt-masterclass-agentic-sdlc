@@ -1,7 +1,7 @@
 ---
 lab: "01"
 title: Prune the context file
-segment: "05"
+chapter: "2.1"
 needs: no-agent
 minutes: "20"
 solution_into: course/labs/01-prune-the-context-file
@@ -41,7 +41,7 @@ assertions:
 ## Brief
 
 A generator pointed at `tooling/myapp/` produced `draft.md`. It reads well. It is also the shape of
-context file the lecture spends a segment arguing against: long enough that the instruction
+context file the masterclass spends a chapter arguing against: long enough that the instruction
 that matters is crowded out, and confident about things that are not true.
 
 Your job is the part a generator cannot do. **Cut it under sixty lines, and keep only what

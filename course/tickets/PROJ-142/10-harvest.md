@@ -46,7 +46,7 @@ Three things worth reading closely.
 **One proposal from three findings.** Two are logged and not proposed, because the harvest rules
 are about repetition and both were first sightings. That restraint is the mechanism, not
 timidity: a context file that grows a line for every finding reaches four hundred lines and stops
-being read, which is the failure mode segment 05 spends a whole artifact on.
+being read, which is the failure mode chapter 2.1 spends a whole artifact on.
 
 **The proposal is the rule, not a note about the rule.** "Consider requiring a chunk size" is a
 reminder to do this work again later. The actual pattern, ready to paste, is work that is done.

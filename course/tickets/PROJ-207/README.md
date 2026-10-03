@@ -21,7 +21,7 @@ produce a **different outcome**. Everything below is the same pipeline. The stor
 | 10 | `10-harvest.md` | Three findings read, **one** proposal — the one the ledger had already half-earned. |
 
 There is no `00-agents-draft.md` here. The context-file draft is a repository-level artifact
-shown once, in segment 05, and a second copy of it would be a second thing to keep true.
+shown once, in chapter 2.1, and a second copy of it would be a second thing to keep true.
 
 ## The canon
 

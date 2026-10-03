@@ -28,7 +28,7 @@ are separately reviewable, and neither is separately useful — so they are two 
 slice rather than two slices.
 
 The first commit is the spec and the touchpoints, before any implementation. That is the
-whole of Block 1 arriving as a reviewable file: PR #318 was merged before PR #319 was opened.
+whole of Part 1 arriving as a reviewable file: PR #318 was merged before PR #319 was opened.
 
 
 THE FOUR FILES

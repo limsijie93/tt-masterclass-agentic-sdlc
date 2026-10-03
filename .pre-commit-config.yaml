@@ -110,7 +110,7 @@ repos:
         files: ^tooling/myapp/
         pass_filenames: false
 
-      # The portability rules from segment 02, enforced on the files that teach them.
+      # The portability rules from chapter 1.1, enforced on the files that teach them.
       - id: lint-skills
         name: lint skills (portability + the chain)
         entry: python3 tooling/scripts/lint_skills.py --check-agents

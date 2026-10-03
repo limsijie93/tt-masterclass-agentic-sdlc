@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare the files a branch changed against the touchpoints its spec declared.
 
-Segment 07 leaves this as a manual habit: run `git diff --stat` and eyeball it against the
+Chapter 2.3 leaves this as a manual habit: run `git diff --stat` and eyeball it against the
 touchpoints list. The lecture's own thesis says a habit worth repeating belongs in a file, so
 here it is.
 

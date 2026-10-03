@@ -6,8 +6,8 @@ You just watched **Agentic SDLC: Specs → Quality → Review**. This is the hou
 how to install it. Read that when you are ready to put this in your own repository. Read this
 first.
 
-Following along lesson by lesson? [`course/guide.md`](course/guide.md) maps every
-lesson to the files to read, the lab to do, and what to copy, with a diagram for each block.
+Following along chapter by chapter? [`course/guide.md`](course/guide.md) maps every
+chapter to the files to read, the lab to do, and what to copy, with a diagram for each part.
 
 ---
 
@@ -117,7 +117,7 @@ Two files here are deliberately wrong, because judgment is built by reps and not
 
 - **[`08-review.md`](course/tickets/PROJ-142/08-review.md)** — one of the three findings is a false
   positive. Work out which and *why it is wrong* before checking. The answer
-  is not in this repository: commit to yours, then watch the Tier 2 lesson, which reveals it.
+  is not in this repository: commit to yours, then watch chapter 3.2, which reveals it.
 - **[`09-tests-that-lie.md`](course/tickets/PROJ-142/09-tests-that-lie.md)** — the first test verifies
   nothing. The check that catches it in one step: *delete the function under test. Does this
   still pass?*
@@ -223,6 +223,6 @@ assertion vocabulary is the same one the skills are tested with.
 
 ## Where the demos are
 
-[`course/demos.md`](course/demos.md) — every recording, which segment it belongs to, and the **exact
+[`course/demos.md`](course/demos.md) — every recording, which chapter it belongs to, and the **exact
 commands**, so you can run any of them yourself rather than only watch. Five of them run against
 this repository with nothing else installed.

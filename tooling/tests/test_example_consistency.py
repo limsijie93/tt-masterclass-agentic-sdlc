@@ -82,7 +82,7 @@ CHAINS = (
         spec_pr="#318",
         impl_pr="#319",
         # 00-agents-draft.md is this chain only: the context-file draft is a repository-level
-        # artifact shown once in segment 05, not a per-ticket one.
+        # artifact shown once in chapter 2.1, not a per-ticket one.
         files=COMMON[:2] + ("00-agents-draft.md",) + COMMON[2:],
         rule=".semgrep/unbounded-export-query.yml",
         priors=frozenset({"098"}),

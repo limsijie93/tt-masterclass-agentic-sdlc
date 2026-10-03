@@ -1,7 +1,7 @@
 ---
 lab: 04
 title: Interrogate a real ticket
-segment: 03
+chapter: "1.2"
 needs: agent
 minutes: 25
 solution_into: specs

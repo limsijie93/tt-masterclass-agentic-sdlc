@@ -103,7 +103,7 @@ class Lab:
     slug: str
     number: str
     title: str
-    segment: str
+    chapter: str
     needs: str
     minutes: str
     solution_into: str
@@ -136,7 +136,7 @@ def parse_lab(path: Path) -> Lab:
         slug=path.parent.name,
         number=meta.get("lab", ""),
         title=meta.get("title", ""),
-        segment=meta.get("segment", ""),
+        chapter=meta.get("chapter", ""),
         needs=meta.get("needs", "agent"),
         minutes=meta.get("minutes", "?"),
         # Where solution/ lands when it is applied. One flat key rather than a per-file
@@ -233,13 +233,13 @@ def write_report(lab: Lab, passed: int, total: int, lines: list[str]) -> Path:
 
 def cmd_list() -> int:
     print("\nLabs. Do them in order — 01 to 03 need no agent and no API key.\n")
-    print(f"  {'':<4}{'lab':<34}{'seg':<6}{'needs':<10}{'time':<8}status")
+    print(f"  {'':<4}{'lab':<34}{'ch':<6}{'needs':<10}{'time':<8}status")
     for lab in all_labs():
         report = lab.directory / "report.md"
         status = "done" if report.exists() else "—"
         needs = "an agent" if lab.needs_an_agent else "no agent"
         print(
-            f"  {lab.number:<4}{lab.title:<34}{lab.segment:<6}{needs:<10}"
+            f"  {lab.number:<4}{lab.title:<34}{lab.chapter:<6}{needs:<10}"
             f"{lab.minutes + ' min':<8}{status}"
         )
     print("\n  ./lab start 01     the brief")
@@ -250,7 +250,7 @@ def cmd_list() -> int:
 
 def cmd_start(lab: Lab) -> int:
     print(
-        f"\n{'=' * 78}\nlab {lab.number} · {lab.title} · segment {lab.segment} "
+        f"\n{'=' * 78}\nlab {lab.number} · {lab.title} · chapter {lab.chapter} "
         f"· about {lab.minutes} minutes\n{'=' * 78}"
     )
     for section in ("brief", "start"):

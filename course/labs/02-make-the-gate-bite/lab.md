@@ -1,7 +1,7 @@
 ---
 lab: 02
 title: Make the gate actually bite
-segment: 06
+chapter: "2.2"
 needs: no-agent
 minutes: 20
 solution_into: course/labs/02-make-the-gate-bite

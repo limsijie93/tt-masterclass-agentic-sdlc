@@ -1,7 +1,7 @@
 ---
 lab: 03
 title: The test that lies
-segment: 10
+chapter: "3.3"
 needs: no-agent
 minutes: 25
 solution_into: course/labs/03-the-test-that-lies

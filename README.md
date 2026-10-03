@@ -4,7 +4,7 @@ Files from the lecture **Agentic SDLC: Specs → Quality → Review**, by Si Jie
 
 ### → Just watched the lecture? Read [**LEARN.md**](LEARN.md) instead.
 ### → Want one page to pin up? [**course/reference-card.md**](course/reference-card.md).
-### → Following the masterclass? [**course/guide.md**](course/guide.md) maps each lesson to its files.
+### → Following the masterclass? [**course/guide.md**](course/guide.md) maps each chapter to its files.
 
 It is the hour after: one ticket end to end, one skill you can try without installing anything,
 a lab with your hands on the keyboard, and two deliberately-wrong files to check yourself
@@ -22,7 +22,7 @@ Everything that already existed to run it, the practice app and the checks, is i
 
 ```
 course/            ← the masterclass
-  guide.md           which file goes with which lesson
+  guide.md           which file goes with which chapter
   reference-card.md  the one-page summary
   demos.md           every lecture demo, with the commands to replay it
   tickets/           two worked tickets, every step as a file     (read)
@@ -42,7 +42,7 @@ The root also holds the config files the tools look for there (`AGENTS.md`, `Mak
 
 | To | Open |
 |---|---|
-| Follow a lesson | [`course/guide.md`](course/guide.md) |
+| Follow a chapter | [`course/guide.md`](course/guide.md) |
 | Read a worked ticket | [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) |
 | Do a lab | `./lab`, then `start 01`, `check 01`, `solution 01` |
 | Replay a demo | [`course/demos.md`](course/demos.md) |
@@ -246,16 +246,16 @@ It proposes; a human commits. It has no write path into `AGENTS.md`, the spec te
 file, or a skill, and its stop conditions say to halt if it finds itself editing one — an agent
 that edits the rules it runs under has removed the reason those rules are trustworthy.
 
-| Skill | Segment | Run it |
+| Skill | Chapter | Run it |
 |---|---|---|
-| [`stack-profile`](.github/skills/stack-profile/SKILL.md) | 06 | Once per repo, before writing gates |
-| [`gates-draft`](.github/skills/gates-draft/SKILL.md) | 06 | After the profile is corrected |
-| [`spec-interrogate`](.github/skills/spec-interrogate/SKILL.md) | 03 | Before drafting anything |
-| [`spec-draft`](.github/skills/spec-draft/SKILL.md) | 04 | Once the questions are answered |
-| [`build-slice`](.github/skills/build-slice/SKILL.md) | 07 | After the spec, one acceptance criterion at a time |
-| [`pr-brief`](.github/skills/pr-brief/SKILL.md) | 10 | Opening a PR, in the session that wrote the code |
-| [`code-review`](.github/skills/code-review/SKILL.md) | 09 | **In a fresh session.** Never the one that wrote it |
-| [`harvest`](.github/skills/harvest/SKILL.md) | 12 | After the review, before the branch is deleted |
+| [`stack-profile`](.github/skills/stack-profile/SKILL.md) | 2.2 | Once per repo, before writing gates |
+| [`gates-draft`](.github/skills/gates-draft/SKILL.md) | 2.2 | After the profile is corrected |
+| [`spec-interrogate`](.github/skills/spec-interrogate/SKILL.md) | 1.2 | Before drafting anything |
+| [`spec-draft`](.github/skills/spec-draft/SKILL.md) | 1.3 | Once the questions are answered |
+| [`build-slice`](.github/skills/build-slice/SKILL.md) | 2.3 | After the spec, one acceptance criterion at a time |
+| [`pr-brief`](.github/skills/pr-brief/SKILL.md) | 3.3 | Opening a PR, in the session that wrote the code |
+| [`code-review`](.github/skills/code-review/SKILL.md) | 3.2 | **In a fresh session.** Never the one that wrote it |
+| [`harvest`](.github/skills/harvest/SKILL.md) | 4.1 | After the review, before the branch is deleted |
 
 ### Installing them, or not
 
@@ -329,14 +329,14 @@ make setup && source .venv/bin/activate
 ./lab
 ```
 
-| # | Lab | Segment | Needs |
+| # | Lab | Chapter | Needs |
 |---|---|---|---|
-| 01 | Prune the context file | 05 | nothing |
-| 02 | Make the gate actually bite | 06 | nothing |
-| 03 | The test that lies | 10 | nothing |
-| 04 | Interrogate a real ticket | 03 | an agent |
-| 05 | Review a planted pull request | 09 | an agent |
-| 06 | Implement one criterion | 07 | an agent |
+| 01 | Prune the context file | 2.1 | nothing |
+| 02 | Make the gate actually bite | 2.2 | nothing |
+| 03 | The test that lies | 3.3 | nothing |
+| 04 | Interrogate a real ticket | 1.2 | an agent |
+| 05 | Review a planted pull request | 3.2 | an agent |
+| 06 | Implement one criterion | 2.3 | an agent |
 
 **A lab is an eval case with a human as the engine.** `tooling/tools/lab.py` is `tooling/tools/run_evals.py`
 with the one call to `$EVAL_ENGINE_CMD` replaced by printing the brief and waiting — same file
@@ -427,7 +427,7 @@ sabotaged fixture. See [`.semgrep/README.md`](.semgrep/README.md).
 
 ## Demos
 
-[`course/demos.md`](course/demos.md) maps every recording to its lecture segment and the exact
+[`course/demos.md`](course/demos.md) maps every recording to its chapter and the exact
 commands that produce it. All twelve have written, verified beats; none of them is filmed.
 
 
@@ -435,7 +435,7 @@ commands that produce it. All twelve have written, verified beats; none of them 
 
 Named so the gaps read as decisions:
 
-- **Governance** (segment 11) — the shape is now `course/templates/governance.example.md`: visibility
+- **Governance** (chapter 4.1) — the shape is now `course/templates/governance.example.md`: visibility
   before limits, four adoption metrics chosen so that gaming one moves another the wrong way, and
   the trust boundary. What is still absent is a **filled** one, and deliberately: the vendor rows
   are a purchasing decision and the thresholds need a month of measurement, so a default here would
