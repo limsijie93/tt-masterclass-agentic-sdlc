@@ -69,7 +69,20 @@ Every skill works pasted into any assistant. Installing is an optimisation, not 
 ./scripts/sync-skills.sh --print spec-interrogate | pbcopy
 ```
 
-Paste it into whatever you use, then paste a **real ticket from your own backlog** underneath.
+Rather install it? In Claude Code (the terminal, or the Code tab in Claude Desktop):
+
+```
+/plugin marketplace add limsijie93/tt-masterclass-agentic-sdlc
+/plugin install agentic-sdlc@tt-masterclass-agentic-sdlc
+```
+
+In Claude Desktop chat, upload `spec-interrogate.zip` from the
+[latest release](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/releases/latest)
+under **Customize → Skills**. Every other route is in
+[the README](README.md#installing-them-or-not).
+
+Paste it into whatever you use, or invoke it, then paste a **real ticket from your own
+backlog** underneath.
 Do not use PROJ-142 — the point is to see it work on something you know is ambiguous.
 
 You are looking for one thing: does it ask you something you had not thought about, and does it

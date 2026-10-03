@@ -239,3 +239,6 @@ labs/03-the-test-that-lies/test_yours.py
 labs/03-the-test-that-lies/.exporter.orig
 specs/LAB-*
 reviews/LAB-*
+
+# Skill ZIPs for Claude Desktop upload, built by scripts/package_skills.py.
+dist/

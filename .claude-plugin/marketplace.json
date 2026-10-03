@@ -1,0 +1,14 @@
+{
+  "name": "tt-masterclass-agentic-sdlc",
+  "description": "Install the skills from the Agentic SDLC masterclass (Specs → Quality → Review).",
+  "owner": {
+    "name": "Si Jie Lim"
+  },
+  "plugins": [
+    {
+      "name": "agentic-sdlc",
+      "source": "./",
+      "description": "The eight skills from the Agentic SDLC masterclass."
+    }
+  ]
+}

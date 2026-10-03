@@ -206,6 +206,21 @@ that edits the rules it runs under has removed the reason those rules are trustw
 
 ### Installing them, or not
 
+**Install in one step**, from wherever you use Claude:
+
+| You use | Do this |
+|---|---|
+| **Claude Code**: the terminal, or the **Code** tab in Claude Desktop | Run `/plugin marketplace add limsijie93/tt-masterclass-agentic-sdlc`, then `/plugin install agentic-sdlc@tt-masterclass-agentic-sdlc`. In the Desktop app, after adding the marketplace you can also pick it from **+ → Plugins → Add plugin** |
+| **Claude Desktop chat or claude.ai**: Pro, Max, Team or Enterprise | Download a skill's ZIP from the [latest release](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/releases/latest), then upload it under **Customize → Skills**. **Code execution** must be on (**Settings → Capabilities**) |
+| **A Team or Enterprise org** | One admin uploads each ZIP and uses **Publish to org**. Everyone else installs nothing |
+| **Any other assistant** (Cursor, Copilot, Codex, …) | `npx skills add limsijie93/tt-masterclass-agentic-sdlc` |
+| **This repository, opened in Claude Code** | Nothing. `.claude/skills/` already links to every skill |
+
+The plugin namespaces its skills: `/spec-interrogate` becomes `/agentic-sdlc:spec-interrogate`.
+They still load on their own when a request matches their description. The plugin ships skills
+only, with no hooks: the edit guards in `.claude/settings.json` belong to this repository, and a
+plugin would switch them on in every project you open.
+
 **Paste-first.** Every skill body works pasted into any assistant, with nothing installed.
 Installing is an optimisation:
 
@@ -222,7 +237,8 @@ To install, one canonical copy under `.github/skills/` is linked into every othe
 ./scripts/sync-skills.sh --copy     # real copies, for Windows without Developer Mode
 ```
 
-Six skills cost roughly 240 tokens of always-loaded context — the name and description only.
+The eight skills cost roughly 470 tokens of always-loaded context, the name and description
+only (`claude plugin details agentic-sdlc` measures it).
 Bodies load when triggered; `references/` files load when read.
 
 **Language lock, and where it is unavoidable.** An executable check cannot be
