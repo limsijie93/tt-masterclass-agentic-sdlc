@@ -46,5 +46,5 @@ Ten citations at most, and this has five. A grounding pass that lists every file
 has produced a directory listing, not a map — and a map nobody reads bounds nothing.
 
 Note also that `tooling/myapp/repo/` appears nowhere here. The export reads through the service layer, and
-the architecture contract in `course/templates/importlinter.example.ini` is what guarantees it keeps
+the architecture contract in `course/templates/python/importlinter.example.ini` is what guarantees it keeps
 doing so when the obvious optimisation is to reach past it.

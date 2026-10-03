@@ -128,7 +128,7 @@ One file is named to *avoid* being picked up automatically: the skill template i
 `SKILL.template.md`, not `SKILL.md`, because anything named `SKILL.md` under a skills directory
 registers as a live skill.
 
-`course/templates/importlinter.example.ini` used to be the second such file — it would have failed on
+`course/templates/python/importlinter.example.ini` used to be the second such file — it would have failed on
 every commit as a root `.importlinter`, because there was no `myapp` for `lint-imports` to
 import. That is no longer true, and the root [`.importlinter`](.importlinter) is now real and
 enforced. The template stays, because it carries the baseline-and-ratchet commentary an

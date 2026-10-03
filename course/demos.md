@@ -116,57 +116,14 @@ advance which run you are getting.* Do not stage the wrong answer: a prompt that
 the repo root:
 
 ```
-cp course/labs/01-prune-the-context-file/solution/pruned.md AGENTS.md
+cp course/labs/01-prune-the-context-file/pruned.md AGENTS.md    # your answer from lab 01
 grep -A4 'is a decoy' AGENTS.md
 ```
 
 **Not `course/templates/python/AGENTS.md`** — that is a fill for the *fictional* service and names no
 decoy, so beat 2 would change nothing and the A/B would show a difference that was not there.
-The file that works is lab 01's answer key, which is the pruned context file for this
-application and is where the decoy is named. Checked, because a demo built on a grep that
-matches nothing is the failure this whole chapter is about.
-
-**Beat 3 — the diff in behaviour.** It goes to `exports/queries.py`.
-
-**The line to say:** *same model, same ticket, same prompt. One file, and it happens to be the
-one file in this repository that no generator could have written — nothing in the source tree
-says that table is a decoy. Somebody had to know.*
-
-**Then the honest caveat, on camera:** *this is one run against one run. I am not showing you a
-measurement, I am showing you a mechanism. The measurement is that a long context file degrades
-what the agent does, and the taxonomy for how is in `course/citations.md`.*
-
-**Gotchas.** Remove the root `AGENTS.md` before beat 1 and restore after. The repo's own
-`AGENTS.md` is tracked, so `git checkout -- AGENTS.md` puts it back — do not leave lab 01's key
-sitting at the root, because `check_commands_sync.py` parses the root `AGENTS.md` and will fail
-on the next commit. Keep the two prompts byte-identical; a reworded second prompt makes the
-comparison worthless.
-
----
-
-## D4 · The architecture contract fails
-
-**Chapter 2.2. Roughly 50 seconds.** Beats lifted from `course/labs/02-make-the-gate-bite/`, where they
-are already fixtures with a known answer.
-
-**Beat 1 — the violation, and the contract as the slide writes it.**
-
 ```
-cd course/labs/02-make-the-gate-bite
-cat shop/api/bad.py                          # imports shop.repo directly
-lint-imports --config layers-only.ini
-```
-
-> `Layered architecture KEPT`
-> `Contracts: 1 kept, 0 broken.`
-
-**Beat 2 — sit on that for a second.** The view reaches straight into the data layer and the
-contract is green.
-
-**Beat 3 — the contract that does the work.**
-
-```
-lint-imports --config solution/yours.ini
+lint-imports --config yours.ini     # your answer from lab 02
 ```
 
 > `The API layer goes through the service layer BROKEN`

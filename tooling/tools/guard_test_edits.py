@@ -202,7 +202,8 @@ def _target_of(tool_input: dict[str, object]) -> tuple[str, str] | None:
     """Resolve (repo-relative path, current on-disk content), or None to allow.
 
     Split out of run_guard so each half stays inside the complexity ceiling this repo
-    enforces on itself — the same C901 rule course/templates/pyproject.toml sets for adopters.
+    enforces on itself — the same C901 rule course/templates/python/pyproject.toml sets for
+    adopters.
     """
     raw_path = tool_input.get("file_path") or tool_input.get("notebook_path")
     if not isinstance(raw_path, str) or not raw_path:

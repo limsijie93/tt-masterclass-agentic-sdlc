@@ -16,7 +16,7 @@
 # Read course/templates/README.md before switching any of this on across an existing repo.
 
 # --- Row 1: Layering / dependency direction --------------------------------------------
-# Not expressible here. See course/templates/importlinter.example.ini.
+# Not expressible here. See course/templates/python/importlinter.example.ini.
 
 # --- Rows 2, 3: Public API surface, and the complexity ceiling ---------------------------
 
