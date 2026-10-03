@@ -4,6 +4,7 @@ Files from the lecture **Agentic SDLC: Specs → Quality → Review**, by Si Jie
 
 ### → Just watched the lecture? Read [**LEARN.md**](LEARN.md) instead.
 ### → Want one page to pin up? [**docs/reference-card.md**](docs/reference-card.md).
+### → Following the masterclass? [**docs/learner-guide.md**](docs/learner-guide.md) maps each lesson to its files.
 
 It is the hour after: one ticket end to end, one skill you can try without installing anything,
 a lab with your hands on the keyboard, and two deliberately-wrong files to check yourself
@@ -17,7 +18,7 @@ when you want it in your own repository.
 
 | | Folder | What you do with it |
 |---|---|---|
-| **Start** | [`LEARN.md`](LEARN.md), [`docs/reference-card.md`](docs/reference-card.md) | Read first: which path to take, and the one-page summary |
+| **Start** | [`LEARN.md`](LEARN.md), [`docs/learner-guide.md`](docs/learner-guide.md), [`docs/reference-card.md`](docs/reference-card.md) | Read first: which path to take, a map of each lesson to its files, and the one-page summary |
 | **Do** | [`labs/`](labs/) | The hands-on labs. `python3 tools/lab.py` lists them, then `start`, `check`, `solution` |
 | **Read** | [`example/`](example/) | Two worked tickets, every step as a file, numbered in reading order |
 | **Run** | [`docs/demos.md`](docs/demos.md) | Every lecture demo, with the exact commands, so you can reproduce it |
@@ -26,6 +27,35 @@ when you want it in your own repository.
 
 Your own work (`pruned.md`, `yours.ini`, `test_yours.py`, `specs/LAB-*`, `reviews/LAB-*`, each
 `report.md`) is gitignored, so it never collides with an update.
+
+## Install the skills
+
+All eight skills, in one step, from wherever you use Claude:
+
+| You use | Do this |
+|---|---|
+| **Claude Code**: the terminal, or the **Code** tab in Claude Desktop | Run the two commands below. In the Desktop app, after the first one you can also pick it from **+ → Plugins → Add plugin** |
+| **Claude Desktop chat or claude.ai**: Pro, Max, Team or Enterprise | Download the ZIPs from the [latest release](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/releases/latest), one per skill, and upload each under **Customize → Skills**. **Code execution** must be on (**Settings → Capabilities**) |
+| **A Team or Enterprise org** | One admin uploads the ZIPs and uses **Publish to org** on each. Everyone else installs nothing |
+| **Any other assistant** (Cursor, Copilot, Codex, …) | `npx skills add limsijie93/tt-masterclass-agentic-sdlc`, which needs Node |
+| **This repository, opened in Claude Code** | Nothing. `.claude/skills/` already links to every skill |
+
+```
+/plugin marketplace add limsijie93/tt-masterclass-agentic-sdlc
+/plugin install agentic-sdlc@tt-masterclass-agentic-sdlc
+```
+
+Check it worked from a terminal with `claude plugin list`: `agentic-sdlc` is listed. Pull a newer
+version later with `claude plugin update agentic-sdlc@tt-masterclass-agentic-sdlc`, then restart
+Claude Code.
+
+The plugin namespaces its skills: `/spec-interrogate` becomes `/agentic-sdlc:spec-interrogate`.
+They still load on their own when a request matches their description. The plugin ships skills
+only, with no hooks: the edit guards in `.claude/settings.json` belong to this repository, and a
+plugin would switch them on in every project you open.
+
+These skills read and write files in a repository, so they do the most in Claude Code. In
+Desktop chat, upload the files you want them to work on.
 
 
 ## The 90-minute path, if you only do one thing
@@ -206,20 +236,9 @@ that edits the rules it runs under has removed the reason those rules are trustw
 
 ### Installing them, or not
 
-**Install in one step**, from wherever you use Claude:
-
-| You use | Do this |
-|---|---|
-| **Claude Code**: the terminal, or the **Code** tab in Claude Desktop | Run `/plugin marketplace add limsijie93/tt-masterclass-agentic-sdlc`, then `/plugin install agentic-sdlc@tt-masterclass-agentic-sdlc`. In the Desktop app, after adding the marketplace you can also pick it from **+ → Plugins → Add plugin** |
-| **Claude Desktop chat or claude.ai**: Pro, Max, Team or Enterprise | Download a skill's ZIP from the [latest release](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/releases/latest), then upload it under **Customize → Skills**. **Code execution** must be on (**Settings → Capabilities**) |
-| **A Team or Enterprise org** | One admin uploads each ZIP and uses **Publish to org**. Everyone else installs nothing |
-| **Any other assistant** (Cursor, Copilot, Codex, …) | `npx skills add limsijie93/tt-masterclass-agentic-sdlc` |
-| **This repository, opened in Claude Code** | Nothing. `.claude/skills/` already links to every skill |
-
-The plugin namespaces its skills: `/spec-interrogate` becomes `/agentic-sdlc:spec-interrogate`.
-They still load on their own when a request matches their description. The plugin ships skills
-only, with no hooks: the edit guards in `.claude/settings.json` belong to this repository, and a
-plugin would switch them on in every project you open.
+The one-step install for every Claude surface is in
+[Install the skills](#install-the-skills) at the top of this file. The rest of this section is
+the manual route, and how it works.
 
 **Paste-first.** Every skill body works pasted into any assistant, with nothing installed.
 Installing is an optimisation:

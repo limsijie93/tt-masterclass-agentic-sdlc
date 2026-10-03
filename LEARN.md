@@ -6,6 +6,9 @@ You just watched **Agentic SDLC: Specs → Quality → Review**. This is the hou
 how to install it. Read that when you are ready to put this in your own repository. Read this
 first.
 
+Following along lesson by lesson? [`docs/learner-guide.md`](docs/learner-guide.md) maps every
+lesson to the files to read, the lab to do, and what to copy, with a diagram for each block.
+
 ---
 
 ## Which of these are you?

@@ -22,6 +22,7 @@ DOCS = tuple(
         "docs/demos.md",
         "docs/storyboard.md",
         "LEARN.md",
+        "docs/learner-guide.md",
         "example/PROJ-142/README.md",
         "templates/README.md",
         "examples/README.md",
