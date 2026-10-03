@@ -62,8 +62,8 @@ That question catches every shape of this problem and needs no taxonomy to apply
 with the reasoning for each, are collected in
 `.github/skills/code-review/references/tautological-tests.md`.
 
-**And a machine now asks it, on every pull request.** `tools/mutate.py` is that question
-automated: it changes one line of `myapp/` — a `>` to a `>=`, a `None` to a `0` — runs the
+**And a machine now asks it, on every pull request.** `tooling/tools/mutate.py` is that question
+automated: it changes one line of `tooling/myapp/` — a `>` to a `>=`, a `None` to a `0` — runs the
 suite, and reports every mutation the suite did not notice. A test that passes against code
 that has been altered underneath it is not testing that code. That is the same claim as the
 block quote, narrowed to something executable.
@@ -86,7 +86,7 @@ sensibly, it passes, and coverage counts it.
 
 **That sentence was true when this file was written and it is now half wrong, which is worth
 leaving in rather than editing away.** Syntax was never the angle. Behaviour is: mutate the
-code the test claims to cover and see whether the test objects. `tools/mutate.py` does that in
+code the test claims to cover and see whether the test objects. `tooling/tools/mutate.py` does that in
 tier 1, and finding 17 of the 20 September review — *test quality lives at tier 2* — is what
 made it worth building. The reviewer's third question is no longer purely human.
 

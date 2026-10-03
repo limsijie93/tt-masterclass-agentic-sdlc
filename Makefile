@@ -19,7 +19,7 @@ help:
 	@echo "test    pytest"
 	@echo "skills  the skill portability + chain checks, and symlink drift"
 	@echo "rules   the semgrep rules' own unit tests"
-	@echo "mutate  the mutation gate on myapp/, scoped to what this branch changed"
+	@echo "mutate  the mutation gate on tooling/myapp/, scoped to what this branch changed"
 	@echo "fmt     ruff format, writing changes"
 	@echo "labs    the self-guided labs, and where you are in them"
 
@@ -35,18 +35,18 @@ setup:
 tier1: lint types skills rules test mutate
 
 lint:
-	ruff format --check scripts tools tests
-	ruff check scripts tools tests
+	ruff format --check tooling/scripts tooling/tools tooling/tests
+	ruff check tooling/scripts tooling/tools tooling/tests
 
 types:
-	mypy scripts tools tests
+	mypy tooling/scripts tooling/tools tooling/tests
 
 test:
 	pytest -q
 
 skills:
-	python3 scripts/lint_skills.py --check-agents
-	./scripts/sync-skills.sh --check
+	python3 tooling/scripts/lint_skills.py --check-agents
+	./tooling/scripts/sync-skills.sh --check
 
 # NOTE the exact form. `semgrep --test --config .semgrep/ .semgrep/` reports success even
 # with a deliberately broken fixture — see .semgrep/README.md.
@@ -54,14 +54,14 @@ rules:
 	semgrep test .semgrep/
 
 # Diff-scoped against origin/main, per the 24 September decision. On main the diff is empty
-# and this is a no-op; on a branch it runs only the myapp/ files that branch touched, which
+# and this is a no-op; on a branch it runs only the tooling/myapp/ files that branch touched, which
 # is two seconds rather than the twenty-six a whole-package run costs. If origin/main is not
 # fetched the tool says so and falls back to every file — slow, still correct, never silent.
 mutate:
-	python3 tools/mutate.py --since origin/main
+	python3 tooling/tools/mutate.py --since origin/main
 
 fmt:
-	ruff format scripts tools tests
+	ruff format tooling/scripts tooling/tools tooling/tests
 
 labs:
-	python3 tools/lab.py
+	./lab

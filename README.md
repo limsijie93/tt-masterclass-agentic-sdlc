@@ -16,30 +16,35 @@ when you want it in your own repository.
 
 ## What's yours
 
-**Everything for the masterclass is in [`course/`](course/).** The skills are in
-[`.github/skills/`](.github/skills/). Everything else is machinery that runs the checks: you use
-it through commands, and you never need to edit it.
+**Two folders, two jobs.** Everything for the masterclass is in [`course/`](course/).
+Everything that already existed to run it, the practice app and the checks, is in
+[`tooling/`](tooling/): you use it through commands, and never need to edit it.
 
 ```
-course/                  ← the masterclass
-  guide.md                 which file goes with which lesson
-  reference-card.md        the one-page summary
-  demos.md                 every lecture demo, with the commands to replay it
-  tickets/                 two worked tickets, every step as a file      (read)
-  labs/                    six hands-on labs                              (do)
-  templates/               blank file shapes, plus python/ and typescript/ fills   (copy)
-.github/skills/          the eight skills                                 (install or copy)
-myapp/                   the practice app the labs and demos break     ┐
-tools/  scripts/         the lab runner, the guards, the checks        │ machinery:
-tests/  evals/           the repo's own tests                          │ read freely,
-harvest/  .semgrep/      the harvest ledger, and the rules it produced ┘ don't edit
+course/            ← the masterclass
+  guide.md           which file goes with which lesson
+  reference-card.md  the one-page summary
+  demos.md           every lecture demo, with the commands to replay it
+  tickets/           two worked tickets, every step as a file     (read)
+  labs/              six hands-on labs: ./lab start 01             (do)
+  templates/         blank shapes, plus python/ and typescript/ fills  (copy)
+tooling/           ← existing assets: read freely, don't edit
+  myapp/             the practice app the labs and demos break
+  tools/ scripts/    the lab runner, the guards, the checks
+  tests/ evals/      the repo's own tests
+.github/skills/    the eight skills, where every assistant looks for them
+harvest/           the harvest ledger, which the skill expects at this path
+lab                the lab runner: ./lab, ./lab start 01, ./lab check 01
 ```
+
+The root also holds the config files the tools look for there (`AGENTS.md`, `Makefile`,
+`pyproject.toml`, the dotfiles).
 
 | To | Open |
 |---|---|
 | Follow a lesson | [`course/guide.md`](course/guide.md) |
 | Read a worked ticket | [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) |
-| Do a lab | `python3 tools/lab.py`, then `start 01`, `check 01`, `solution 01` |
+| Do a lab | `./lab`, then `start 01`, `check 01`, `solution 01` |
 | Replay a demo | [`course/demos.md`](course/demos.md) |
 | Copy something into your repo | [`course/templates/`](course/templates/), and the skills: [Install the skills](#install-the-skills) |
 
@@ -94,7 +99,7 @@ the initiative dies in week two.
 
 ## Honestly: what runs, and what is a template
 
-There **is** an application here now, and it is deliberately small. `myapp/` exists to be
+There **is** an application here now, and it is deliberately small. `tooling/myapp/` exists to be
 broken in five specific ways, and for nothing else: no auth, no migrations, no deployment, no
 front end, one SQLite table and a decoy. Read this before cloning, so nothing below is a
 surprise.
@@ -108,15 +113,15 @@ Both had been green for weeks. Neither is findable without code to run against.
 
 | Runs green in this repo | Illustrative template |
 |---|---|
-| `myapp/` — the app, with the full tier-1 stack: ruff, mypy strict, `lint-imports`, semgrep, tests | `course/templates/*` — written for the same fictional service, stack-neutral |
-| `scripts/` and `tools/` — with tests, ruff-clean, mypy-strict-clean | `course/templates/python/*`, `course/templates/typescript/*` — two fills of those shapes |
+| `tooling/myapp/` — the app, with the full tier-1 stack: ruff, mypy strict, `lint-imports`, semgrep, tests | `course/templates/*` — written for the same fictional service, stack-neutral |
+| `tooling/scripts/` and `tooling/tools/` — with tests, ruff-clean, mypy-strict-clean | `course/templates/python/*`, `course/templates/typescript/*` — two fills of those shapes |
 | `.semgrep/` — the rules have their own unit tests, and now real code to fire on | |
 | `.importlinter` — three contracts, and a test proves the third one bites | |
 | `.pre-commit-config.yaml` — this repo's own gates | |
 | `.github/workflows/review.yml` — language-agnostic; it runs whatever your pre-commit config declares | |
 
 `course/tickets/PROJ-142/*` are still artifacts rather than code — but every `path:line` they cite now
-resolves, and `tests/test_example_consistency.py` fails if one stops resolving. They were
+resolves, and `tooling/tests/test_example_consistency.py` fails if one stops resolving. They were
 consistent with each other before; they are correct now.
 
 One file is named to *avoid* being picked up automatically: the skill template is
@@ -133,7 +138,7 @@ established repo needs and the live file has no violations to baseline.
 
 | Tier | What | Verdict | Where it lives |
 |---|---|---|---|
-| 0 · Pre-action | guards that see an edit before it is written | **asks**, or blocks | [`tools/guard_test_edits.py`](tools/guard_test_edits.py), [`tools/guard_protected_paths.py`](tools/guard_protected_paths.py), via [`.claude/settings.json`](.claude/settings.json) |
+| 0 · Pre-action | guards that see an edit before it is written | **asks**, or blocks | [`tooling/tools/guard_test_edits.py`](tooling/tools/guard_test_edits.py), [`tooling/tools/guard_protected_paths.py`](tooling/tools/guard_protected_paths.py), via [`.claude/settings.json`](.claude/settings.json) |
 | 1 · Deterministic | format, lint, types, architecture contract, custom rules, tests | **blocks** | [`.pre-commit-config.yaml`](.pre-commit-config.yaml), [`review.yml`](.github/workflows/review.yml) job `tier1` |
 | 2 · Agent judgment | a fresh-context pass against the spec | **comments** | [`code-review`](.github/skills/code-review/SKILL.md), `review.yml` job `tier2` (engine not wired — see below) |
 | 3 · Human judgment | domain rules, authorization, whether it should exist | **decides** | [`pull_request_template.md`](.github/pull_request_template.md), [`CODEOWNERS`](.github/CODEOWNERS) |
@@ -177,7 +182,7 @@ you cannot do silently is turn a red test green by editing the test.
 enforcing and this is our own gate. Flip to `enforce` in a PR carrying the observed counts.
 
 **The second guard protects the first.** `guard_protected_paths.py` refuses agent edits to
-`.claude/settings.json` and `tools/guard_*.py`, because a guard the agent can disable is not a
+`.claude/settings.json` and `tooling/tools/guard_*.py`, because a guard the agent can disable is not a
 guard — the same argument the read-only agent makes about its own allowlist, one level up.
 
 It blocks outright rather than asking, and it does *not* ship in log mode. Both look
@@ -262,16 +267,16 @@ the manual route, and how it works.
 Installing is an optimisation:
 
 ```bash
-./scripts/sync-skills.sh --print spec-interrogate | pbcopy
+./tooling/scripts/sync-skills.sh --print spec-interrogate | pbcopy
 ```
 
 To install, one canonical copy under `.github/skills/` is linked into every other host's path:
 
 ```bash
-./scripts/sync-skills.sh            # this project: .claude/, .cursor/, .agents/
-./scripts/sync-skills.sh --user     # also ~/.claude/ and ~/.agents/, for any repo
-./scripts/sync-skills.sh --check    # drift detection, for CI
-./scripts/sync-skills.sh --copy     # real copies, for Windows without Developer Mode
+./tooling/scripts/sync-skills.sh            # this project: .claude/, .cursor/, .agents/
+./tooling/scripts/sync-skills.sh --user     # also ~/.claude/ and ~/.agents/, for any repo
+./tooling/scripts/sync-skills.sh --check    # drift detection, for CI
+./tooling/scripts/sync-skills.sh --copy     # real copies, for Windows without Developer Mode
 ```
 
 The eight skills cost roughly 470 tokens of always-loaded context, the name and description
@@ -293,7 +298,7 @@ breaks the Python negation and starts flagging correct code. Measured, not assum
 are in [`.semgrep/README.md`](.semgrep/README.md).
 
 **One limit, stated rather than hidden.** Skill bodies are portable and
-`scripts/lint_skills.py` enforces it (no host names, no absolute paths, declared inputs, fixed
+`tooling/scripts/lint_skills.py` enforces it (no host names, no absolute paths, declared inputs, fixed
 output shape). Agent *definitions* are not portable, because a permission boundary is made of
 one host's tool names — hence two `read-only-explorer` files. Cursor's restricted mode is
 configured in its UI with no committed equivalent, so there is deliberately no
@@ -321,7 +326,7 @@ learner who meets "you will need a key" at lab 01 stops at lab 01.
 
 ```
 make setup && source .venv/bin/activate
-python3 tools/lab.py
+./lab
 ```
 
 | # | Lab | Segment | Needs |
@@ -333,7 +338,7 @@ python3 tools/lab.py
 | 05 | Review a planted pull request | 09 | an agent |
 | 06 | Implement one criterion | 07 | an agent |
 
-**A lab is an eval case with a human as the engine.** `tools/lab.py` is `tools/run_evals.py`
+**A lab is an eval case with a human as the engine.** `tooling/tools/lab.py` is `tooling/tools/run_evals.py`
 with the one call to `$EVAL_ENGINE_CMD` replaced by printing the brief and waiting — same file
 format, same frontmatter parser, same assertions. What may be asserted about a skill's output
 turns out to be exactly what may be asserted about a learner's, for the same reason: shape and
@@ -361,8 +366,8 @@ is point an agent at it.
 
 ## Do the skills still do what they say?
 
-`scripts/lint_skills.py` proves the skills' **declared** contracts fit together. Nothing
-executed a skill until [`evals/`](evals/) existed, so nothing checked that a skill **honours**
+`tooling/scripts/lint_skills.py` proves the skills' **declared** contracts fit together. Nothing
+executed a skill until [`tooling/evals/`](tooling/evals/) existed, so nothing checked that a skill **honours**
 the contract it declares — a skill whose Procedure was nonsense passed all ten checks.
 
 > The linter proves the contracts fit together. An eval proves a skill keeps its own.
@@ -374,7 +379,7 @@ prose, because a flaky gate destroys trust in about a week. The highest-value on
 Which creates the trap the suite is built around, and it is worth running yourself:
 
 ```
-EVAL_ENGINE_CMD=true python3 tools/run_evals.py --all      →  0/7 passed
+EVAL_ENGINE_CMD=true python3 tooling/tools/run_evals.py --all      →  0/7 passed
 ```
 
 A no-op engine passes `did_not_write` trivially. So every negative assertion is paired with a
@@ -397,17 +402,17 @@ the cases are hypotheses until someone runs them.
 
 The suite **reports**; it does not gate. Its *structure* blocks, in tier 1, at no cost and with
 no flake. Full reasoning, the fixture-tautology problem, the verified invocation and the cost
-estimate are in [`evals/README.md`](evals/README.md).
+estimate are in [`tooling/evals/README.md`](tooling/evals/README.md).
 
 ## This repo checks itself
 
 The thesis applied inward. `make tier1`, or:
 
 ```bash
-python3 scripts/lint_skills.py --check-agents   # portability rules + the skill chain
-./scripts/sync-skills.sh --check                # host symlinks match canonical
+python3 tooling/scripts/lint_skills.py --check-agents   # portability rules + the skill chain
+./tooling/scripts/sync-skills.sh --check                # host symlinks match canonical
 semgrep test .semgrep/                          # the rules' own unit tests
-python3 tools/check_commands_sync.py            # AGENTS.md Commands == the gate
+python3 tooling/tools/check_commands_sync.py            # AGENTS.md Commands == the gate
 pytest -q                                       # incl. the example's cross-file consistency
 ```
 

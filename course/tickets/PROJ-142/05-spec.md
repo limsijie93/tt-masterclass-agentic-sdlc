@@ -1,6 +1,6 @@
 <!-- Worked example. In a real repo this is specs/PROJ-142.md, opened as PR #318 — before any
      implementation exists. It is a filled copy of course/templates/spec.md. Cited paths resolve against
-     myapp/, which is real and deliberately minimal.
+     tooling/myapp/, which is real and deliberately minimal.
      See ./README.md for the canon. -->
 
 # specs/PROJ-142.md · PR #318
@@ -34,19 +34,19 @@ file, without hitting the gateway timeout.
 - **XLSX and any other format** — answer 1. CSV only; XLSX is a separate, unfunded request.
 - **Scheduled and recurring exports** — nobody asked, and a reader would otherwise assume the
   async job means we now support them.
-- **The legacy report page** (`myapp/service/reports/legacy.py:210`) — answer 4. It shares the
+- **The legacy report page** (`tooling/myapp/service/reports/legacy.py:210`) — answer 4. It shares the
   query builder and is being retired in Q4. It must not get slower or break, but it is not being
   changed here.
 
 ## Touchpoints
 
 ```
-myapp/api/exports/views.py:41           entry point
-myapp/service/exports/service.py:88     query builder
-myapp/tasks/queue.py:12                 async path
-tests/test_exports.py                   3 tests exist
+tooling/myapp/api/exports/views.py:41           entry point
+tooling/myapp/service/exports/service.py:88     query builder
+tooling/myapp/tasks/queue.py:12                 async path
+tooling/tests/test_exports.py                   3 tests exist
 
-(!) myapp/service/reports/legacy.py:210
+(!) tooling/myapp/service/reports/legacy.py:210
     shares the same query - out of scope,
     but will break
 ```
@@ -74,7 +74,7 @@ stop appearing in the exports endpoint's error rate.
 
 | Dependent | Decision |
 |---|---|
-| `myapp/service/reports/legacy.py:210` | Out of scope, must not regress. Calls the same query builder, so any signature change to it has to stay backward compatible. **File a follow-up if this change puts it at risk.** |
+| `tooling/myapp/service/reports/legacy.py:210` | Out of scope, must not regress. Calls the same query builder, so any signature change to it has to stay backward compatible. **File a follow-up if this change puts it at risk.** |
 
 ## Data and scale assumptions
 
@@ -97,7 +97,7 @@ review rather than in an incident:
 
 - The synchronous threshold is a row count, not a byte count.
 - The CSV column set is unchanged. This is a performance fix, not a format change.
-- The existing three tests in `tests/test_exports.py` are correct and worth keeping.
+- The existing three tests in `tooling/tests/test_exports.py` are correct and worth keeping.
 
 ## Commit slices
 

@@ -1,5 +1,5 @@
 <!-- Worked example. In a real repo this is specs/PROJ-207.touchpoints.md. Cited paths resolve
-     against myapp/, which is real and deliberately minimal.
+     against tooling/myapp/, which is real and deliberately minimal.
      See ./README.md for the canon and the slide-path-to-real-path map. -->
 
 # specs/PROJ-207.touchpoints.md
@@ -9,13 +9,13 @@ Output of the grounding pass: read-only exploration, every claim carrying a `pat
 ```
 touchpoints - PROJ-207
 
-myapp/api/entitlements/views.py:37        entry point
-myapp/service/entitlements/service.py:89  the shared helper
-myapp/service/entitlements/service.py:70  cache and TTL
-myapp/repo/entitlements/queries.py:43     the rows
-tests/test_entitlements.py                6 tests exist
+tooling/myapp/api/entitlements/views.py:37        entry point
+tooling/myapp/service/entitlements/service.py:89  the shared helper
+tooling/myapp/service/entitlements/service.py:70  cache and TTL
+tooling/myapp/repo/entitlements/queries.py:43     the rows
+tooling/tests/test_entitlements.py                6 tests exist
 
-(!) myapp/service/billing/upgrade.py:44
+(!) tooling/myapp/service/billing/upgrade.py:44
     calls the same helper and wants the
     opposite default - out of scope,
     but will break

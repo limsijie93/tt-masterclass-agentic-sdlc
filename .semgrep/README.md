@@ -1,7 +1,7 @@
 # .semgrep/ — custom rules, with tests
 
-> **Machinery, not course material.** This runs the checks behind the masterclass. You use it
-> through the commands in [`course/`](../course/); you don't edit it for a lab.
+> **Not course material.** It lives at the root rather than in [`tooling/`](../tooling/) because
+> the tools that read it expect this path. You don't edit it for a lab.
 
 Two rules. Both are the "executable version" column of segment 06's prose-to-executable
 table, and both are unit-tested, which is the part people are surprised by: a lint rule is

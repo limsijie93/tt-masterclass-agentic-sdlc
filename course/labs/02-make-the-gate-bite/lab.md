@@ -71,7 +71,7 @@ second failure mode here and it is the one that gets gates deleted. The check be
 you if you hit it, but seeing it yourself in the output is the lab.
 
 ```
-python3 tools/lab.py check 02
+./lab check 02
 ```
 
 ## What good looks like

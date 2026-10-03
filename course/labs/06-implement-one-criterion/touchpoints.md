@@ -3,6 +3,6 @@
 
 touchpoints - LAB-106
 
-myapp/service/exports/service.py:104     should_queue, and the threshold it reads
-myapp/api/exports/views.py:41            where the 202 is built
-tests/test_exports.py:1                  existing coverage
+tooling/myapp/service/exports/service.py:104     should_queue, and the threshold it reads
+tooling/myapp/api/exports/views.py:41            where the 202 is built
+tooling/tests/test_exports.py:1                  existing coverage

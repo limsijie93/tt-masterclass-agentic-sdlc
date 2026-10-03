@@ -18,7 +18,7 @@
      course/templates/python/pre-commit-config.yaml — the slide's card and the tier-1 line are both
      earlier, shorter drafts. If the slide is updated, update it to six.
 
-     This list is not maintained by hand-checking. tools/check_commands_sync.py fails the
+     This list is not maintained by hand-checking. tooling/tools/check_commands_sync.py fails the
      build if the tool set here and the tool set in the matching pre-commit config diverge,
      and it caught semgrep missing from this section on its first run.
 

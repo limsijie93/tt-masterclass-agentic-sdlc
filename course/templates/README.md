@@ -11,7 +11,7 @@ You should not fill these in by hand. `.github/skills/stack-profile` detects wha
 actually is and `.github/skills/gates-draft` writes the stack-specific parts. That is the
 division this repo is built around: **the procedure is portable, the executable is not.**
 
-Nothing here runs against this repo, even though `myapp/` now exists: these files are
+Nothing here runs against this repo, even though `tooling/myapp/` now exists: these files are
 stack-neutral shapes, and the live versions of them are elsewhere (the root `.importlinter`,
 the root `.pre-commit-config.yaml`). So every file here is illustrative, and each carries a
 header saying what to rename it to.
@@ -163,7 +163,7 @@ show which parts of the shape actually port.
 | Lint / type / complexity | `python/pyproject.toml` | `typescript/tsconfig.gates.json` |
 | Hooks | `python/pre-commit-config.yaml` | `typescript/pre-commit-config.yaml` |
 
-`tools/check_commands_sync.py` checks each directory on its own terms: the tools named in that
+`tooling/tools/check_commands_sync.py` checks each directory on its own terms: the tools named in that
 ecosystem's `AGENTS.md` Commands must be the tools its `pre-commit-config.yaml` enforces.
 Comparing them *across* ecosystems would be meaningless, so it does not.
 

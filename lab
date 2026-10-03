@@ -1,0 +1,3 @@
+#!/bin/sh
+# The lab runner, from the repo root: ./lab, ./lab start 01, ./lab check 01, ./lab solution 01
+exec python3 "$(dirname "$0")/tooling/tools/lab.py" "$@"

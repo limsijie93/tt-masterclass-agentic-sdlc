@@ -15,22 +15,22 @@ invalidates rather than waiting out the window.
 
 ## Acceptance criteria
 
-- [x] **Entitlement change visible within 60s** — `tests/test_entitlements.py:48`
-- [x] **Returns 403 + upgrade_url when not entitled** — `tests/test_entitlements.py:72`
+- [x] **Entitlement change visible within 60s** — `tooling/tests/test_entitlements.py:48`
+- [x] **Returns 403 + upgrade_url when not entitled** — `tooling/tests/test_entitlements.py:72`
 
 ## Suggested read order
 
-1. `myapp/service/entitlements/service.py` — the cache and the TTL. Start at
+1. `tooling/myapp/service/entitlements/service.py` — the cache and the TTL. Start at
    `resolve_entitlements`; the injected clock is what makes the boundary testable.
-2. `myapp/api/entitlements/views.py` — the gate. The argument that matters is `default=False`,
+2. `tooling/myapp/api/entitlements/views.py` — the gate. The argument that matters is `default=False`,
    and commit b7e4d2 is that one line on its own.
-3. `tests/test_entitlements.py:48` — the boundary, at TTL-1 and TTL.
-4. `myapp/repo/entitlements/queries.py` — `count_entitlements` exists to tell "no rows yet"
+3. `tooling/tests/test_entitlements.py:48` — the boundary, at TTL-1 and TTL.
+4. `tooling/myapp/repo/entitlements/queries.py` — `count_entitlements` exists to tell "no rows yet"
    from "entitled to nothing", which is the distinction the ticket is about.
 
 ## Out of scope, unchanged in this diff
 
-`myapp/service/billing/upgrade.py:44` calls the same helper and keeps its current optimistic
+`tooling/myapp/service/billing/upgrade.py:44` calls the same helper and keeps its current optimistic
 behaviour, per answer 4 of the interrogation. It is not in the diff. If it appears in a later
 one, that is the change this spec said not to make.
 

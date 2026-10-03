@@ -25,7 +25,7 @@ numbered filenames here are for reading order, not a layout to copy.
 
 ## The canon
 
-Every artifact in this directory agrees on the following. `tests/test_example_consistency.py`
+Every artifact in this directory agrees on the following. `tooling/tests/test_example_consistency.py`
 enforces it, because the lecture shows these files one after another and this audience will spot a
 mismatch on screen.
 
@@ -53,23 +53,23 @@ a4f2e1  criterion 2 · status route
 
 ## The fictional service
 
-The paths below belong to `myapp/`, which is a real package in this repository and small on
+The paths below belong to `tooling/myapp/`, which is a real package in this repository and small on
 purpose. Each slide shows the tail of a path; the artifacts here show the whole thing, so the
 contracts in the root `.importlinter` actually govern them.
 
-**Every `path:line` below resolves.** `tests/test_example_consistency.py` opens each one and
+**Every `path:line` below resolves.** `tooling/tests/test_example_consistency.py` opens each one and
 fails if the cited line does not hold what the artifact says it holds — so a reader who opens
-`myapp/service/exports/service.py` at line 88 finds the query builder. Before `myapp/` existed
+`tooling/myapp/service/exports/service.py` at line 88 finds the query builder. Before `tooling/myapp/` existed
 these citations agreed with each other and with nothing else, which is consistency rather than
 correctness.
 
 | On the slide | In these artifacts | Layer |
 |---|---|---|
-| `exports/views.py:41` | `myapp/api/exports/views.py:41` | `myapp.api` |
-| `exports/service.py:88` | `myapp/service/exports/service.py:88` | `myapp.service` |
-| `tasks/queue.py:12` | `myapp/tasks/queue.py:12` | — |
-| `reports/legacy.py:210` | `myapp/service/reports/legacy.py:210` | `myapp.service` |
-| `tests/test_exports.py` | `tests/test_exports.py` | — |
+| `exports/views.py:41` | `tooling/myapp/api/exports/views.py:41` | `myapp.api` |
+| `exports/service.py:88` | `tooling/myapp/service/exports/service.py:88` | `myapp.service` |
+| `tasks/queue.py:12` | `tooling/myapp/tasks/queue.py:12` | — |
+| `reports/legacy.py:210` | `tooling/myapp/service/reports/legacy.py:210` | `myapp.service` |
+| `tooling/tests/test_exports.py` | `tooling/tests/test_exports.py` | — |
 
 `myapp.repo` holds the data access the service layer calls. It is never imported from `myapp.api`,
 and the contract is what guarantees that rather than a sentence in a document.

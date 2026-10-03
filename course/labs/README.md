@@ -6,8 +6,8 @@ hours in total, and the first three need no agent, no API key and no account.
 ```
 make setup                      # once: .venv plus the pinned tier-1 toolchain
 source .venv/bin/activate
-python3 tools/lab.py            # the list, and where you are
-python3 tools/lab.py start 01
+./lab            # the list, and where you are
+./lab start 01
 ```
 
 | # | Lab | Segment | Needs | Time |
@@ -24,11 +24,11 @@ Then the capstone, which has no checker and is the one that transfers:
 
 ## How they are built
 
-**A lab is an eval case with a human as the engine.** [`tools/run_evals.py`](../../tools/run_evals.py)
+**A lab is an eval case with a human as the engine.** [`tooling/tools/run_evals.py`](../../tooling/tools/run_evals.py)
 shells out to `$EVAL_ENGINE_CMD` and asserts properties of what came back;
-[`tools/lab.py`](../../tools/lab.py) does everything else identically and, in place of that one
+[`tooling/tools/lab.py`](../../tooling/tools/lab.py) does everything else identically and, in place of that one
 call, prints the brief and waits for a person. Same file format, same frontmatter parser, same
-assertion registry in [`tools/eval_assertions.py`](../../tools/eval_assertions.py).
+assertion registry in [`tooling/tools/eval_assertions.py`](../../tooling/tools/eval_assertions.py).
 
 That is not a clever reuse, it is the only honest one available: what may be asserted about a
 skill's output is exactly what may be asserted about yours. Shape, arity, stop conditions,
@@ -41,7 +41,7 @@ If a lab cannot be written as a case, the lab is wrong.
 
 | Tier | Marks | Verdict | How |
 |---|---|---|---|
-| 1 · machine | shape, arity, refusal, whether citations resolve | **blocks** — you are not done | `tools/eval_assertions.py` |
+| 1 · machine | shape, arity, refusal, whether citations resolve | **blocks** — you are not done | `tooling/tools/eval_assertions.py` |
 | 2 · key | did you find the planted thing | **comments** — here is what you missed | the same assertions, against a known answer |
 | 3 · you | the judgment calls, and the sentence you write at the end | **decides** | `## What good looks like`, after you have attempted it |
 
@@ -50,12 +50,12 @@ you. That is deliberate, and tier 3 being yours is not a cop-out — **nothing h
 whether your answer is good.** Lab 05's decoy is the clearest case: the obvious check is a
 banned word, it fails the answer key, and fixing it would mean guessing from keywords whether
 a sentence is a finding or an aside. That is asserting *whether a finding is correct*, which
-`evals/README.md` says may never be asserted. So it is not asserted.
+`tooling/evals/README.md` says may never be asserted. So it is not asserted.
 
 ## Two rules the checker holds itself to
 
 **A no-op scores nought.** `lab.py check NN` on an untouched checkout scores 0/N for every
-lab, and `tests/test_labs_are_wired.py` fails the build otherwise — against a clean worktree,
+lab, and `tooling/tests/test_labs_are_wired.py` fails the build otherwise — against a clean worktree,
 so that having actually done a lab does not fail your build.
 
 This was not free. The first run of `check 01` on an untouched tree scored **3/7**: `max_lines`
@@ -84,7 +84,7 @@ it as their own failure. It is genuinely worth knowing: it is the one thing
 ## The answers
 
 The answer keys stay with the instructor. After you attempt a lab,
-`python3 tools/lab.py solution NN` prints `## What good looks like`: that is where the
+`./lab solution NN` prints `## What good looks like`: that is where the
 reasoning is, and the reasoning is what transfers.
 
 ## What your work is, and what is ours

@@ -42,7 +42,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     watch["Watch<br/>the lesson"] --> read["Read<br/>course/tickets/PROJ-142/"]
-    read --> doit["Do<br/>course/labs/ via tools/lab.py"]
+    read --> doit["Do<br/>course/labs/ via ./lab"]
     doit --> copy["Copy<br/>.github/skills/ · course/templates/"]
     watch -. "replay a demo yourself" .-> demos["course/demos.md"]
 ```
@@ -52,7 +52,7 @@ flowchart LR
 | Watch | the masterclass video | Each lesson below names the demos it shows |
 | Replay a demo | [`course/demos.md`](demos.md) | The exact commands, so you can run any demo yourself |
 | Read | [`course/tickets/PROJ-142/`](tickets/PROJ-142/) | Files `00`–`10`, in the order the lessons use them |
-| Do | [`course/labs/`](labs/) | `python3 tools/lab.py start NN`, then `check NN`, then `solution NN` |
+| Do | [`course/labs/`](labs/) | `./lab start NN`, then `check NN`, then `solution NN` |
 | Copy | [`.github/skills/`](../.github/skills/), [`course/templates/`](templates/) | Into your own repository, one pull request at a time |
 
 ## The chain the ticket goes through
@@ -95,14 +95,14 @@ Two of them are wrong on purpose: `08-review.md` has one false finding, and
 ```mermaid
 flowchart LR
     l0["0 · The bottleneck moved"] --> l1["1 · Cold open: the wrong table"] --> l2["2 · One ticket, three blocks"]
-    l1 --- f1["01-ticket.md<br/>myapp/repo/analytics.py"]
+    l1 --- f1["01-ticket.md<br/>tooling/myapp/repo/analytics.py"]
     l2 --- f2["course/reference-card.md"]
 ```
 
 | Lesson | Read | Do | Copy |
 |---|---|---|---|
 | 0 · The bottleneck moved | [`LEARN.md`](../LEARN.md) | — | — |
-| 1 · Cold open | [`01-ticket.md`](tickets/PROJ-142/01-ticket.md), then [`myapp/repo/analytics.py`](../myapp/repo/analytics.py), the table the agent wrongly picks. Demo D1 | — | — |
+| 1 · Cold open | [`01-ticket.md`](tickets/PROJ-142/01-ticket.md), then [`tooling/myapp/repo/analytics.py`](../tooling/myapp/repo/analytics.py), the table the agent wrongly picks. Demo D1 | — | — |
 | 2 · The map | [`course/reference-card.md`](reference-card.md), "The chain" | — | Pin the card up |
 
 ## Block 1 · Specs: lessons 3–5

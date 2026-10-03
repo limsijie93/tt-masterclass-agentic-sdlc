@@ -73,7 +73,7 @@ because it proves a cache exists and says nothing about when it stops. It passes
 of sixty seconds, of six hours, and of infinity — and "of infinity" is the bug the ticket was
 filed for.
 
-`tests/test_entitlements.py:48` probes TTL-1 and TTL instead. **A test that does not fail
+`tooling/tests/test_entitlements.py:48` probes TTL-1 and TTL instead. **A test that does not fail
 against the bug you are fixing is decoration**, however real its fixtures are.
 
 ## Why this is the reviewer's third question
@@ -84,8 +84,8 @@ Once tier 1 and tier 2 have run, the human has three questions left:
 2. What did it touch that the spec never mentioned?
 3. **Are the tests real, or tautologies?**
 
-`tools/mutate.py` now answers a large part of the third mechanically: it changes a line of
-`myapp/` and reports what the suite failed to notice. Both circular tests above survive a
+`tooling/tools/mutate.py` now answers a large part of the third mechanically: it changes a line of
+`tooling/myapp/` and reports what the suite failed to notice. Both circular tests above survive a
 mutation of the code they claim to cover, so both would be reported.
 
 What it does not reach is the second example — the cache test survives nothing, because it

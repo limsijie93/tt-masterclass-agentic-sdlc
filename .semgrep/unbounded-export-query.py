@@ -3,7 +3,7 @@
 
 
 def build_export_query(tenant, chunk_size=None):
-    """Stand-in for the real builder at myapp/service/exports/service.py:88."""
+    """Stand-in for the real builder at tooling/myapp/service/exports/service.py:88."""
     return (tenant, chunk_size)
 
 
@@ -27,7 +27,7 @@ def the_fix_with_other_kwargs(tenant, fmt):
     return build_export_query(tenant, format=fmt, chunk_size=5000)
 
 
-# --- Qualified calls. The form every real caller in myapp/ uses, and the form the original
+# --- Qualified calls. The form every real caller in tooling/myapp/ uses, and the form the original
 # --- pattern silently failed to match. Do not delete these.
 
 

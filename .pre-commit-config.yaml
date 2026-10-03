@@ -3,7 +3,7 @@
 # against itself.
 #
 # THIS FILE USED TO SAY IT COULD NOT HAVE THE REAL TIER-1 STACK, because there was no
-# application code here. There is now: myapp/, deliberately minimal, existing to be broken
+# application code here. There is now: tooling/myapp/, deliberately minimal, existing to be broken
 # in five specific ways. So the full ladder runs — format, lint, types, the architecture
 # contract, the custom rules, tests — against real code rather than against the repo's own
 # scripts alone.
@@ -43,10 +43,10 @@ repos:
     rev: v0.6.2
     hooks:
       - id: ruff-format
-        files: ^(myapp|scripts|tools|tests)/
+        files: ^tooling/(myapp|scripts|tools|tests)/
       - id: ruff
         args: [--fix]
-        files: ^(myapp|scripts|tools|tests)/
+        files: ^tooling/(myapp|scripts|tools|tests)/
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
@@ -67,7 +67,7 @@ repos:
         # the whole package to resolve types, not the changed files.
         args: ["--strict"]
         pass_filenames: false
-        # pytest for tests/conftest.py's instructor_only skip; pinned to requirements-dev.txt.
+        # pytest for tooling/tests/conftest.py's instructor_only skip; pinned to requirements-dev.txt.
         additional_dependencies: ["pytest==8.3.3"]
 
   - repo: https://github.com/semgrep/pre-commit
@@ -103,17 +103,17 @@ repos:
       # no wheel for 3.14 yet, hence the explicit language_version.
       - id: lint-imports
         name: lint-imports (architecture contract)
-        entry: lint-imports
+        entry: env PYTHONPATH=tooling lint-imports
         language: python
         language_version: python3.12
         additional_dependencies: ["import-linter==2.15"]
-        files: ^myapp/
+        files: ^tooling/myapp/
         pass_filenames: false
 
       # The portability rules from segment 02, enforced on the files that teach them.
       - id: lint-skills
         name: lint skills (portability + the chain)
-        entry: python3 scripts/lint_skills.py --check-agents
+        entry: python3 tooling/scripts/lint_skills.py --check-agents
         language: system
         pass_filenames: false
 
@@ -121,22 +121,22 @@ repos:
       # false in the repo that claims it.
       - id: sync-skills-check
         name: sync-skills --check
-        entry: ./scripts/sync-skills.sh --check
+        entry: ./tooling/scripts/sync-skills.sh --check
         language: system
         pass_filenames: false
 
-      # Tier 0's commit-time half. The write-time half is tools/guard_test_edits.py via
+      # Tier 0's commit-time half. The write-time half is tooling/tools/guard_test_edits.py via
       # .claude/settings.json, which only one host reads; this half is host-agnostic, so the
       # rule lands everywhere and only the timing differs.
       #
-      # Warns, exit 0 — like tools/check_touchpoints.py, and for the same reason: the first
+      # Warns, exit 0 — like tooling/tools/check_touchpoints.py, and for the same reason: the first
       # legitimate deliberate change must not get the check disabled by someone in a hurry.
       # verbose: true so the warning is visible on an otherwise-passing run.
       - id: guard-test-edits
         name: test edits do not weaken assertions (warns)
-        entry: python3 tools/guard_test_edits.py --staged
+        entry: python3 tooling/tools/guard_test_edits.py --staged
         language: system
-        files: ^tests/
+        files: ^tooling/tests/
         verbose: true
         pass_filenames: false
         stages: [pre-commit]

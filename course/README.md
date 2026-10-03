@@ -8,7 +8,7 @@ files below.
 | [`guide.md`](guide.md) | Each lesson → what to read, the lab, what to copy, with diagrams | Start here |
 | [`reference-card.md`](reference-card.md) | The whole course on one page | Pin it up |
 | [`tickets/`](tickets/) | Two worked tickets, `PROJ-142` and `PROJ-207`, every step as a numbered file | Read |
-| [`labs/`](labs/) | Six labs. Run them with `python3 tools/lab.py` from the repo root | Do |
+| [`labs/`](labs/) | Six labs. Run them with `./lab` from the repo root | Do |
 | [`templates/`](templates/) | Blank shapes to copy, with `python/` and `typescript/` filled in | Copy |
 | [`demos.md`](demos.md) | Every lecture demo, with the exact commands | Replay |
 | [`citations.md`](citations.md) | Where each figure in the lecture comes from | Check |

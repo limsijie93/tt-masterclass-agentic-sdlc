@@ -1,5 +1,5 @@
 <!-- Worked example. In a real repo the block below is written to specs/PROJ-142.answers.md
-     with every `answer:` line empty. Cited paths resolve against myapp/, which is real and
+     with every `answer:` line empty. Cited paths resolve against tooling/myapp/, which is real and
      deliberately minimal. See ./README.md for the canon and path map.
 
      Slide 13 shows the first two questions and the stop line. This is the full output. -->
@@ -28,7 +28,7 @@ spec-interrogate PROJ-142
    assumes  around 100k rows
    answer:
 
-4  myapp/service/reports/legacy.py:210 calls the same query builder.
+4  tooling/myapp/service/reports/legacy.py:210 calls the same query builder.
    Is changing it in scope for this ticket?
    blocks   the blast radius, and whether this is one PR or two
    assumes  out of scope

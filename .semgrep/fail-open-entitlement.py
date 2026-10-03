@@ -3,7 +3,7 @@
 
 
 def has_feature(connection, account_id, flag, default=True):
-    """Stand-in for the real helper at myapp/service/entitlements/service.py:89."""
+    """Stand-in for the real helper at tooling/myapp/service/entitlements/service.py:89."""
     return default
 
 
@@ -29,7 +29,7 @@ def the_fix_allowing(connection, account):
     return has_feature(connection, account, "advanced_export", default=True)
 
 
-# --- Qualified calls. The form every real caller in myapp/ uses, and the form that made the
+# --- Qualified calls. The form every real caller in tooling/myapp/ uses, and the form that made the
 # --- sibling rule match nothing for weeks while its own fixture passed.
 
 

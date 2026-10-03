@@ -27,7 +27,7 @@ rules:
       # cannot hold for the other. What ports is the DECISION; the pattern never does.
       rule-family: unbounded-export-query
     # BOTH CALL FORMS. The Python twin matched only unqualified calls and therefore matched
-    # none of the real callers in myapp/, while passing its own tests — see
+    # none of the real callers in tooling/myapp/, while passing its own tests — see
     # ../unbounded-export-query.yml. This rule had the identical blind spot and is corrected
     # by analogy.
     #

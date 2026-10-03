@@ -30,7 +30,7 @@ assertions:
   - name: file_mentions
     tier: 2
     path: "specs/LAB-104.touchpoints.md"
-    needles: ["tools/guard_test_edits.py"]
+    needles: ["tooling/tools/guard_test_edits.py"]
     hint: "Grounding did not find the thing the ticket is about."
   - name: file_mentions
     tier: 2
@@ -66,7 +66,7 @@ This lab needs an agent and, depending on your setup, an API key. Labs 01 to 03 
 Paste-first works; installing is an optimisation.
 
 ```
-./scripts/sync-skills.sh --print spec-interrogate | pbcopy
+./tooling/scripts/sync-skills.sh --print spec-interrogate | pbcopy
 ```
 
 Paste that into whatever you use, then paste `course/labs/04-interrogate-a-real-ticket/ticket.md`
@@ -83,7 +83,7 @@ Both are gitignored. Do not answer the questions — the point is the shape of w
 and whether the grounding pass found the thing it had to find.
 
 ```
-python3 tools/lab.py check 04
+./lab check 04
 ```
 
 ## What good looks like
@@ -101,10 +101,10 @@ python3 tools/lab.py check 04
 Anything about naming, formatting or style is a question that failed the ranking: being wrong
 about it changes the wording, not the implementation.
 
-**The touchpoints, and the one that matters.** A shallow pass finds `tools/guard_test_edits.py`
+**The touchpoints, and the one that matters.** A shallow pass finds `tooling/tools/guard_test_edits.py`
 and `.claude/settings.json` and stops, because those two are where the word "guard" appears.
 They are one timing. The same script is also a `pre-commit` hook —
-`.pre-commit-config.yaml`, `entry: python3 tools/guard_test_edits.py --staged` — and that is
+`.pre-commit-config.yaml`, `entry: python3 tooling/tools/guard_test_edits.py --staged` — and that is
 the timing that runs on every host, for every developer, including the ones not using an
 assistant at all.
 
@@ -112,7 +112,7 @@ Which one failed changes the entire fix, and you cannot ask the question until g
 found both. That is the order the skill insists on and the reason for it: *you cannot ask a
 good question about a change you have not looked at.*
 
-**The hazard.** `tools/guard_protected_paths.py` is wired through the same `PreToolUse` entry
+**The hazard.** `tooling/tools/guard_protected_paths.py` is wired through the same `PreToolUse` entry
 in the same settings file, and it is the guard that protects the first guard. Change how the
 hook is invoked and you have changed both. Nobody asked about it; you find it by searching for
 what else shares the machinery, which is step 2 of the skill and the step people skip because

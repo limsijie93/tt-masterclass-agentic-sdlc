@@ -1,5 +1,5 @@
 <!-- Worked example. In a real repo this is reviews/PROJ-142.review.md. Cited paths resolve against
-     myapp/, which is real and deliberately minimal.
+     tooling/myapp/, which is real and deliberately minimal.
 
      ONE OF THE THREE FINDINGS BELOW IS WRONG, ON PURPOSE. The lecture polls the room on
      which. Do not "fix" it. The answer, and why that particular error is the right one to
@@ -16,10 +16,10 @@ inside the declared touchpoints. 5 candidates triaged to 3.
 
 ### 1 · blocking: the legacy report is now unbounded
 
-`myapp/service/reports/legacy.py:210` · relates to: `Out of scope`, and the `(!)` touchpoint
+`tooling/myapp/service/reports/legacy.py:210` · relates to: `Out of scope`, and the `(!)` touchpoint
 
 `build_export_query()` gained a `chunk_size` parameter in this change
-(`myapp/service/exports/service.py:88`). The parameter defaults to `None`, and `None` means no
+(`tooling/myapp/service/exports/service.py:88`). The parameter defaults to `None`, and `None` means no
 chunking. `legacy.py:210` calls the same builder and was not updated, so a query that was
 previously bounded by the old implementation's fixed page size is now unbounded.
 
@@ -34,10 +34,10 @@ caller.
 
 ### 2 · the async job's execution path has no test
 
-`myapp/tasks/queue.py:12` · relates to: acceptance criterion 2
+`tooling/myapp/tasks/queue.py:12` · relates to: acceptance criterion 2
 
 Criterion 2 — `Returns 202 + job id when async` — is tested at the view: the 202 and the job
-id are asserted in `tests/test_exports.py:88`. The job's own execution is not. Nothing
+id are asserted in `tooling/tests/test_exports.py:88`. The job's own execution is not. Nothing
 exercises the branch at `queue.py:12` that runs the export inside the worker, so a failure
 there surfaces as a job that never completes rather than as a test failure.
 
@@ -49,11 +49,11 @@ duplicating.
 
 ### 3 · criterion 1 may not be measured by its test
 
-`tests/test_exports.py:41` · relates to: acceptance criterion 1
+`tooling/tests/test_exports.py:41` · relates to: acceptance criterion 1
 
 Criterion 1 is `CSV completes under 30s at 1M rows`. The implementation now streams the
 response rather than building it in memory
-(`myapp/api/exports/views.py:41` returns a streaming response).
+(`tooling/myapp/api/exports/views.py:41` returns a streaming response).
 
 A timer around a request that returns a streaming response stops when the response object is
 returned — that is, at first byte — not when the last row has been written. So the assertion

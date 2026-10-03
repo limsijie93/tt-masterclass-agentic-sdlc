@@ -61,7 +61,7 @@ all.
 
 `pattern` plus `pattern-not` is the whole rule, and it is checkable by a machine that does not
 get tired. It fails the build on the call site, which is where the decision actually is — the
-signature cannot be fixed, because `myapp/service/billing/upgrade.py` needs the opposite
+signature cannot be fixed, because `tooling/myapp/service/billing/upgrade.py` needs the opposite
 default and needs it for a good reason.
 
 That is worth stating plainly: **the rule exists because the bug cannot be fixed.** Two callers

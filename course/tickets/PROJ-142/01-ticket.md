@@ -1,5 +1,5 @@
 <!-- Worked example. The ticket as received, copied out of the tracker and pasted into a file.
-     Cited paths resolve against myapp/, which is real and deliberately minimal.
+     Cited paths resolve against tooling/myapp/, which is real and deliberately minimal.
      See ./README.md for the canon and the path map. -->
 
 # PROJ-142 — Export report times out

@@ -27,11 +27,11 @@ rules:
     # BOTH CALL FORMS, AND THE SECOND ONE IS WHY THIS RULE WAS BROKEN FOR WEEKS.
     #
     # `pattern: build_export_query(...)` matches only an unqualified call. Every real caller
-    # in myapp/ says `service.build_export_query(...)`, and the rule matched none of them
+    # in tooling/myapp/ says `service.build_export_query(...)`, and the rule matched none of them
     # while passing `semgrep test .semgrep/` — because the fixture below had been written to
     # the pattern instead of to the code.
     #
-    # That is the fixture tautology from evals/README.md, in a rule rather than in a test, and
+    # That is the fixture tautology from tooling/evals/README.md, in a rule rather than in a test, and
     # nothing could catch it until there was an application here to run it against. Keep a
     # qualified case in the fixture for both the violation and the fix, or this regresses
     # silently the next time someone simplifies the pattern.

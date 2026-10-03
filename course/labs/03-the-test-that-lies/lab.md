@@ -64,7 +64,7 @@ python3 -m pytest -q test_yours.py       # passes against the real code
 `mutate.sh` is fifteen readable lines. Open it before you trust it.
 
 ```
-python3 tools/lab.py check 03
+./lab check 03
 ```
 
 ## What good looks like
@@ -110,7 +110,7 @@ only way to find a test like `test_lies.py`, because from the outside it is indi
 from a good one — green, named sensibly, reviewed and approved.
 
 *Why this matters more with an agent in the loop.* Asked to make a failing test pass, the
-cheapest available edit is often to the test. Tier 0 (`tools/guard_test_edits.py`) catches the
+cheapest available edit is often to the test. Tier 0 (`tooling/tools/guard_test_edits.py`) catches the
 blunt version of that — an edit that removes assertions — and it cannot catch a test that was
 born tautological. Nothing can, except running it against broken code.
 

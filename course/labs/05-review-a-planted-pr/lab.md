@@ -83,7 +83,7 @@ fixed footer at the bottom. The footer is in `.github/skills/code-review/SKILL.m
 **Step 2 — then the machine.** In a session that never saw the diff:
 
 ```
-./scripts/sync-skills.sh --print code-review | pbcopy
+./tooling/scripts/sync-skills.sh --print code-review | pbcopy
 ```
 
 Point it at the same spec, touchpoints and diff, and have it write
@@ -97,7 +97,7 @@ Point it at the same spec, touchpoints and diff, and have it write
   false-positive rate for this kind of review is 86%. See `course/citations.md`.
 
 ```
-python3 tools/lab.py check 05
+./lab check 05
 ```
 
 The check grades **your** review, not the machine's. That is deliberate.
@@ -107,7 +107,7 @@ The obvious check is a banned word: fail anyone whose review mentions the admin 
 written, and then deleted, because it fails the answer key — finding 2 mentions `admin.py` for
 a perfectly good reason. Fixing that means guessing from keywords whether a sentence is a
 finding or an aside, which is asserting *whether a finding is correct*, and that is the one
-thing `evals/README.md` says may never be asserted. A checker that is wrong about your review
+thing `tooling/evals/README.md` says may never be asserted. A checker that is wrong about your review
 is the same failure as a review that is wrong about your code, one level up.
 
 So the decoy is scored by you, against the reveal below, after you have written your review

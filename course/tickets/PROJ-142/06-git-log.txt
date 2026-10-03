@@ -1,4 +1,4 @@
-Worked example. Cited paths resolve against myapp/, which is real and deliberately
+Worked example. Cited paths resolve against tooling/myapp/, which is real and deliberately
 minimal. See ./README.md for the canon.
 
 Slide 26 shows the two blocks below, verbatim.
@@ -33,13 +33,13 @@ whole of Block 1 arriving as a reviewable file: PR #318 was merged before PR #31
 
 THE FOUR FILES
 
-  myapp/api/exports/views.py           criterion 1, criterion 2
-  myapp/service/exports/service.py     criterion 1
-  myapp/tasks/queue.py                 criterion 2
-  tests/test_exports.py                both
+  tooling/myapp/api/exports/views.py           criterion 1, criterion 2
+  tooling/myapp/service/exports/service.py     criterion 1
+  tooling/myapp/tasks/queue.py                 criterion 2
+  tooling/tests/test_exports.py                both
 
 Compare that against 04-touchpoints.md, which declared five paths. Four were changed. The
-fifth — myapp/service/reports/legacy.py:210 — was NOT, because the spec put it out of scope.
+fifth — tooling/myapp/service/reports/legacy.py:210 — was NOT, because the spec put it out of scope.
 
 That is the arithmetic that makes this artifact interesting rather than decorative. The
 diff is clean. Every file is inside the plan. `git diff --stat` has nothing to say.
@@ -55,7 +55,7 @@ behaviour of something else that reads it — which is exactly what happened her
 
 That is the honest boundary of a deterministic scope check, and it is the reason tier 2 and
 tier 3 exist at all. A tool that had claimed to catch this would have been trusted for
-something it cannot do, and tools/check_touchpoints.py says so in its own docstring and
+something it cannot do, and tooling/tools/check_touchpoints.py says so in its own docstring and
 warns rather than blocks for that reason.
 
 

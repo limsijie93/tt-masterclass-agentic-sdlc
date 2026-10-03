@@ -36,7 +36,7 @@ Once tiers 1 and 2 have run, three questions are left:
 
 - [ ] If this PR changes a skill body, `AGENTS.md`, or a guard: paste the eval pass rate,
       before and after. The suite reports rather than blocks — **you** are the gate.
-      See [`evals/README.md`](../evals/README.md).
+      See [`tooling/evals/README.md`](../tooling/evals/README.md).
 
 ## Harvest
 

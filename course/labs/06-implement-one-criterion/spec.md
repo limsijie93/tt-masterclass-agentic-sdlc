@@ -19,14 +19,14 @@ instead of returning a bare job id and leaving them to poll blind.
 - The synchronous path. A response that did not queue gains no new field.
 - Making the estimate accurate under load. A fixed rate is enough for a first cut, and the
   ticket says so.
-- `myapp/service/reports/legacy.py`, which calls the same builder and must not change.
+- `tooling/myapp/service/reports/legacy.py`, which calls the same builder and must not change.
 - Any change to the job id, the status route, or the 202.
 
 ## Touchpoints
 
-myapp/service/exports/service.py:104     should_queue, and the threshold it reads
-myapp/api/exports/views.py:41            where the 202 is built
-tests/test_exports.py:1                  existing coverage
+tooling/myapp/service/exports/service.py:104     should_queue, and the threshold it reads
+tooling/myapp/api/exports/views.py:41            where the 202 is built
+tooling/tests/test_exports.py:1                  existing coverage
 
 ## Open questions
 

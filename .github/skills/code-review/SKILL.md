@@ -134,4 +134,4 @@ Written to `reviews/<TICKET>.review.md`.
      step 4 is sufficient on its own; the reference file is enrichment for someone who has the
      repo, which is exactly what a third disclosure tier is for.
 
-     scripts/lint_skills.py enforces this, and it caught this very file on the first run. -->
+     tooling/scripts/lint_skills.py enforces this, and it caught this very file on the first run. -->

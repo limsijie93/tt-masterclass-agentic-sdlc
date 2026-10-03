@@ -3,14 +3,14 @@
 Every recording, what it is for, and the exact commands. Two audiences: the presenter, who needs
 a shot list, and a learner who would rather run a demo than watch one.
 
-**Nothing here lives in a `SKILL.md`.** `scripts/lint_skills.py` enforces exactly seven sections
+**Nothing here lives in a `SKILL.md`.** `tooling/scripts/lint_skills.py` enforces exactly seven sections
 and a 200-line paste-first budget, and bans host names in a skill body — a `## Demo` section with
 a video link would fail the build on two counts. The mapping lives here instead.
 
 ## Status at a glance
 
 The deck specifies seven demos, D1–D7. Five of them need a runnable application to fail against,
-and `myapp/` is now that application — so the blocker moved from *no target* to *no shot list*.
+and `tooling/myapp/` is now that application — so the blocker moved from *no target* to *no shot list*.
 D8–D12 run against **this repository, today**, have their beats written below, and several cover
 ground the original seven do not. D13–D17 give the five skills that had no demo one each.
 
@@ -19,7 +19,7 @@ quoted beside them; it does not mean an asset exists.
 
 | | Demo | Segment | Skill / artifact | Status |
 |---|---|---|---|---|
-| D1 | Cold open — the confident wrong answer | 00 | `myapp/repo/analytics.py` (the decoy) | **ready** |
+| D1 | Cold open — the confident wrong answer | 00 | `tooling/myapp/repo/analytics.py` (the decoy) | **ready** |
 | D2 | Skill portability — one file, two tools | 02 | all skills | **ready** — see D11, which is the honest version |
 | D3 | `AGENTS.md` A/B | 05 | `00-agents-draft.md` | **ready** |
 | D4 | The architecture contract fails | 06 | `gates-draft` | **ready** — beats lifted from lab 02 |
@@ -58,12 +58,12 @@ argument."*
 
 **Segment 00. Roughly 70 seconds, and it is the first thing the room sees.**
 
-The decoy is `myapp/repo/analytics.py`. It is smaller than `export_row`, it is one row per
+The decoy is `tooling/myapp/repo/analytics.py`. It is smaller than `export_row`, it is one row per
 account per day, and its name sounds more like a report than `exports/queries.py` does. An agent
 handed the ticket with no context file and no spec reaches for the table whose name sounds right.
 
 **Setup.** A session with **no** `AGENTS.md` loaded and no spec — `--bare`, or a scratch copy of
-`myapp/` alone. This matters: with the context file present the gotcha section names the decoy
+`tooling/myapp/` alone. This matters: with the context file present the gotcha section names the decoy
 outright, which is D3's point and would spoil this one.
 
 **Beat 1 — the ticket, pasted.** `course/tickets/PROJ-142/01-ticket.md`, verbatim. Say nothing about
@@ -76,7 +76,7 @@ of rows, because daily totals are one row per account per day and the export is 
 event.
 
 ```
-python3 -c "
+PYTHONPATH=tooling python3 -c "
 import sqlite3
 from myapp.repo.exports import queries
 c = sqlite3.connect(':memory:'); c.executescript(queries.SCHEMA)
@@ -112,7 +112,7 @@ advance which run you are getting.* Do not stage the wrong answer: a prompt that
 
 **Beat 1 — without.** The D1 take, or a fresh one. It reaches for `analytics.py`.
 
-**Beat 2 — with.** Same prompt, same model, and the pruned context file for `myapp/` copied to
+**Beat 2 — with.** Same prompt, same model, and the pruned context file for `tooling/myapp/` copied to
 the repo root:
 
 ```
@@ -203,8 +203,8 @@ cat specs/LAB-106.drift.md
 ```
 
 > `## Outside the touchpoints`
-> `myapp/api/exports/views.py:30      ExportResponse gained retry_after_seconds…`
-> `myapp/service/exports/service.py:88   ROWS_PER_SECOND is new…`
+> `tooling/myapp/api/exports/views.py:30      ExportResponse gained retry_after_seconds…`
+> `tooling/myapp/service/exports/service.py:88   ROWS_PER_SECOND is new…`
 
 **The line to say:** *the touchpoints named three files and it touched five. Neither extra is a
 mistake — grounding happened before anyone had implemented anything. The failure mode is not
@@ -296,7 +296,7 @@ state it, and a grep that counts its own command is the kind of thing that unrav
 Re-run the command if you edit any of those eight; the number in the narration has to be the
 number on screen.
 
-**Beat 2 — weaken a real test.** In the editor, in `tests/test_check_touchpoints.py`, replace
+**Beat 2 — weaken a real test.** In the editor, in `tooling/tests/test_check_touchpoints.py`, replace
 
 ```
     assert declared == set()
@@ -308,28 +308,28 @@ with `assert True`. Stage it.
 **Beat 3 — the commit-time half catches it.**
 
 ```
-python3 tools/guard_test_edits.py --staged
+python3 tooling/tools/guard_test_edits.py --staged
 ```
 
-> `guard_test_edits: ask — this edit removes 1 assertion(s) from tests/test_check_touchpoints.py`
+> `guard_test_edits: ask — this edit removes 1 assertion(s) from tooling/tests/test_check_touchpoints.py`
 > `and adds no new test (assertions 12 -> 11, tests 8 -> 8).`
 
 **Beat 4 — the write-time half blocks it.** The stronger beat, because it happens *before* the
 file is written:
 
 ```
-GUARD_MODE=enforce python3 tools/guard_test_edits.py <<< '{"tool_name":"Write","tool_input":{"file_path":"tests/test_check_touchpoints.py","content":"def test_x():\n    pass\n"}}'
+GUARD_MODE=enforce python3 tooling/tools/guard_test_edits.py <<< '{"tool_name":"Write","tool_input":{"file_path":"tooling/tests/test_check_touchpoints.py","content":"def test_x():\n    pass\n"}}'
 echo "exit=$?"
 ```
 
-> `this edit removes every assertion from tests/test_check_touchpoints.py (assertions 11 -> 0).`
+> `this edit removes every assertion from tooling/tests/test_check_touchpoints.py (assertions 11 -> 0).`
 > `A test file that asserts nothing passes unconditionally, including with the code under test deleted.`
 > `exit=2`
 
 **Beat 5 — the reframe, narrated over `--explain`.**
 
 ```
-python3 tools/guard_test_edits.py --explain tests/test_check_touchpoints.py
+python3 tooling/tools/guard_test_edits.py --explain tooling/tests/test_check_touchpoints.py
 ```
 
 The line to say: *every version of that rule says "in order to make it pass" — which is a claim
@@ -337,7 +337,7 @@ about intent, and no checker can see intent. Making it checkable forced us to fi
 was actually about: the edit weakens an assertion. It does not block editing tests. It blocks
 weakening them, which is why test-first still works.*
 
-**Restore before the next take.** `git checkout -- tests/test_check_touchpoints.py`
+**Restore before the next take.** `git checkout -- tooling/tests/test_check_touchpoints.py`
 
 **Gotchas.** Beat 4's counts read `11 -> 0` rather than `12 -> 0` because beat 2 already removed
 one — do not re-record from a clean file and expect matching numbers. And the default is
@@ -353,7 +353,7 @@ no application.
 **Beat 1 — run the suite with an engine that does nothing.**
 
 ```
-EVAL_ENGINE_CMD=true python3 tools/run_evals.py --case spec-draft-refuses-unanswered
+EVAL_ENGINE_CMD=true python3 tooling/tools/run_evals.py --case spec-draft-refuses-unanswered
 ```
 
 > `✓ did_not_write: specs/EVAL-102.md was correctly not written`
@@ -371,7 +371,7 @@ test that cannot fail: it looks like success.*
 The whole suite scores zero:*
 
 ```
-EVAL_ENGINE_CMD=true python3 tools/run_evals.py --all | tail -1
+EVAL_ENGINE_CMD=true python3 tooling/tools/run_evals.py --all | tail -1
 ```
 
 > `0/7 passed`
@@ -389,7 +389,7 @@ rotting?"*
 **Beat 1 — they agree.**
 
 ```
-python3 tools/check_commands_sync.py
+python3 tooling/tools/check_commands_sync.py
 ```
 
 > `python: 5 tools agree — lint-imports, mypy, pytest, ruff, semgrep`
@@ -401,7 +401,7 @@ python3 tools/check_commands_sync.py
 **Beat 3 — the build fails, and says which direction.**
 
 ```
-python3 tools/check_commands_sync.py; echo "exit=$?"
+python3 tooling/tools/check_commands_sync.py; echo "exit=$?"
 ```
 
 > `python: DIVERGED`
@@ -432,7 +432,7 @@ ls -l .claude/skills/spec-interrogate .cursor/skills/spec-interrogate .agents/sk
 check that fails if any goes stale:*
 
 ```
-./scripts/sync-skills.sh --check | tail -1
+./tooling/scripts/sync-skills.sh --check | tail -1
 ```
 
 > `8 skills, all destinations in sync.`
@@ -440,7 +440,7 @@ check that fails if any goes stale:*
 *And installing is optional anyway:*
 
 ```
-./scripts/sync-skills.sh --print spec-interrogate | pbcopy
+./tooling/scripts/sync-skills.sh --print spec-interrogate | pbcopy
 ```
 
 Paste into a third assistant with nothing installed. **Disable the `mattpocock-skills` plugin
@@ -496,7 +496,7 @@ output contract fixes:
 
 Then `specs/PROJ-142.touchpoints.md`. Cover its last entry for the prediction poll, then reveal:
 
-> `(!) myapp/service/reports/legacy.py:210`
+> `(!) tooling/myapp/service/reports/legacy.py:210`
 > `    shares the same query - out of scope,`
 > `    but will break`
 
@@ -606,7 +606,7 @@ grep -n "origin" .semgrep/unbounded-export-query.yml
 
 > `origin: PROJ-142 review, finding 1`
 
-**Beat 4 — the rule catches it the second time.** In `myapp/service/reports/legacy.py:210`,
+**Beat 4 — the rule catches it the second time.** In `tooling/myapp/service/reports/legacy.py:210`,
 delete the `chunk_size=LEGACY_PAGE_SIZE` keyword — the tidy-up the docstring above it warns
 against — then:
 
@@ -621,7 +621,7 @@ semgrep scan --config .semgrep/unbounded-export-query.yml myapp --error --metric
 and the rule carries the name of the review that found it. A correction captured once beats a
 correction made well every week.*
 
-**Restore.** `git checkout -- myapp/service/reports/legacy.py`
+**Restore.** `git checkout -- tooling/myapp/service/reports/legacy.py`
 
 **Gotchas.** Film last in session C. Optionally run `/harvest` live on D6's review first: the
 proposals will differ from `10-harvest.md`, and the stop line must not.
@@ -634,7 +634,7 @@ proposals will differ from `10-harvest.md`, and the stop line must not.
 
 **Setup.** A scratch clone of a small public repository **outside this tree** — one the agent has
 not seen and nobody has primed. Install the skill there with
-`./scripts/sync-skills.sh --print stack-profile`, pasted, rather than linking this repository.
+`./tooling/scripts/sync-skills.sh --print stack-profile`, pasted, rather than linking this repository.
 
 **Beat 1 — run it.** `/stack-profile`. It writes `gates/stack-profile.md` in the scratch repo.
 

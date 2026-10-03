@@ -6,12 +6,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/tools/guard_test_edits.py\"",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/tooling/tools/guard_test_edits.py\"",
             "timeout": 10
           },
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/tools/guard_protected_paths.py\"",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/tooling/tools/guard_protected_paths.py\"",
             "timeout": 10
           }
         ]

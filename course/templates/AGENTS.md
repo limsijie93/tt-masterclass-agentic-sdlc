@@ -31,7 +31,7 @@
 
      One rule: these must be the SAME TOOLS your pre-commit config enforces. Not the same
      arguments — scope differs by design — the same tools, reading the same config.
-     tools/check_commands_sync.py fails the build when they diverge, so this cannot rot
+     tooling/tools/check_commands_sync.py fails the build when they diverge, so this cannot rot
      quietly. -->
 
 Run these before showing me any code. Fix what they report, then tell me what you changed

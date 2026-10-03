@@ -21,17 +21,17 @@ unchanged.
 Quoted verbatim from `specs/PROJ-142.md`. Unticked — these are for the reviewer.
 
 - [ ] `CSV completes under 30s at 1M rows`
-      — `myapp/service/exports/service.py:88`, `tests/test_exports.py:41`
+      — `tooling/myapp/service/exports/service.py:88`, `tooling/tests/test_exports.py:41`
 - [ ] `Returns 202 + job id when async`
-      — `myapp/api/exports/views.py:41`, `tests/test_exports.py:88`
+      — `tooling/myapp/api/exports/views.py:41`, `tooling/tests/test_exports.py:88`
 
 ## Read order
 
-1. `myapp/service/exports/service.py` — the actual change. Chunked query, streamed rows.
-2. `myapp/api/exports/views.py` — the branch that decides synchronous or queued. Reads
+1. `tooling/myapp/service/exports/service.py` — the actual change. Chunked query, streamed rows.
+2. `tooling/myapp/api/exports/views.py` — the branch that decides synchronous or queued. Reads
    naturally once you know what the service now returns.
-3. `myapp/tasks/queue.py` — the worker path. Short.
-4. `tests/test_exports.py` — mechanical, skim.
+3. `tooling/myapp/tasks/queue.py` — the worker path. Short.
+4. `tooling/tests/test_exports.py` — mechanical, skim.
 
 ## Candidate untested paths
 
@@ -39,11 +39,11 @@ Mechanical: changed branches with no corresponding change in a test file. Produc
 `diff-cover` on changed lines, not by judgement — unranked, and with no claim about which
 matters.
 
-- `myapp/tasks/queue.py:12` — the job-execution branch
+- `tooling/myapp/tasks/queue.py:12` — the job-execution branch
 
 ## Not addressed
 
-`myapp/service/reports/legacy.py:210` is out of scope per the spec, and is unchanged.
+`tooling/myapp/service/reports/legacy.py:210` is out of scope per the spec, and is unchanged.
 
 ---
 

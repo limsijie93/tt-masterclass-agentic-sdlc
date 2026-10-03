@@ -75,10 +75,10 @@ jobs:
 
       # Always runs: this repo's own content.
       - name: Skills — portability rules and the chain
-        run: python3 scripts/lint_skills.py --check-agents
+        run: python3 tooling/scripts/lint_skills.py --check-agents
 
       - name: Skills — host symlinks match the canonical directory
-        run: ./scripts/sync-skills.sh --check
+        run: ./tooling/scripts/sync-skills.sh --check
 
       - name: Custom rules — their own unit tests
         # NOT `semgrep --test --config`: that form reports success even with a broken
@@ -86,7 +86,7 @@ jobs:
         run: semgrep test .semgrep/
 
       - name: AGENTS.md Commands and the pre-commit config agree
-        run: python3 tools/check_commands_sync.py
+        run: python3 tooling/tools/check_commands_sync.py
 
       - name: Tests
         run: pytest -q
@@ -94,8 +94,8 @@ jobs:
       # Diff-scoped, so this costs seconds on a normal pull request. `fetch-depth: 0` is
       # already set for this job; without it `origin/main` would not exist and the tool
       # would fall back to a whole-package run rather than pass silently.
-      - name: Mutation gate on myapp/, against what this branch changed
-        run: python3 tools/mutate.py --since origin/${{ github.base_ref || 'main' }}
+      - name: Mutation gate on tooling/myapp/, against what this branch changed
+        run: python3 tooling/tools/mutate.py --since origin/${{ github.base_ref || 'main' }}
 
       # Tier 0, reported as annotations rather than blocking. Both of these warn: the guard
       # because a deliberate test change is legitimate, check_touchpoints because it cannot
@@ -105,12 +105,12 @@ jobs:
       # slices layer. Wiring it here retires the repo's only orphaned script.
       - name: Test edits do not weaken assertions (advisory)
         run: |
-          python3 tools/guard_test_edits.py \
+          python3 tooling/tools/guard_test_edits.py \
             --diff-range "origin/${{ github.base_ref }}...HEAD"
 
       - name: Changed files against the declared touchpoints (advisory)
         run: |
-          python3 tools/check_touchpoints.py \
+          python3 tooling/tools/check_touchpoints.py \
             --base "origin/${{ github.base_ref }}" || true
 
       # The load-bearing line for the whole "same rule, two enforcement points" claim: CI

@@ -69,7 +69,7 @@ to a lesson written down. Read it in numeric order. What to notice in each:
 Every skill works pasted into any assistant. Installing is an optimisation, not a prerequisite.
 
 ```
-./scripts/sync-skills.sh --print spec-interrogate | pbcopy
+./tooling/scripts/sync-skills.sh --print spec-interrogate | pbcopy
 ```
 
 Rather install it? In Claude Code (the terminal, or the Code tab in Claude Desktop):
@@ -99,10 +99,10 @@ this is the shortest path to it:
 
 ```
 make setup && source .venv/bin/activate
-python3 tools/lab.py start 01
+./lab start 01
 ```
 
-Lab 01 hands you a 146-line `AGENTS.md` a generator produced for `myapp/` and asks you to cut
+Lab 01 hands you a 146-line `AGENTS.md` a generator produced for `tooling/myapp/` and asks you to cut
 it under sixty lines by hand. It takes twenty minutes, it needs no agent and no API key, and
 one of the statements in the draft is false — which is the half of the lesson that is not
 about length.
@@ -199,19 +199,19 @@ finished review with one finding deliberately wrong.
 
 ## Two honest things before you clone
 
-**The application here is deliberately tiny, and it is not a product.** `myapp/` is about six
+**The application here is deliberately tiny, and it is not a product.** `tooling/myapp/` is about six
 hundred lines that exist to fail in five specific ways: no auth, no migrations, no deployment, one
 table and a decoy. It was not here for most of this repo's life, and it earned itself in the first
 hour — turning the real tier-1 stack on against real code immediately found a semgrep rule that
 matched none of the actual call sites while passing its own unit tests, and an architecture
 contract that did not forbid what the worked example says it forbids. Both had been green for
 weeks. Every `path:line` the worked example cites now resolves against it, and
-`tests/test_example_consistency.py` fails if one stops resolving.
+`tooling/tests/test_example_consistency.py` fails if one stops resolving.
 
 **One thing here is not on the slides.** The lecture promises a guard in passing — *"a
 pre-execution hook that blocks illegal writes before the file changes"* — and then draws the
 ladder with three rungs, so the mechanism is named and never shown. It exists here:
-[`tools/guard_test_edits.py`](tools/guard_test_edits.py), tier 0. It does not block editing
+[`tooling/tools/guard_test_edits.py`](tooling/tools/guard_test_edits.py), tier 0. It does not block editing
 tests, it blocks *weakening* them, and finding that distinction is the interesting part — a rule
 about intent is not checkable, a rule about assertions is. See the Tier 0 section of the README.
 

@@ -19,7 +19,7 @@ working in this repository.
 ## Repository Structure
 
 ```
-myapp/
+tooling/myapp/
   api/            API layer
     exports/      Exports API
       views.py    Views for exports
@@ -41,10 +41,10 @@ myapp/
   tasks/          Background tasks
     queue.py      Task queue
   settings/       Settings
-tests/            Tests
+tooling/tests/            Tests
 docs/             Documentation
 vendor/           Vendored dependencies
-scripts/          Scripts
+tooling/scripts/          Scripts
 migrations/       Database migrations
 ```
 
@@ -113,7 +113,7 @@ layer directly from the API layer where possible.
 
 ## Testing
 
-Tests live in `tests/`. Run them with pytest. Write unit tests for individual functions and
+Tests live in `tooling/tests/`. Run them with pytest. Write unit tests for individual functions and
 integration tests for workflows. Mock external dependencies. Aim for high coverage. Test edge
 cases. Use fixtures for shared setup. Follow the arrange-act-assert pattern.
 
@@ -158,7 +158,7 @@ the deletions were about length — each one fails a specific test.
 | **Coding Standards**, 15 → 4 | Kept the four that are specific to this codebase and checkable. Cut DRY, SOLID, "meaningful variable names", "avoid premature optimisation" — generic advice the model already has, spending your context window to tell it something it knows. |
 | **Python Best Practices** | Every line is in the training data. Delete the whole section. |
 | **Git Workflow / Deployment** | Generic, and not what an agent needs mid-task. |
-| **Added: the fixture gotcha** | Not in the draft, because a generator cannot know it. `tests/test_exports.py` is slow on purpose and someone will "fix" it by shrinking the fixture, destroying the thing under test. This is the single most valuable line in the pruned file, and a human had to write it. |
+| **Added: the fixture gotcha** | Not in the draft, because a generator cannot know it. `tooling/tests/test_exports.py` is slow on purpose and someone will "fix" it by shrinking the fixture, destroying the thing under test. This is the single most valuable line in the pruned file, and a human had to write it. |
 | **Added: the no-editing-tests rule** | Also not in the draft. The agent will try it, so the prohibition has to be explicit. |
 
 That last pair is the point of the whole exercise. Generation gets you a starting draft in

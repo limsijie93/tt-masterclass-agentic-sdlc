@@ -1,5 +1,5 @@
 <!-- Worked example. In a real repo the block below is written to specs/PROJ-207.answers.md
-     with every `answer:` line empty. Cited paths resolve against myapp/, which is real and
+     with every `answer:` line empty. Cited paths resolve against tooling/myapp/, which is real and
      deliberately minimal. See ./README.md for the canon and path map. -->
 
 # spec-interrogate PROJ-207 — the output
@@ -26,7 +26,7 @@ spec-interrogate PROJ-207
    assumes  403 with somewhere to go
    answer:
 
-4  myapp/service/billing/upgrade.py:44 calls the same entitlement helper.
+4  tooling/myapp/service/billing/upgrade.py:44 calls the same entitlement helper.
    Is changing its behaviour in scope for this ticket?
    blocks   the blast radius, and whether the shared default can move at all
    assumes  out of scope

@@ -9,12 +9,12 @@ what you could not fix.
 
 ```
 pre-commit run --all-files
-python3 scripts/lint_skills.py --check-agents
-./scripts/sync-skills.sh --check
+python3 tooling/scripts/lint_skills.py --check-agents
+./tooling/scripts/sync-skills.sh --check
 semgrep test .semgrep/
-python3 tools/check_commands_sync.py
+python3 tooling/tools/check_commands_sync.py
 pytest -q
-python3 tools/mutate.py --since origin/main
+python3 tooling/tools/mutate.py --since origin/main
 ```
 
 `make tier1` runs all of them. `AGENTS.md` is the source of truth for what they are; the
@@ -23,11 +23,11 @@ Makefile is a shortcut.
 ## Architecture
 
 This repo ships a **deliberately minimal application**, plus the material that teaches
-against it. `myapp/` is not a product: it exists to fail in five specific ways (see
+against it. `tooling/myapp/` is not a product: it exists to fail in five specific ways (see
 `course/demos.md`) and has no auth, no migrations and no deployment. Five kinds of thing live
 here:
 
-- `myapp/` — the application. Layered `api -> service -> repo`, with `tasks` outside that
+- `tooling/myapp/` — the application. Layered `api -> service -> repo`, with `tasks` outside that
   order. The layering is enforced by `.importlinter`, not by this document.
 - `.github/skills/` — the canonical skill files. Real files, and the only copies you edit.
   Each declares its capabilities twice: prose in `## Inputs required`, which is the contract,
@@ -35,15 +35,15 @@ here:
   `lint_skills.py` check 11 fails the build if they do not.
   `build-slice` is the implementation step; it writes `specs/<T>.drift.md`, which
   `code-review` reads. It is the only skill granted a shell. It cannot be evaluated by
-  `evals/` beyond its stop conditions, because the eval invocation allowlists no shell —
-  `evals/README.md` says why.
+  `tooling/evals/` beyond its stop conditions, because the eval invocation allowlists no shell —
+  `tooling/evals/README.md` says why.
 - `.claude/`, `.cursor/`, `.agents/` — symlinks into `.github/skills/`. Never edit through them.
 - `course/templates/` — copy-me shapes. **Stack-neutral: nothing here names a language.**
 - `course/templates/` — one directory per ecosystem, each a fill of those shapes for a fictional
   service. `python/` and `typescript/`.
 - `course/tickets/PROJ-142/` — a worked ticket, start to finish. Fixtures, not code.
 - `course/labs/` — self-guided keyboard time. Several fixtures there are **deliberately wrong** and
-  must stay wrong; `course/labs/AGENTS.md` names them. `tools/lab.py` marks them, and a lab is an
+  must stay wrong; `course/labs/AGENTS.md` names them. `tooling/tools/lab.py` marks them, and a lab is an
   eval case with a human in place of `$EVAL_ENGINE_CMD`.
 
 ## Conventions
@@ -56,9 +56,9 @@ here:
 ## Gotchas
 
 - **"Guard" and "hook" are different things here, deliberately.** A *hook* is a `pre-commit`
-  hook, at commit time. A *guard* is `tools/guard_*.py`, at write time, wired through
+  hook, at commit time. A *guard* is `tooling/tools/guard_*.py`, at write time, wired through
   `.claude/settings.json`. Keeping the words apart matters because
-  `tools/check_commands_sync.py` parses what it calls the hook config, and a second meaning
+  `tooling/tools/check_commands_sync.py` parses what it calls the hook config, and a second meaning
   makes half a dozen sentences in this repo ambiguous.
 
 - **The lecture slides quote several files here verbatim.** `course/templates/python/AGENTS.md` and
@@ -89,4 +89,4 @@ here:
   Gotchas. The deck quotes both verbatim.
 - **Any test, in order to make an implementation pass.** If a test is wrong, say so and stop.
   A suite edited into greenness is worse than no suite. This is no longer only prose:
-  `tools/guard_test_edits.py` checks it at write time and at commit time.
+  `tooling/tools/guard_test_edits.py` checks it at write time and at commit time.

@@ -22,7 +22,7 @@
 # tier-0 guards are wired through, so a reviewer skimming a diff has nothing telling them the
 # stakes are different here.
 #
-# tools/guard_protected_paths.py already refuses AGENT edits to both of these, on the argument
+# tooling/tools/guard_protected_paths.py already refuses AGENT edits to both of these, on the argument
 # that a guard the agent can disable is not a guard. This is the other half of the same
 # argument, one level up: a guard the agent cannot disable, and a human can delete in a pull
 # request nobody looked closely at, is also not a guard. Catch-all review is not guard
@@ -32,4 +32,4 @@
 # teeth until branch protection is configured (three settings, above). It is here so that when
 # there is more than one owner, the split is already drawn at the place it matters.
 /.claude/               @limsijie93
-/tools/guard_*.py       @limsijie93
+/tooling/tools/guard_*.py       @limsijie93

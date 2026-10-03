@@ -1,4 +1,4 @@
-Worked example, second chain. Cited paths resolve against myapp/, which is real and
+Worked example, second chain. Cited paths resolve against tooling/myapp/, which is real and
 deliberately minimal. See ./README.md for the canon.
 
 
@@ -34,13 +34,13 @@ merged before PR #342 was opened.
 
 THE FOUR FILES
 
-  myapp/api/entitlements/views.py           criterion 2
-  myapp/service/entitlements/service.py     criterion 1
-  myapp/repo/entitlements/queries.py        criterion 1
-  tests/test_entitlements.py                both
+  tooling/myapp/api/entitlements/views.py           criterion 2
+  tooling/myapp/service/entitlements/service.py     criterion 1
+  tooling/myapp/repo/entitlements/queries.py        criterion 1
+  tooling/tests/test_entitlements.py                both
 
 Compare that against 04-touchpoints.md, which declared five paths. Four were changed. The
-fifth — myapp/service/billing/upgrade.py:44 — was NOT, because the spec put it out of
+fifth — tooling/myapp/service/billing/upgrade.py:44 — was NOT, because the spec put it out of
 scope and answer 4 said explicitly not to change its behaviour.
 
 Which is the difference from the export ticket, and the reason this second chain earns

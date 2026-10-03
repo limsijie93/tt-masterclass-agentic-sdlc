@@ -30,7 +30,7 @@ spec-interrogate PROJ-207
    answer:  403, and include the upgrade URL. The client already renders an upsell when it
             gets one; it currently never does, which is its own small waste.
 
-4  myapp/service/billing/upgrade.py:44 calls the same entitlement helper.
+4  tooling/myapp/service/billing/upgrade.py:44 calls the same entitlement helper.
    Is changing its behaviour in scope for this ticket?
    blocks   the blast radius, and whether the shared default can move at all
    assumes  out of scope

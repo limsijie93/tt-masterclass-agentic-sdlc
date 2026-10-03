@@ -218,7 +218,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Per-developer overrides. Never committed: it is the file that can weaken the
-# guards, which is why tools/guard_protected_paths.py protects it too.
+# guards, which is why tooling/tools/guard_protected_paths.py protects it too.
 .claude/settings.local.json
 
 # import-linter graph cache
@@ -240,5 +240,5 @@ course/labs/03-the-test-that-lies/.exporter.orig
 specs/LAB-*
 reviews/LAB-*
 
-# Skill ZIPs for Claude Desktop upload, built by scripts/package_skills.py.
+# Skill ZIPs for Claude Desktop upload, built by tooling/scripts/package_skills.py.
 dist/

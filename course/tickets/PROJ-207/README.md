@@ -26,14 +26,14 @@ shown once, in segment 05, and a second copy of it would be a second thing to ke
 ## The canon
 
 Every artifact in this directory agrees on the following, and
-`tests/test_example_consistency.py` enforces it for this chain exactly as it does for the first.
+`tooling/tests/test_example_consistency.py` enforces it for this chain exactly as it does for the first.
 
 | | |
 |---|---|
 | Ticket | `PROJ-207` |
 | Criterion 1 | **Entitlement change visible within 60s** |
 | Criterion 2 | **Returns 403 + upgrade_url when not entitled** |
-| Hazard (out of scope) | `myapp/service/billing/upgrade.py:44` |
+| Hazard (out of scope) | `tooling/myapp/service/billing/upgrade.py:44` |
 | Spec PR / implementation PR | `#341` / `#342` |
 | Commits | `c03b6a`, `5d2f18`, `91ca80`, `b7e4d2` |
 

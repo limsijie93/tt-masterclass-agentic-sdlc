@@ -14,7 +14,7 @@ Three findings.
 
 ### 1 · blocking: the gate inherits a fail-open default one commit out of three
 
-`myapp/api/entitlements/views.py` at commit 91ca80 calls the shared helper without passing
+`tooling/myapp/api/entitlements/views.py` at commit 91ca80 calls the shared helper without passing
 `default`, so it inherits `default=True` and grants the feature to any account whose
 entitlement rows have not been written yet — which the spec's own Goal says is a real state
 for about a minute after self-serve signup.
@@ -24,7 +24,7 @@ resolved is that nothing prevents the next call site from making the same mistak
 signature is the hazard: it is the only function in this module whose most dangerous argument
 is optional, and the safe value is not the default.
 
-`myapp/service/billing/upgrade.py:44` is the second caller and passes `default=True`
+`tooling/myapp/service/billing/upgrade.py:44` is the second caller and passes `default=True`
 explicitly, correctly, for its own reasons. So the default cannot simply be flipped, and the
 fix has to be a rule about call sites rather than a change to the signature.
 
@@ -48,7 +48,7 @@ served for up to sixty more seconds. For a downgrade — which is the reported b
 the customer keeps a paid feature for a minute after losing it.
 
 Acceptance criterion 2 is met. Criterion 1 is met for grants and not for revocations, and the
-test at `tests/test_entitlements.py:48` only exercises the grant direction.
+test at `tooling/tests/test_entitlements.py:48` only exercises the grant direction.
 
 **Suggested:** invalidate on plan change rather than relying on the TTL.
 

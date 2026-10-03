@@ -26,7 +26,7 @@
 #
 # So the identity lives one level down: every rule is configured in exactly ONE place
 # (pyproject.toml, .importlinter, .semgrep/), and no flag here changes WHAT is enforced —
-# only which files are looked at. tools/check_commands_sync.py fails the build if the tool
+# only which files are looked at. tooling/tools/check_commands_sync.py fails the build if the tool
 # SET here and the Commands section of AGENTS.md diverge.
 #
 # Every tier-1 hook below is a `local` hook whose `entry` is the literal command string, so

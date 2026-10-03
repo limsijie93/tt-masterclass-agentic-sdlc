@@ -15,8 +15,8 @@ rules:
       # in a different module: a shared helper, an optional argument, and a default that is
       # the dangerous value. One sighting is an incident. Two is how the team writes code.
       #
-      # It is also the case where the bug cannot be fixed. myapp/api/entitlements/views.py
-      # needs default=False and myapp/service/billing/upgrade.py needs default=True, both for
+      # It is also the case where the bug cannot be fixed. tooling/myapp/api/entitlements/views.py
+      # needs default=False and tooling/myapp/service/billing/upgrade.py needs default=True, both for
       # good reasons, so flipping the signature trades one caller's bug for the other's. The
       # residual risk is a THIRD caller inheriting silently, and a call-site gate is the only
       # thing that addresses a residual rather than an instance.
@@ -28,7 +28,7 @@ rules:
       rule-family: fail-open-entitlement
       origin: PROJ-207 review, finding 1
     # Both call forms, for the reason unbounded-export-query documents at length: every real
-    # caller in myapp/ writes `service.has_feature(...)`, and a pattern that only matches the
+    # caller in tooling/myapp/ writes `service.has_feature(...)`, and a pattern that only matches the
     # unqualified form matches nothing while its fixture passes.
     patterns:
       - pattern-either:

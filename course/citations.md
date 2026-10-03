@@ -14,7 +14,7 @@ Read this before putting a figure on a slide or in a skill body.
 | The same pull request reviewed twice can produce different verdicts | `code-review/SKILL.md`, `README.md`, slide 29 script | **Semgrep 2025** — same prompt, same codebase, *"vastly different results"* |
 | An AI reviewer's findings are mostly false positives; it is not an oracle | `08-review.md` (planted), slides 32–33 | **Semgrep 2025** — 14% true positive, 86% false positive |
 | A long context file degrades what the agent does; keep it short | `README.md`, `course/templates/AGENTS.md`, `00-agents-draft.md` | **Drew Breunig, *How Long Contexts Fail*** — poisoning, distraction, confusion, clash |
-| A flaky gate destroys trust in about a week | `README.md` ×2, `evals/README.md`, `code-review/SKILL.md` | **Graphite** — ~5% false positives had *"a corrosive effect on engineers' trust"*. Direction confirmed; "a week" is ours |
+| A flaky gate destroys trust in about a week | `README.md` ×2, `tooling/evals/README.md`, `code-review/SKILL.md` | **Graphite** — ~5% false positives had *"a corrosive effect on engineers' trust"*. Direction confirmed; "a week" is ours |
 | Forty comments is how a review bot gets muted in two weeks | `code-review/SKILL.md` | **Graphite** — same source, same caveat: their conclusion was opt-in and asynchronous, never blocking |
 | Layered defence is required because capability gaps are unpredictable | the tier ladder, `README.md` | **CS146S week 1, the Swiss Cheese Model** — see below |
 | +98% more PRs merged · +91% longer review · flat DORA | slide 7 | `unsourced here` — on-slide attribution to *Faros AI telemetry, 2026* only |

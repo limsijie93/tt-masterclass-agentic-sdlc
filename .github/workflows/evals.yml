@@ -7,7 +7,7 @@
 #
 # It REPORTS. It is not a required check, and it must not become one: an eval is an agent run,
 # the same input can produce a different verdict, and a flaky gate destroys trust in about a
-# week. See evals/README.md for the full argument and for the human-gate that replaces it.
+# week. See tooling/evals/README.md for the full argument and for the human-gate that replaces it.
 
 name: evals
 
@@ -26,11 +26,11 @@ on:
     paths:
       - ".github/skills/**"
       - ".claude/settings.json"
-      - "tools/guard_*.py"
-      - "tools/eval_assertions.py"
-      - "tools/run_evals.py"
+      - "tooling/tools/guard_*.py"
+      - "tooling/tools/eval_assertions.py"
+      - "tooling/tools/run_evals.py"
       - "AGENTS.md"
-      - "evals/**"
+      - "tooling/evals/**"
 
 permissions:
   contents: read
@@ -75,7 +75,7 @@ jobs:
             --output-format json
         if: env.ANTHROPIC_API_KEY != ''
         run: |
-          python3 tools/run_evals.py --all | tee eval-run.txt
+          python3 tooling/tools/run_evals.py --all | tee eval-run.txt
           {
             echo "## Eval results"
             echo
@@ -93,6 +93,6 @@ jobs:
             echo "## Eval results"
             echo
             echo "No key configured, so no skill was executed."
-            echo "\`scripts/lint_skills.py\` still ran in \`review.yml\`: the contracts are"
+            echo "\`tooling/scripts/lint_skills.py\` still ran in \`review.yml\`: the contracts are"
             echo "still checked structurally. Only the behavioural check was skipped."
           } >> "$GITHUB_STEP_SUMMARY"

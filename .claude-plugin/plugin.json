@@ -1,6 +1,6 @@
 {
   "name": "agentic-sdlc",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The eight skills from the Agentic SDLC masterclass: spec-interrogate, spec-draft, build-slice, pr-brief, code-review, harvest, stack-profile, gates-draft.",
   "author": { "name": "Si Jie Lim" },
   "homepage": "https://github.com/limsijie93/tt-masterclass-agentic-sdlc",

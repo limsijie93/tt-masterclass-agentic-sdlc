@@ -28,7 +28,7 @@ spec-interrogate PROJ-142
    answer:  1M rows. Largest account today is 840k and growing ~4%/month,
             so 1M is next quarter, not hypothetical.
 
-4  myapp/service/reports/legacy.py:210 calls the same query builder.
+4  tooling/myapp/service/reports/legacy.py:210 calls the same query builder.
    Is changing it in scope for this ticket?
    blocks   the blast radius, and whether this is one PR or two
    assumes  out of scope

@@ -47,7 +47,7 @@ End the section with the capability contract, in this shape:
 That sentence is the contract and it travels to every host. The `allowed-tools` line in the
 frontmatter is one host's spelling of the same claim, and it is the perishable half — tool
 names are host vocabulary, which is why they are confined to frontmatter and banned from the
-body. `scripts/lint_skills.py` checks the two agree: a skill whose prose says it runs no
+body. `tooling/scripts/lint_skills.py` checks the two agree: a skill whose prose says it runs no
 commands and whose allowlist hands it a shell fails the build.
 
 ## Procedure
@@ -90,4 +90,4 @@ Write them as observed failures, not as generic advice.
        portable, and portability is the entire point for a team split across three assistants.
      - No absolute paths. No /Users/, no /home/, no C:\, no ~/.
      - Inputs declared. Output shape fixed.
-     scripts/lint_skills.py checks all four and fails the build. -->
+     tooling/scripts/lint_skills.py checks all four and fails the build. -->

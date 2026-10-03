@@ -20,16 +20,16 @@ written yet".
 1. **Entitlement change visible within 60s**
    Resolution happens server-side per request behind a cache whose TTL is sixty seconds. A plan
    change invalidates immediately rather than waiting out the window.
-   *Verified by* `tests/test_entitlements.py:48`, at the boundary: TTL-1 still cached, TTL not.
+   *Verified by* `tooling/tests/test_entitlements.py:48`, at the boundary: TTL-1 still cached, TTL not.
 
 2. **Returns 403 + upgrade_url when not entitled**
    A refused request carries the upgrade URL for the flag it refused, so the client's existing
    upsell path has something to render.
-   *Verified by* `tests/test_entitlements.py:72`.
+   *Verified by* `tooling/tests/test_entitlements.py:72`.
 
 ## Out of scope
 
-- **`myapp/service/billing/upgrade.py:44`.** It calls the same helper and must keep its current
+- **`tooling/myapp/service/billing/upgrade.py:44`.** It calls the same helper and must keep its current
   behaviour: optimistic when entitlement is unknown. Per answer 4, being wrong in the generous
   direction is the cheaper error on an upgrade page, and this ticket does not change it.
 - **The shared default itself.** `has_feature(..., default=True)` stays as it is. The fix goes
@@ -43,16 +43,16 @@ written yet".
 
 From `04-touchpoints.md`, unchanged:
 
-- `myapp/api/entitlements/views.py:37` — entry point
-- `myapp/service/entitlements/service.py:89` — the shared helper
-- `myapp/service/entitlements/service.py:70` — cache and TTL
-- `myapp/repo/entitlements/queries.py:43` — the rows
-- `tests/test_entitlements.py`
+- `tooling/myapp/api/entitlements/views.py:37` — entry point
+- `tooling/myapp/service/entitlements/service.py:89` — the shared helper
+- `tooling/myapp/service/entitlements/service.py:70` — cache and TTL
+- `tooling/myapp/repo/entitlements/queries.py:43` — the rows
+- `tooling/tests/test_entitlements.py`
 
 ## Done when
 
 Both criteria are verified by the cited tests, `lint-imports` still passes, and
-`myapp/service/billing/upgrade.py` is unchanged in the diff.
+`tooling/myapp/service/billing/upgrade.py` is unchanged in the diff.
 
 That last clause is an acceptance criterion in everything but name: the out-of-scope file being
 absent from the diff is checkable, and a reviewer should not have to notice it.

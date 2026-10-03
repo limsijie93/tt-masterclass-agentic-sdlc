@@ -54,7 +54,7 @@ Two things are being measured, and only one of them is the code:
 ```
 make setup && source .venv/bin/activate
 git checkout -b lab/106
-./scripts/sync-skills.sh --print build-slice | pbcopy
+./tooling/scripts/sync-skills.sh --print build-slice | pbcopy
 ```
 
 Paste that in, then the spec and touchpoints from this directory. If the skills are installed,
@@ -77,16 +77,16 @@ git diff main..HEAD --name-only                # is legacy.py in there? it must 
 ```
 
 ```
-python3 tools/lab.py check 06
+./lab check 06
 ```
 
 **What the checker grades, and what it deliberately does not.** It grades
 `specs/LAB-106.drift.md`, because that is this lab's artifact. It does not grade your commits or
 your diff, and the reason is worth thirty seconds: the first version of this lab did, with
-`git log ... | grep -qi criterion` and a check that `tests/test_exports.py` appeared in the
+`git log ... | grep -qi criterion` and a check that `tooling/tests/test_exports.py` appeared in the
 diff. Both **passed on an untouched checkout** — there is no diff, so nothing forbidden is in
 it, and the suite was already green. A check that passes when you have done nothing is the
-third sighting of that shape in this repository, and `tests/test_labs_are_wired.py` caught it
+third sighting of that shape in this repository, and `tooling/tests/test_labs_are_wired.py` caught it
 before the lab shipped.
 
 ## What good looks like
@@ -110,7 +110,7 @@ what to do about each differs:
 |---|---|---|
 | `ExportResponse` — the dataclass gains a field | The touchpoints name `views.py:41`, the 202 branch. The dataclass is thirty lines above it in the same file | Declare it. Same file, different reason for changing — that is exactly the kind of change a reviewer cannot infer from a diff |
 | `ROWS_PER_SECOND` as a new constant | The spec names it and does not say where it lives | Declare it, with the clause: *the threshold it divides already lives here* |
-| `myapp/service/reports/legacy.py` | It calls the same builder and Out of scope names it | **Do not touch it.** If you did, the drift file is the least of it |
+| `tooling/myapp/service/reports/legacy.py` | It calls the same builder and Out of scope names it | **Do not touch it.** If you did, the drift file is the least of it |
 
 An empty `## Outside the touchpoints` on this lab means you did not look. All three of those
 land outside a three-line touchpoints list, and the list is not wrong — grounding happened
@@ -122,7 +122,7 @@ touch that the plan never mentioned?* Without this file it infers that from the 
 finds a file appearing where the spec did not expect one — and does **not** find the file the
 spec *did* expect, changed in a way nothing predicted. In the worked ticket that second kind is
 precisely what broke: four files changed, all inside the plan, and
-`myapp/service/reports/legacy.py` was not among them, which is exactly why it broke.
+`tooling/myapp/service/reports/legacy.py` was not among them, which is exactly why it broke.
 
 **The two-strike rule, which you may not hit and should know anyway.** If two corrections have
 not made the criterion pass, stop, write the strike-out into the drift file, and re-spec. It is

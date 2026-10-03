@@ -44,9 +44,9 @@ and a gate that flakes is muted in about a week.
 ## Run it, installing nothing
 
 ```bash
-./scripts/sync-skills.sh --print spec-interrogate | pbcopy    # paste into any assistant
-./scripts/sync-skills.sh                                      # or install: one file, every host
-make setup && python3 tools/lab.py                            # six labs; first three need no key
+./tooling/scripts/sync-skills.sh --print spec-interrogate | pbcopy    # paste into any assistant
+./tooling/scripts/sync-skills.sh                                      # or install: one file, every host
+make setup && ./lab                            # six labs; first three need no key
 ```
 
 ## The five moves — pick the one that maps to a ticket you have

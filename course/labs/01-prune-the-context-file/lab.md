@@ -40,7 +40,7 @@ assertions:
 
 ## Brief
 
-A generator pointed at `myapp/` produced `draft.md`. It reads well. It is also the shape of
+A generator pointed at `tooling/myapp/` produced `draft.md`. It reads well. It is also the shape of
 context file the lecture spends a segment arguing against: long enough that the instruction
 that matters is crowded out, and confident about things that are not true.
 
@@ -67,9 +67,9 @@ wc -l course/labs/01-prune-the-context-file/pruned.md
 ```
 
 Then cut `pruned.md` by hand. By hand is the exercise — this is the one step in the whole
-pipeline that does not delegate, and the reason is in `python3 tools/lab.py solution 01`.
+pipeline that does not delegate, and the reason is in `./lab solution 01`.
 
-You may read `myapp/` and anything in this repository while you do it. You will need to: one
+You may read `tooling/myapp/` and anything in this repository while you do it. You will need to: one
 of the checks below cannot be satisfied without looking at what actually enforces the layering.
 
 It is called `pruned.md` and not `AGENTS.md` for a boring reason worth knowing: a file named
@@ -77,7 +77,7 @@ It is called `pruned.md` and not `AGENTS.md` for a boring reason worth knowing: 
 lab fixture that quietly becomes a real instruction file is a bad joke to play on yourself.
 
 ```
-python3 tools/lab.py check 01
+./lab check 01
 ```
 
 ## What good looks like
@@ -118,7 +118,7 @@ to watch for something a machine is already watching for, which is tier-3 attent
 tier-1 work.
 
 **The decoy.** The `analytics.py` gotcha looks like trivia and is the most expensive line in
-the file. `myapp/repo/analytics.py` and `myapp/repo/exports/queries.py` both select on the
+the file. `tooling/myapp/repo/analytics.py` and `tooling/myapp/repo/exports/queries.py` both select on the
 account column and the analytics table is smaller, so an agent asked to export an account's
 rows reaches for the wrong one and produces a confident CSV with the wrong number of rows in
 it. Nothing else in the repository says so. That is the definition of a line that earns its

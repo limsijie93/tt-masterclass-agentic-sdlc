@@ -6,7 +6,7 @@ anything worth staying for.
 
 `make setup` is the same thing without a container and works fine on a machine that already
 has Python 3.12. This exists for the machine that does not, and for Windows, where the
-alternative is explaining that `scripts/sync-skills.sh` needs symlink support and Developer
+alternative is explaining that `tooling/scripts/sync-skills.sh` needs symlink support and Developer
 Mode, or `--copy`.
 
 ## What it gives you
@@ -28,7 +28,7 @@ container nobody should run.
 Then:
 
 ```
-python3 tools/lab.py
+./lab
 ```
 
 ## Two honest limits

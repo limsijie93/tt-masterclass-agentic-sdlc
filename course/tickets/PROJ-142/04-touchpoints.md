@@ -1,5 +1,5 @@
 <!-- Worked example. In a real repo this is specs/PROJ-142.touchpoints.md. Cited paths resolve
-     against myapp/, which is real and deliberately minimal.
+     against tooling/myapp/, which is real and deliberately minimal.
      See ./README.md for the canon and the slide-path-to-real-path map. -->
 
 # specs/PROJ-142.touchpoints.md
@@ -10,12 +10,12 @@ shows this block below the separator, with the last entry revealed on a second b
 ```
 touchpoints - PROJ-142
 
-myapp/api/exports/views.py:41           entry point
-myapp/service/exports/service.py:88     query builder
-myapp/tasks/queue.py:12                 async path
-tests/test_exports.py                   3 tests exist
+tooling/myapp/api/exports/views.py:41           entry point
+tooling/myapp/service/exports/service.py:88     query builder
+tooling/myapp/tasks/queue.py:12                 async path
+tooling/tests/test_exports.py                   3 tests exist
 
-(!) myapp/service/reports/legacy.py:210
+(!) tooling/myapp/service/reports/legacy.py:210
     shares the same query - out of scope,
     but will break
 ```
@@ -32,7 +32,7 @@ own file rather than a paragraph inside the spec:
 
 ## The line that matters
 
-`myapp/service/reports/legacy.py:210` is not in the ticket. Nobody asked for it. It was found by
+`tooling/myapp/service/reports/legacy.py:210` is not in the ticket. Nobody asked for it. It was found by
 searching for other callers of the query builder at `service.py:88`, which is step 2 of the
 grounding pass and the step most likely to get skipped because nothing looked risky.
 
@@ -45,6 +45,6 @@ diff, and it converts a Friday-night incident into a conversation on a Tuesday.
 Ten citations at most, and this has five. A grounding pass that lists every file a search matched
 has produced a directory listing, not a map — and a map nobody reads bounds nothing.
 
-Note also that `myapp/repo/` appears nowhere here. The export reads through the service layer, and
+Note also that `tooling/myapp/repo/` appears nowhere here. The export reads through the service layer, and
 the architecture contract in `course/templates/importlinter.example.ini` is what guarantees it keeps
 doing so when the obvious optimisation is to reach past it.

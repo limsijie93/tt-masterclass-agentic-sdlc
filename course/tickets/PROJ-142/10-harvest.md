@@ -66,5 +66,5 @@ It does not commit anything. `harvest` has no write path into `AGENTS.md`, the s
 config file, or a skill — and its stop conditions say to halt if it finds itself editing one.
 
 An agent that edits the rules it runs under has removed the reason those rules are trustworthy.
-That is the same objection that makes `tools/guard_protected_paths.py` refuse agent edits to the
+That is the same objection that makes `tooling/tools/guard_protected_paths.py` refuse agent edits to the
 guard machinery, one level up: here the protected thing is not a script but the team's agreement.
