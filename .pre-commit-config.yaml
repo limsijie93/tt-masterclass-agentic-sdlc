@@ -83,12 +83,15 @@ repos:
         # --exclude=.semgrep is load-bearing: the rule fixtures contain deliberate
         # violations marked `ruleid:`, and a scan that walks them fails on purpose-built
         # bait. The fixtures are exercised by `semgrep test .semgrep/` instead.
+        # --exclude=teach is the same: its start overlay is the practice app before the fix,
+        # exactly what the rules were written to catch. (Learner copies have no teach folder.)
         args:
           [
             "scan",
             "--config",
             ".semgrep/",
             "--exclude=.semgrep",
+            "--exclude=teach",
             "--error",
             "--quiet",
             "--skip-unknown-extensions",

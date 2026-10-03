@@ -118,7 +118,7 @@ code — the failure mode that gets a tool muted.
 So what ports is the **decision** and the **triage**, never the pattern. The two rules share an
 id stem, a message and a `rule-family` tag; each keeps its own patterns and its own fixture.
 
-Worked examples: `.semgrep/unbounded-export-query.yml` (Python) and
+Worked examples, on the companion repo's `solution` branch: `.semgrep/unbounded-export-query.yml` (Python) and
 `.semgrep/ts/unbounded-export-query.yml` (TypeScript). Both are unit-tested, and both were
 verified by sabotage rather than by passing.
 

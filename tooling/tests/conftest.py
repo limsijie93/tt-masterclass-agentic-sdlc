@@ -19,3 +19,12 @@ INSTRUCTOR = (REPO / "teach").is_dir()
 instructor_only = pytest.mark.skipif(
     not INSTRUCTOR, reason="needs the answer keys, which live in the instructor repo"
 )
+
+# The learner repo's main branch is the starting point: the worked chains and the code they cite
+# live on its solution branch. A test about those answers runs here and on solution, and skips on
+# main, where there is nothing to check yet.
+SOLVED = (REPO / "course" / "tickets" / "PROJ-142" / "05-spec.md").exists()
+
+solution_only = pytest.mark.skipif(
+    not SOLVED, reason="checks the worked answers, which live on the solution branch"
+)

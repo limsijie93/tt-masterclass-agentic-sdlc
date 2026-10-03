@@ -63,7 +63,7 @@ and when it fails you cannot tell whether the skill regressed or the judge did.
 The tempting design is to feed the worked ticket in and compare the output to
 `course/tickets/PROJ-142/02-interrogation.md`. That is non-deterministic **and** tautological — it
 asserts the model reproduces one hand-polished past output. Apply this repo's own test from
-[`09-tests-that-lie.md`](../../course/tickets/PROJ-142/09-tests-that-lie.md): *delete the thing under
+[`09-tests-that-lie.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/09-tests-that-lie.md): *delete the thing under
 test, does the check still pass?*
 
 Three rules follow:

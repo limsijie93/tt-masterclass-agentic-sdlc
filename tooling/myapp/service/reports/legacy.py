@@ -1,28 +1,4 @@
-"""The legacy report page. Retiring in Q4. Do not build anything new on this.
-
-WHY THIS FILE IS IN A TEACHING REPOSITORY AT ALL
-
-It is the `(!)` on the touchpoints list. PROJ-142 was an export performance fix that never
-intended to touch reporting — and this module calls the same query builder, so it was in the
-blast radius from the start. Grounding found it by searching for other callers of
-`build_export_query()`, nobody had asked about it, and a human then decided it was out of
-scope but must not regress.
-
-That decision is recorded in `course/tickets/PROJ-142/05-spec.md` under `Known dependents / blast
-radius`, and it still was not enough: the change shipped with a `chunk_size` default that
-meant unbounded, this caller was not updated, and a previously-bounded query became
-unbounded. That is finding 1 of `08-review.md`, the blocking one.
-
-The follow-up has since landed — the call at the bottom of this file passes `chunk_size`
-explicitly. `.semgrep/unbounded-export-query.yml` is what stops it silently regressing again.
-
-WHAT MAKES IT LOOK LIKE THIS
-
-It is long, it repeats itself, and it carries three label maps that should be one. That is
-deliberate and it is not padding: a file nobody wants to touch is how it got that way, and the
-reason `AGENTS.md` has a `Do not touch` section is files exactly like this one. Read it as an
-exhibit, not as a model.
-"""
+"""The legacy report page. Retiring in Q4. Do not build anything new on this."""
 
 from __future__ import annotations
 
@@ -69,8 +45,7 @@ ACCEPTED_DATE_FORMATS = (
     "%Y%m%d",
 )
 
-#: The old page size. Before PROJ-142 this was the only bound on a legacy report query, and
-#: it is the value the follow-up restored as an explicit argument.
+#: The page size. The only bound on a legacy report query.
 LEGACY_PAGE_SIZE = 1_000
 
 
@@ -167,21 +142,13 @@ def iter_rows(
     end: date | None,
 ) -> Iterator[LegacyReportRow]:
     """Stream rows through the legacy formatting, applying the Python-side date filter."""
-    rows = queries.fetch_export_rows(
-        connection,
-        query.account_id,
-        chunk_size=query.chunk_size,
-    )
+    rows = queries.fetch_export_rows(connection, query.account_id, limit=query.limit)
     for row in rows:
         if within_range(row, start, end):
             yield to_legacy_row(row)
 
 
 # --- The render path ------------------------------------------------------------------------
-#
-# Everything above is formatting. This is the part that matters to PROJ-142, because it is the
-# second caller of the shared builder, and the whole reason grounding flagged this file before
-# a line of the export change was written.
 
 
 def render_report(
@@ -191,21 +158,6 @@ def render_report(
     start: date | None = None,
     end: date | None = None,
 ) -> list[LegacyReportRow]:
-    """Render the legacy report for one account.
-
-    THE CALL BELOW IS THE ONE THE REVIEW WAS ABOUT.
-
-    `chunk_size` is passed explicitly, and it is passed as `LEGACY_PAGE_SIZE` rather than the
-    export's default, because that is the bound this page had before PROJ-142 existed. Letting
-    it default here is what made a bounded query unbounded, shipped, and became the blocking
-    finding — the parameter means "no limit" when omitted, which is a footgun aimed at every
-    existing caller.
-
-    Do not remove the keyword to tidy the call up. `.semgrep/unbounded-export-query.yml`
-    fails the build if you do, which is the only reason this cannot silently happen twice.
-
-    Grounding marked this line `(!)` before any code existed, the spec put it out of scope, and
-    the review still had to catch it. Writing a hazard down converts an incident into a comment.
-    """
-    query = service.build_export_query(account_id, chunk_size=LEGACY_PAGE_SIZE)
+    """Render the legacy report for one account, one page at a time."""
+    query = service.build_export_query(account_id, limit=LEGACY_PAGE_SIZE)
     return list(iter_rows(connection, query, start, end))

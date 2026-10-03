@@ -15,6 +15,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from conftest import SOLVED
+
 REPO = Path(__file__).resolve().parents[2]
 
 
@@ -28,7 +30,8 @@ def _git(*args: str, stdin: str | None = None) -> list[str]:
 TRACKED = [f for f in _git("ls-files") if f]
 # Every tracked doc. Tracked only, so a learner's own gitignored lab work (pruned.md, report.md)
 # never fails the check; teach/ simply matches nothing in the learner copy.
-DOCS = tuple(f for f in TRACKED if f.endswith(".md"))
+# teach/start/ holds files that resolve at their published paths; the start copy checks them.
+DOCS = tuple(f for f in TRACKED if f.endswith(".md") and not f.startswith("teach/start/"))
 
 LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 HEADING = re.compile(r"^#{1,6}\s+(.*)$", re.MULTILINE)
@@ -88,8 +91,17 @@ def test_every_anchor_names_a_heading() -> None:
 # placeholder ends the claim at the folder before its first `*`, `<` or `{`.
 WRITTEN_PATH = re.compile(r"(?<![\w./-])((?:course|teach|tooling)/[A-Za-z0-9_./-]*)")
 # Fixtures whose paths are made up on purpose, and the copy-me fills, whose paths describe a
-# learner's own repository rather than this one.
-NOT_SCANNED = re.compile(r"^(tooling/tests/.*\.py|course/templates/(python|typescript)/.*)$")
+# learner's own repository rather than this one, and the start overlay (see DOCS).
+NOT_SCANNED = re.compile(
+    r"^(tooling/tests/.*\.py|course/templates/(python|typescript)/.*|teach/start/.*)$"
+)
+
+
+SOLUTION_ONLY = (
+    "course/tickets/PROJ-142/",
+    "course/tickets/PROJ-207/",
+    "course/labs/06-implement-one-criterion",
+)
 
 
 def test_every_written_path_exists() -> None:
@@ -110,7 +122,14 @@ def test_every_written_path_exists() -> None:
                 claims.setdefault(written, set()).add(name)
     # A learner's own lab output is named in the briefs and gitignored; it is allowed to be absent.
     ignored = set(_git("check-ignore", "--stdin", stdin="\n".join(claims)))
-    missing = {p: sorted(where) for p, where in claims.items() if p not in ignored}
+    # On the learner main branch the worked answers are not there yet: docs describe them as
+    # being on the solution branch, and that is where the path resolves.
+    on_solution = () if SOLVED else SOLUTION_ONLY
+    missing = {
+        p: sorted(where)
+        for p, where in claims.items()
+        if p not in ignored and not p.startswith(on_solution)
+    }
     assert not missing, f"written paths that do not exist: {missing}"
 
 

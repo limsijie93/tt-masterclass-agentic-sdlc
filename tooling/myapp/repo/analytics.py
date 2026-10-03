@@ -1,12 +1,6 @@
-"""Aggregated analytics rollups. NOT the export source, despite the name.
+"""Aggregated analytics rollups for the dashboard.
 
-This table holds pre-aggregated daily totals for the dashboard. It is smaller than
-`export_row`, it is one row per account per day, and querying it for an export produces a
-plausible-looking CSV with the wrong number of rows in it.
-
-It is here on purpose. An agent given the PROJ-142 ticket with no context file and no spec
-reaches for the table whose name sounds most like a report, and this is that table — see D1
-in course/demos.md. Removing it removes the cold open.
+Pre-aggregated daily totals: one row per account per day.
 """
 
 from __future__ import annotations

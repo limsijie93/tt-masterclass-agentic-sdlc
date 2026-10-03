@@ -1,12 +1,7 @@
 """The feature-gate endpoint.
 
-The top layer. It turns an entitlement answer into a response and nothing else: no table
-access, no cache decisions, no plan logic. `.importlinter` forbids importing `myapp.repo` from
-here, and the temptation is real — reading the entitlements table directly is the shortest way
-to answer this and the wrong way to build it, because the freshness promise lives in the
-service and a second reader silently opts out of it.
-
-There is no web framework here, for the reason `tooling/myapp/api/exports/views.py` gives.
+The top layer. It turns an entitlement answer into a response and nothing else. `.importlinter`
+forbids importing `myapp.repo` from here.
 """
 
 from __future__ import annotations
@@ -16,7 +11,7 @@ from dataclasses import dataclass
 
 from myapp.service.entitlements import service
 
-#: Where a blocked customer is sent. Acceptance criterion 2 names this field by name.
+#: Where a blocked customer is sent.
 UPGRADE_PATH = "/billing/upgrade"
 
 
@@ -39,13 +34,7 @@ def feature_view(
     account_id: int,
     flag: str,
 ) -> FeatureResponse:
-    """Answer one feature-gate question for one account.
-
-    `default=False` is passed explicitly. The helper's own default is True, and a view is the
-    one place where inheriting it would hand an unpaid feature to anyone whose entitlement
-    rows have not been written yet.
-    """
-    granted = service.has_feature(connection, account_id, flag, default=False)
-    if not granted:
+    """Answer one feature-gate question for one account."""
+    if not service.has_feature(connection, account_id, flag):
         return FeatureResponse(status=403, granted=False, upgrade_url=upgrade_url_for(flag))
     return FeatureResponse(status=200, granted=True)

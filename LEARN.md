@@ -33,9 +33,9 @@ Open [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) and read three files
 
 1. [`01-ticket.md`](course/tickets/PROJ-142/01-ticket.md) — a ticket that is not badly written, just
    normal, and missing everything an implementer needs.
-2. [`02-interrogation.md`](course/tickets/PROJ-142/02-interrogation.md) — the five questions that were
+2. [`02-interrogation.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/02-interrogation.md) — the five questions that were
    missing, and the line where the agent **stops**.
-3. [`08-review.md`](course/tickets/PROJ-142/08-review.md) — three findings on the finished work. One of
+3. [`08-review.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/08-review.md) — three findings on the finished work. One of
    them is wrong. See if you can tell which before you look it up.
 
 That is the whole lecture in three files: the input was the problem, stopping is the mechanism,
@@ -46,6 +46,9 @@ and the reviewer is not an oracle.
 ## The hour after
 
 ### 1 · Read one ticket, end to end (~15 min)
+
+**The worked chain is on the `solution` branch.** The links below open it on GitHub, or run
+`git switch solution`. On `main` you have the ticket itself, to try first.
 
 [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) is one ticket from a vague bug report to reviewed code
 to a lesson written down. Read it in numeric order. What to notice in each:
@@ -115,10 +118,10 @@ assistant rather than you, says so.
 
 Two files here are deliberately wrong, because judgment is built by reps and not by explanation.
 
-- **[`08-review.md`](course/tickets/PROJ-142/08-review.md)** — one of the three findings is a false
+- **[`08-review.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/08-review.md)** — one of the three findings is a false
   positive. Work out which and *why it is wrong* before checking. The answer
   is not in this repository: commit to yours, then watch chapter 3.2, which reveals it.
-- **[`09-tests-that-lie.md`](course/tickets/PROJ-142/09-tests-that-lie.md)** — the first test verifies
+- **[`09-tests-that-lie.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/09-tests-that-lie.md)** — the first test verifies
   nothing. The check that catches it in one step: *delete the function under test. Does this
   still pass?*
 
@@ -194,7 +197,7 @@ If you want a calibration check before spending the afternoon, do
 a pull request someone else planted: three real findings, and one thing you will want to flag
 that is wrong for the characteristic reason. Marked against a key, so you find out.
 
-[`08-review.md`](course/tickets/PROJ-142/08-review.md) is the same idea to read rather than to do — a
+[`08-review.md`](https://github.com/limsijie93/tt-masterclass-agentic-sdlc/blob/solution/course/tickets/PROJ-142/08-review.md) is the same idea to read rather than to do — a
 finished review with one finding deliberately wrong.
 
 ## Two honest things before you clone

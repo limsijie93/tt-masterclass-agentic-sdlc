@@ -17,25 +17,30 @@ ground the original seven do not. D13–D17 give the five skills that had no dem
 **Nothing here has been filmed.** `ready` below means the commands exist and produce the output
 quoted beside them; it does not mean an asset exists.
 
-| | Demo | Chapter | Skill / artifact | Status |
-|---|---|---|---|---|
-| D1 | Cold open — the confident wrong answer | 0.2 | `tooling/myapp/repo/analytics.py` (the decoy) | **ready** |
-| D2 | Skill portability — one file, two tools | 1.1 | all skills | **ready** — see D11, which is the honest version |
-| D3 | `AGENTS.md` A/B | 2.1 | `00-agents-draft.md` | **ready** |
-| D4 | The architecture contract fails | 2.2 | `gates-draft` | **ready** — beats lifted from lab 02 |
-| D5 | Invented API + scope creep | 2.3 | `build-slice` | **ready** |
-| D6 | Tier-2 triaged review | 3.2 | `code-review` | **ready** — the branch is lab 05 |
-| D7 | The tautological test | 3.3 | — | **ready** — a still, from `09-tests-that-lie.md` |
-| **D8** | **The guard blocks a weakened test** | **2.2 / 2.3** | `guard_test_edits` | **ready** |
-| **D9** | **A test suite that cannot fail** | **3.3 / 4.1** | evals | **ready** |
-| **D10** | **The context file and the gate diverge** | **2.1 / 2.2** | `check_commands_sync` | **ready** |
-| **D11** | **One file, every host** | **1.1** | `sync-skills` | **ready** |
-| **D12** | **The pruning, as a diff** | **2.1** | `00-agents-draft.md` | **ready** |
-| D13 | The question you had not thought of | 1.2 | `spec-interrogate` | **beats written** — dry run pending |
-| D14 | The out-of-scope section | 1.3 | `spec-draft` | **beats written** — dry run pending |
-| D15 | The reviewer's read order | 3.3 | `pr-brief` | **beats written** — dry run pending |
-| D16 | A finding becomes a rule | 4.1 | `harvest` | **ready** — the loop is walked without an agent |
-| D17 | Reading a repo it has never seen | 2.2 | `stack-profile` | **beats written** — dry run pending, needs a scratch repo |
+| | Demo | Chapter | Branch | Skill / artifact | Status |
+|---|---|---|---|---|---|
+| D1 | Cold open — the confident wrong answer | 0.2 | main | `tooling/myapp/repo/analytics.py` (the decoy) | **ready** |
+| D2 | Skill portability — one file, two tools | 1.1 | either | all skills | **ready** — see D11, which is the honest version |
+| D3 | `AGENTS.md` A/B | 2.1 | main | `00-agents-draft.md` | **ready** |
+| D4 | The architecture contract fails | 2.2 | either | `gates-draft` | **ready** — beats lifted from lab 02 |
+| D5 | Invented API + scope creep | 2.3 | solution | `build-slice` | **ready** |
+| D6 | Tier-2 triaged review | 3.2 | either | `code-review` | **ready** — the branch is lab 05 |
+| D7 | The tautological test | 3.3 | solution | — | **ready** — a still, from `09-tests-that-lie.md` |
+| **D8** | **The guard blocks a weakened test** | **2.2 / 2.3** | either | `guard_test_edits` | **ready** |
+| **D9** | **A test suite that cannot fail** | **3.3 / 4.1** | either | evals | **ready** |
+| **D10** | **The context file and the gate diverge** | **2.1 / 2.2** | either | `check_commands_sync` | **ready** |
+| **D11** | **One file, every host** | **1.1** | either | `sync-skills` | **ready** |
+| **D12** | **The pruning, as a diff** | **2.1** | either | `00-agents-draft.md` | **ready** |
+| D13 | The question you had not thought of | 1.2 | main | `spec-interrogate` | **beats written** — dry run pending |
+| D14 | The out-of-scope section | 1.3 | main | `spec-draft` | **beats written** — dry run pending |
+| D15 | The reviewer's read order | 3.3 | either | `pr-brief` | **beats written** — dry run pending |
+| D16 | A finding becomes a rule | 4.1 | solution | `harvest` | **ready** — the loop is walked without an agent |
+| D17 | Reading a repo it has never seen | 2.2 | scratch repo | `stack-profile` | **beats written** — dry run pending, needs a scratch repo |
+
+**Branch** is the companion repo branch to run it on. `main` is the starting point: both
+tickets as they arrived and the practice app before either fix. `solution` is the fixed code
+and every worked answer. `either` means the demo uses lab fixtures or tooling, which are the
+same on both.
 
 **All seventeen have beats.** Nothing is filmed. D13, D14, D15 and D17 drive a live agent and
 have not had a dry run, so their quoted output is the skill's output contract and the worked
@@ -62,9 +67,23 @@ The decoy is `tooling/myapp/repo/analytics.py`. It is smaller than `export_row`,
 account per day, and its name sounds more like a report than `exports/queries.py` does. An agent
 handed the ticket with no context file and no spec reaches for the table whose name sounds right.
 
-**Setup.** A session with **no** `AGENTS.md` loaded and no spec — `--bare`, or a scratch copy of
-`tooling/myapp/` alone. This matters: with the context file present the gotcha section names the decoy
-outright, which is D3's point and would spoil this one.
+**Setup.** A scratch copy of the companion repo's `main` branch, which holds the code before the
+fix, with nothing in it that could steer the agent:
+
+```
+git clone --branch main https://github.com/limsijie93/tt-masterclass-agentic-sdlc /tmp/d1
+cd /tmp/d1 && rm -rf AGENTS.md CLAUDE.md .claude .cursor .agents .github/skills course
+```
+
+Then make sure no skills reach the session from outside it: run
+`./tooling/scripts/sync-skills.sh --user --clean` in your own clone, and
+`claude plugin disable agentic-sdlc@tt-masterclass-agentic-sdlc` if the plugin is installed
+(enable it again afterwards). Start `claude` inside `/tmp/d1`. Not `--bare`: it accepts only an
+API key, not a subscription login, and skills still resolve under it.
+
+This matters twice. With the context file present, its gotcha section names the decoy
+outright, which is D3's point and would spoil this one. With the skills present,
+`spec-interrogate` runs instead of the unprepared agent the cold open is about.
 
 **Beat 1 — the ticket, pasted.** `course/tickets/PROJ-142/01-ticket.md`, verbatim. Say nothing about
 the codebase.
@@ -453,7 +472,7 @@ output contract fixes:
 
 Then `specs/PROJ-142.touchpoints.md`. Cover its last entry for the prediction poll, then reveal:
 
-> `(!) tooling/myapp/service/reports/legacy.py:210`
+> `(!) tooling/myapp/service/reports/legacy.py:162`
 > `    shares the same query - out of scope,`
 > `    but will break`
 
@@ -610,4 +629,3 @@ built on a wrong guess about your toolchain is worse than none.*
 **Gotchas.** If a citation does not resolve when opened, keep the take and say so — that is the
 reason the human step exists. If it finds more than two ecosystems it stops early by design;
 pick a smaller repository rather than fighting it.
-

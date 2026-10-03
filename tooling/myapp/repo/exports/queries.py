@@ -1,7 +1,6 @@
 """Row access for the export report.
 
-The bottom of the stack. Nothing here knows about HTTP, CSV, or job queues — that separation
-is what lets `myapp.service` decide chunking without `myapp.api` ever touching a row.
+The bottom of the stack. Nothing here knows about HTTP or CSV.
 
 Storage is SQLite and the dataset is generated. There is no production data anywhere in this
 repository, and `seed()` is the only way rows come into existence.
@@ -10,7 +9,6 @@ repository, and `seed()` is the only way rows come into existence.
 from __future__ import annotations
 
 import sqlite3
-from collections.abc import Iterator
 from dataclasses import dataclass
 
 SCHEMA = """
@@ -30,7 +28,7 @@ CREATE INDEX IF NOT EXISTS export_row_account ON export_row(account_id);
 
 @dataclass(frozen=True)
 class ExportRow:
-    """One row of the export. The CSV column set, and it does not change here."""
+    """One row of the export."""
 
     id: int
     account_id: int
@@ -61,29 +59,19 @@ def fetch_export_rows(
     connection: sqlite3.Connection,
     account_id: int,
     *,
-    chunk_size: int | None,
-) -> Iterator[ExportRow]:
-    """Yield rows for one account.
-
-    `chunk_size=None` means no server-side batching: the driver materialises the whole result
-    set. That default is the footgun PROJ-142's review found — see finding 1 of
-    course/tickets/PROJ-142/08-review.md — and it is why callers must pass it explicitly.
-    """
-    cursor = connection.execute(
-        "SELECT id, account_id, occurred, amount FROM export_row WHERE account_id = ?",
-        (account_id,),
-    )
-    if chunk_size is None:
-        for row in cursor.fetchall():
-            yield ExportRow(*row)
-        return
-    while batch := cursor.fetchmany(chunk_size):
-        for row in batch:
-            yield ExportRow(*row)
+    limit: int | None = None,
+) -> list[ExportRow]:
+    """Every row for one account, or the first `limit` of them."""
+    sql = "SELECT id, account_id, occurred, amount FROM export_row WHERE account_id = ?"
+    params: tuple[int, ...] = (account_id,)
+    if limit is not None:
+        sql += " LIMIT ?"
+        params = (account_id, limit)
+    return [ExportRow(*row) for row in connection.execute(sql, params).fetchall()]
 
 
 def count_export_rows(connection: sqlite3.Connection, account_id: int) -> int:
-    """How many rows the export will contain. Decides synchronous versus queued."""
+    """How many rows one account has."""
     (total,) = connection.execute(
         "SELECT COUNT(*) FROM export_row WHERE account_id = ?", (account_id,)
     ).fetchone()

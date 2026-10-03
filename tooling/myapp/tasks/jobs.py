@@ -1,7 +1,6 @@
-"""Job records. Split out of queue.py so the execution entry point sits at the top of it.
+"""Job records for the queue.
 
-In-memory on purpose: persistence is not what this repository teaches, and a real queue here
-would be a second thing to explain in every demo.
+In-memory on purpose: persistence is not what this repository teaches.
 """
 
 from __future__ import annotations
@@ -12,11 +11,11 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Job:
-    """One queued export."""
+    """One queued job."""
 
     id: str
     account_id: int
-    export_format: str
+    kind: str
     state: str = "queued"
     lines: list[str] = field(default_factory=list)
 
@@ -24,7 +23,7 @@ class Job:
 JOBS: dict[str, Job] = {}
 
 
-def new_job(account_id: int, export_format: str) -> Job:
-    job = Job(id=uuid.uuid4().hex, account_id=account_id, export_format=export_format)
+def new_job(account_id: int, kind: str) -> Job:
+    job = Job(id=uuid.uuid4().hex, account_id=account_id, kind=kind)
     JOBS[job.id] = job
     return job
