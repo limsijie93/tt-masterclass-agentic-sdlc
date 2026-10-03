@@ -1,0 +1,130 @@
+# WORKED EXAMPLE — Python. Copy to `.pre-commit-config.yaml` at your repository root.
+#
+# The stack-neutral shape is course/templates/pre-commit-config.example.yaml. The TypeScript fill
+# is course/templates/typescript/pre-commit-config.yaml — read them side by side and notice how
+# similar they are. That similarity is the portable part.
+#
+# pre-commit is NOT a Python tool, despite the name and the ecosystem it came from. It
+# manages hooks written in Python, Node, Go, Rust, Ruby and Docker, and it is the reason
+# the tier-1 layer ports even though none of the tools inside it do.
+#
+# You should not write this by hand. `.github/skills/gates-draft` emits it for whatever
+# stack `stack-profile` detected.
+#
+# ---------------------------------------------------------------------------------------
+# WHAT "THE SAME COMMANDS AS AGENTS.md" ACTUALLY MEANS
+#
+# The claim is that the constraint the agent obeys and the gate the pull request passes are
+# the same rule. Argv identity is NOT achievable, and pretending otherwise ships a broken
+# file:
+#
+#   - `ruff check .` scans the repo. pre-commit's entire value is scanning STAGED files.
+#     Same rule, deliberately different scope.
+#   - `lint-imports` is a whole-graph check. It cannot be diff-scoped at all.
+#   - `pytest` does not belong at commit time. A 40-second commit gets bypassed within a
+#     week, and a bypassed gate is worse than no gate because you think you have one.
+#
+# So the identity lives one level down: every rule is configured in exactly ONE place
+# (pyproject.toml, .importlinter, .semgrep/), and no flag here changes WHAT is enforced —
+# only which files are looked at. tools/check_commands_sync.py fails the build if the tool
+# SET here and the Commands section of AGENTS.md diverge.
+#
+# Every tier-1 hook below is a `local` hook whose `entry` is the literal command string, so
+# the identity is visible on screen rather than inferred. The cost, stated plainly: you
+# give up `pre-commit autoupdate` and dependabot cannot bump these, so you bump by hand.
+# The upstream-hook form is commented beside each one if you would rather have that trade.
+#
+# VERIFY BEFORE YOU SHIP: every `rev` below, and whether the ruff hook id on that rev is
+# `ruff` or `ruff-check`. It changed, and it is the most likely line here to be wrong.
+# ---------------------------------------------------------------------------------------
+
+# Without this, the pre-push pytest hook is never installed and "tests are gated" is false
+# on every machine that ran a bare `pre-commit install`.
+default_install_hook_types: [pre-commit, pre-push]
+minimum_pre_commit_version: "3.5.0"
+
+repos:
+  - repo: local
+    hooks:
+      # Formatting first, so the linter sees formatted code and does not report churn.
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format
+        language: python
+        additional_dependencies: [ruff==0.6.2]
+        types_or: [python, pyi]
+        stages: [pre-commit]
+
+      - id: ruff-check
+        name: ruff check --fix
+        entry: ruff check --fix --force-exclude
+        language: python
+        additional_dependencies: [ruff==0.6.2]
+        types_or: [python, pyi]
+        stages: [pre-commit]
+
+      # Diff-scoped by construction: pre-commit passes the staged files.
+      # --follow-imports=silent keeps a file-subset run from reporting errors in files the
+      # author did not touch. Be honest that a subset run can differ from a whole-repo run,
+      # which is exactly why the module-level baseline in pyproject.toml is the primary
+      # mechanism and this is only the speed optimisation.
+      - id: mypy
+        name: mypy
+        entry: mypy --follow-imports=silent
+        language: python
+        additional_dependencies: [mypy==1.11.1]
+        types_or: [python, pyi]
+        stages: [pre-commit]
+
+      # Whole-graph by nature — pass_filenames: false is not laziness, it is the only
+      # correct setting. Fast enough for a commit hook. Its baseline is `ignore_imports`
+      # inside .importlinter.
+      - id: lint-imports
+        name: lint-imports (architecture contract)
+        entry: lint-imports
+        language: python
+        additional_dependencies: [import-linter==2.0]
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: semgrep
+        name: semgrep (custom org rules)
+        entry: semgrep scan --config .semgrep/ --error --quiet
+        language: python
+        additional_dependencies: [semgrep==1.86.0]
+        types: [python]
+        stages: [pre-commit]
+
+      # NOT at pre-commit. See the header. Requires default_install_hook_types above.
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: python
+        additional_dependencies: [pytest==8.3.2]
+        pass_filenames: false
+        stages: [pre-push]
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      # The baseline exemplar. `detect-secrets audit .secrets.baseline` marks each entry a
+      # true or false positive; unaudited entries fail. Commit the baseline.
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        stages: [pre-commit]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+
+  # Duplication (row 6 of the table). Commented out, and `manual` even when enabled, so it
+  # reports rather than blocks. Needs a Node toolchain — do not add one for one metric.
+  # - repo: https://github.com/getcodeflow/jscpd-pre-commit
+  #   rev: v0.1.0
+  #   hooks:
+  #     - id: jscpd
+  #       stages: [manual]

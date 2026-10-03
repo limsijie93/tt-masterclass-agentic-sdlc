@@ -6,7 +6,7 @@ You just watched **Agentic SDLC: Specs → Quality → Review**. This is the hou
 how to install it. Read that when you are ready to put this in your own repository. Read this
 first.
 
-Following along lesson by lesson? [`docs/learner-guide.md`](docs/learner-guide.md) maps every
+Following along lesson by lesson? [`course/guide.md`](course/guide.md) maps every
 lesson to the files to read, the lab to do, and what to copy, with a diagram for each block.
 
 ---
@@ -18,8 +18,8 @@ when you run out of evening. Pick the row that describes the next hour you actua
 
 | | You are | Do this | Cost |
 |---|---|---|---|
-| **Observer** | deciding whether any of this is for you | the five minutes below, then `example/PROJ-142/` in order | 20 min, read-only |
-| **Doer** | convinced, and want it in your hands | [`labs/`](labs/) — 01 to 03 need no agent and no API key | 2½ hours, keyboard |
+| **Observer** | deciding whether any of this is for you | the five minutes below, then `course/tickets/PROJ-142/` in order | 20 min, read-only |
+| **Doer** | convinced, and want it in your hands | [`course/labs/`](course/labs/) — 01 to 03 need no agent and no API key | 2½ hours, keyboard |
 | **Adopter** | putting this in a repository your team ships from | [`README.md`](README.md), then the three pull requests it opens with | an afternoon, then a week |
 
 **The jump that matters is Observer to Doer, and it is the one people skip.** Reading builds
@@ -29,13 +29,13 @@ The labs exist because that jump had no step in it.
 
 ## If you only have five minutes
 
-Open [`example/PROJ-142/`](example/PROJ-142/) and read three files in this order:
+Open [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) and read three files in this order:
 
-1. [`01-ticket.md`](example/PROJ-142/01-ticket.md) — a ticket that is not badly written, just
+1. [`01-ticket.md`](course/tickets/PROJ-142/01-ticket.md) — a ticket that is not badly written, just
    normal, and missing everything an implementer needs.
-2. [`02-interrogation.md`](example/PROJ-142/02-interrogation.md) — the five questions that were
+2. [`02-interrogation.md`](course/tickets/PROJ-142/02-interrogation.md) — the five questions that were
    missing, and the line where the agent **stops**.
-3. [`08-review.md`](example/PROJ-142/08-review.md) — three findings on the finished work. One of
+3. [`08-review.md`](course/tickets/PROJ-142/08-review.md) — three findings on the finished work. One of
    them is wrong. See if you can tell which before you look it up.
 
 That is the whole lecture in three files: the input was the problem, stopping is the mechanism,
@@ -47,7 +47,7 @@ and the reviewer is not an oracle.
 
 ### 1 · Read one ticket, end to end (~15 min)
 
-[`example/PROJ-142/`](example/PROJ-142/) is one ticket from a vague bug report to reviewed code
+[`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) is one ticket from a vague bug report to reviewed code
 to a lesson written down. Read it in numeric order. What to notice in each:
 
 | File | What to notice |
@@ -62,7 +62,7 @@ to a lesson written down. Read it in numeric order. What to notice in each:
 | `08-review.md` | Three findings, one blocking, **one wrong**. |
 | `09-tests-that-lie.md` | A test that passes with the code under test deleted — and, unlike the slide, the honest rewrite beside it. |
 | `10-harvest.md` | Three findings, **one** proposal. The restraint is the mechanism, not timidity. |
-| `00-agents-draft.md` | Read last. Diff it against [`examples/python/AGENTS.md`](examples/python/AGENTS.md): 166 lines to 75, and the closing table says why each cut was made. |
+| `00-agents-draft.md` | Read last. Diff it against [`course/templates/python/AGENTS.md`](course/templates/python/AGENTS.md): 166 lines to 75, and the closing table says why each cut was made. |
 
 ### 2 · Try one skill, installing nothing (~10 min)
 
@@ -107,7 +107,7 @@ it under sixty lines by hand. It takes twenty minutes, it needs no agent and no 
 one of the statements in the draft is false — which is the half of the lesson that is not
 about length.
 
-[`labs/`](labs/) has five, about two hours in total. The first three need nothing installed
+[`course/labs/`](course/labs/) has five, about two hours in total. The first three need nothing installed
 beyond the toolchain above. A checker tells you what you missed and, when the failure is your
 assistant rather than you, says so.
 
@@ -115,10 +115,10 @@ assistant rather than you, says so.
 
 Two files here are deliberately wrong, because judgment is built by reps and not by explanation.
 
-- **[`08-review.md`](example/PROJ-142/08-review.md)** — one of the three findings is a false
+- **[`08-review.md`](course/tickets/PROJ-142/08-review.md)** — one of the three findings is a false
   positive. Work out which and *why it is wrong* before checking. The answer
   is not in this repository: commit to yours, then watch the Tier 2 lesson, which reveals it.
-- **[`09-tests-that-lie.md`](example/PROJ-142/09-tests-that-lie.md)** — the first test verifies
+- **[`09-tests-that-lie.md`](course/tickets/PROJ-142/09-tests-that-lie.md)** — the first test verifies
   nothing. The check that catches it in one step: *delete the function under test. Does this
   still pass?*
 
@@ -136,7 +136,7 @@ Now [`README.md`](README.md) is the right document. Shortest useful version:
    see step 1's last row for what unpruned looks like.
 3. Add `tier1` and only `tier1` to your branch's required checks.
 
-Read [`templates/README.md`](templates/README.md) before switching anything on. Turning a checker
+Read [`course/templates/README.md`](course/templates/README.md) before switching anything on. Turning a checker
 on across an existing repo produces thousands of violations, nobody triages them, and the tool is
 discredited permanently. That kills more of these rollouts than any other single mistake.
 
@@ -144,14 +144,14 @@ discredited permanently. That kills more of these rollouts than any other single
 
 ## The five moves, and which one to try first
 
-All of this on one page, to pin up: [`docs/reference-card.md`](docs/reference-card.md).
+All of this on one page, to pin up: [`course/reference-card.md`](course/reference-card.md).
 
 From the close of the lecture. Pick the one that maps to a ticket you actually have:
 
 | Move | Start at |
 |---|---|
 | Interrogate before drafting | [`spec-interrogate`](.github/skills/spec-interrogate/SKILL.md) |
-| Fill in the out-of-scope field | [`templates/spec.md`](templates/spec.md) |
+| Fill in the out-of-scope field | [`course/templates/spec.md`](course/templates/spec.md) |
 | A machine-checkable architecture contract | [`gates-draft`](.github/skills/gates-draft/SKILL.md) |
 | One criterion at a time, test first | [`build-slice`](.github/skills/build-slice/SKILL.md) |
 | The four-rung review ladder | [`README.md`](README.md#the-review-ladder-and-the-files-that-implement-it) |
@@ -185,16 +185,16 @@ with the tooling removed so it works with whatever you already use.
 - What it flagged that you would not have. Expect untested branches and drift outside the plan.
 - Where it was **wrong**, quoted. This is the number that matters, and it is why tier 2 comments
   and tier 3 decides. The measured false-positive rate for this kind of review is high enough
-  that finding none means you did not look hard — see [`docs/citations.md`](docs/citations.md).
+  that finding none means you did not look hard — see [`course/citations.md`](course/citations.md).
 - **The heuristic you now hold** for when to trust it. One sentence. That sentence is the
   deliverable; everything above it is how you earned the right to write it.
 
 If you want a calibration check before spending the afternoon, do
-[**lab 05**](labs/05-review-a-planted-pr/lab.md) first. It is this exercise in forty minutes on
+[**lab 05**](course/labs/05-review-a-planted-pr/lab.md) first. It is this exercise in forty minutes on
 a pull request someone else planted: three real findings, and one thing you will want to flag
 that is wrong for the characteristic reason. Marked against a key, so you find out.
 
-[`08-review.md`](example/PROJ-142/08-review.md) is the same idea to read rather than to do — a
+[`08-review.md`](course/tickets/PROJ-142/08-review.md) is the same idea to read rather than to do — a
 finished review with one finding deliberately wrong.
 
 ## Two honest things before you clone
@@ -217,12 +217,12 @@ about intent is not checkable, a rule about assertions is. See the Tier 0 sectio
 
 ## Where the labs are
 
-[`labs/README.md`](labs/README.md) — five labs, how they are marked, and the two rules the
+[`course/labs/README.md`](course/labs/README.md) — five labs, how they are marked, and the two rules the
 checker holds itself to. A lab is an eval case with a human as the engine, which is why the
 assertion vocabulary is the same one the skills are tested with.
 
 ## Where the demos are
 
-[`docs/demos.md`](docs/demos.md) — every recording, which segment it belongs to, and the **exact
+[`course/demos.md`](course/demos.md) — every recording, which segment it belongs to, and the **exact
 commands**, so you can run any of them yourself rather than only watch. Five of them run against
 this repository with nothing else installed.

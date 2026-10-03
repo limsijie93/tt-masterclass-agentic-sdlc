@@ -2,9 +2,9 @@
 #
 # The stack-neutral decision behind it is .github/skills/gates-draft, which emits this file
 # from the prose rule in AGENTS.md plus whatever stack stack-profile detected. The
-# TypeScript equivalent of the same contract is examples/typescript/dependency-cruiser.config.cjs.
+# TypeScript equivalent of the same contract is course/templates/typescript/dependency-cruiser.config.cjs.
 #
-# examples/python/importlinter.example.ini is the annotated worked example, kept because it
+# course/templates/python/importlinter.example.ini is the annotated worked example, kept because it
 # carries the baseline-and-ratchet commentary a real adopting repo needs and this file does
 # not — there are no violations here to baseline.
 
@@ -33,7 +33,7 @@ layers =
 # import and watching `lint-imports` pass.
 #
 # Which matters, because "a view reached down into the repository layer and lint-imports
-# failed" is the claim in example/PROJ-142/05-spec.md under Constraints, and it is the whole
+# failed" is the claim in course/tickets/PROJ-142/05-spec.md under Constraints, and it is the whole
 # of Demo 4. A layers contract alone does not make it true. This does.
 #
 # import-linter has no closed-layer option in the pinned version, so the rule that actually

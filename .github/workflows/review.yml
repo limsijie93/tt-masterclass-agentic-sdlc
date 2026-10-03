@@ -65,7 +65,7 @@ jobs:
       # is written, and pre-commit installs each hook's own runtime. This is why tier 1
       # ports across ecosystems even though none of the tools inside it do.
       # requirements-dev.txt rather than a hand-listed set. The hand-listed one drifted the
-      # moment labs/ arrived: labs 02 and 03 shell out to `lint-imports` and `pytest`, which
+      # moment course/labs/ arrived: labs 02 and 03 shell out to `lint-imports` and `pytest`, which
       # were not installed here, so their checks failed with the learner-facing message
       # "your contract has to name shop.api.bad" when the truth was "the tool is missing".
       # A hand-listed install is a second source of truth for the toolchain, and this is

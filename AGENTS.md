@@ -24,7 +24,7 @@ Makefile is a shortcut.
 
 This repo ships a **deliberately minimal application**, plus the material that teaches
 against it. `myapp/` is not a product: it exists to fail in five specific ways (see
-`docs/demos.md`) and has no auth, no migrations and no deployment. Five kinds of thing live
+`course/demos.md`) and has no auth, no migrations and no deployment. Five kinds of thing live
 here:
 
 - `myapp/` — the application. Layered `api -> service -> repo`, with `tasks` outside that
@@ -38,12 +38,12 @@ here:
   `evals/` beyond its stop conditions, because the eval invocation allowlists no shell —
   `evals/README.md` says why.
 - `.claude/`, `.cursor/`, `.agents/` — symlinks into `.github/skills/`. Never edit through them.
-- `templates/` — copy-me shapes. **Stack-neutral: nothing here names a language.**
-- `examples/` — one directory per ecosystem, each a fill of those shapes for a fictional
+- `course/templates/` — copy-me shapes. **Stack-neutral: nothing here names a language.**
+- `course/templates/` — one directory per ecosystem, each a fill of those shapes for a fictional
   service. `python/` and `typescript/`.
-- `example/PROJ-142/` — a worked ticket, start to finish. Fixtures, not code.
-- `labs/` — self-guided keyboard time. Several fixtures there are **deliberately wrong** and
-  must stay wrong; `labs/AGENTS.md` names them. `tools/lab.py` marks them, and a lab is an
+- `course/tickets/PROJ-142/` — a worked ticket, start to finish. Fixtures, not code.
+- `course/labs/` — self-guided keyboard time. Several fixtures there are **deliberately wrong** and
+  must stay wrong; `course/labs/AGENTS.md` names them. `tools/lab.py` marks them, and a lab is an
   eval case with a human in place of `$EVAL_ENGINE_CMD`.
 
 ## Conventions
@@ -61,19 +61,19 @@ here:
   `tools/check_commands_sync.py` parses what it calls the hook config, and a second meaning
   makes half a dozen sentences in this repo ambiguous.
 
-- **The lecture slides quote several files here verbatim.** `examples/python/AGENTS.md` and
-  `examples/python/importlinter.example.ini` are typeset onto slides 19 and 22 character for
+- **The lecture slides quote several files here verbatim.** `course/templates/python/AGENTS.md` and
+  `course/templates/python/importlinter.example.ini` are typeset onto slides 19 and 22 character for
   character. Changing their wording breaks the deck, so a wording change needs the slide
   updated in the same PR. Check with the deck owner before rewording either.
   (Their *paths* are safe to change — those cards are tabbed with the filename you rename
   TO, not with a path in this repo.)
-- The `templates/` and `examples/` files are deliberately **not** dotfiles. Two files named
+- The files in `course/templates/`, blank and filled, are deliberately **not** dotfiles. Two files named
   `.pre-commit-config.yaml` in one checkout confuses both `pre-commit` and the reader.
 - One semgrep rule cannot cover Python and TypeScript when its patterns use
   language-specific syntax. Declaring both languages silently breaks negations — see
   `.semgrep/README.md`. One rule per language, sharing an id stem.
 - **`myapp` is a real package now, and that changed which files may be dotfiles.** The root
-  `.importlinter` is live and enforced. `templates/` and `examples/` still must NOT be given
+  `.importlinter` is live and enforced. The files in `course/templates/` still must NOT be given
   root-level dotfile names — they are stack-neutral shapes and fills, and two files named
   `.pre-commit-config.yaml` in one checkout confuses both `pre-commit` and the reader.
 
@@ -85,7 +85,7 @@ here:
 
 ## Do not touch
 
-- `examples/python/AGENTS.md` and `examples/python/importlinter.example.ini` wording — see
+- `course/templates/python/AGENTS.md` and `course/templates/python/importlinter.example.ini` wording — see
   Gotchas. The deck quotes both verbatim.
 - **Any test, in order to make an implementation pass.** If a test is wrong, say so and stop.
   A suite edited into greenness is worse than no suite. This is no longer only prose:

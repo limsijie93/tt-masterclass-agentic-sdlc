@@ -45,7 +45,7 @@ prose is worst at holding.
 | Layers primitive | **Yes** — `type = layers`, one block for the whole order | **No** — express as one `forbidden` rule per illegal direction |
 | Baseline | `ignore_imports`, one line per violation | `options.exclude.path` |
 | **Ratchet** | `unmatched_ignore_imports_alerting = error` | **None built in** |
-| Worked example | `examples/python/importlinter.example.ini` | `examples/typescript/dependency-cruiser.config.cjs` |
+| Worked example | `course/templates/python/importlinter.example.ini` | `course/templates/typescript/dependency-cruiser.config.cjs` |
 
 **The asymmetry matters and is easy to miss.** import-linter has a single `layers` contract
 that expresses a whole ordering; dependency-cruiser needs N rules for N illegal directions, so
@@ -128,8 +128,8 @@ verified by sabotage rather than by passing.
 manages hooks written in Python, Node, Go, Rust, Ruby and Docker, and it is the reason the
 tier-1 layer ports even though none of the tools inside it do.
 
-Worked examples: `examples/python/pre-commit-config.yaml`,
-`examples/typescript/pre-commit-config.yaml`. Note how similar they look — that similarity is
+Worked examples: `course/templates/python/pre-commit-config.yaml`,
+`course/templates/typescript/pre-commit-config.yaml`. Note how similar they look — that similarity is
 the portable part.
 
 ---
@@ -137,6 +137,6 @@ the portable part.
 ## Rolling any of this out
 
 Do not switch a checker on across an established repository. Read
-[`templates/README.md`](../../../../templates/README.md) first — that trap kills more of these
+[`course/templates/README.md`](../../../../course/templates/README.md) first — that trap kills more of these
 adoptions than any other single mistake, and the ratchet lines above are what make a baseline
 shrink instead of ossify.

@@ -1,7 +1,7 @@
 """Tests for tools/guard_test_edits.py.
 
 These call the real `classify` and the real process. Nothing is mocked, so nothing here can
-pass if the decision function is deleted — see example/PROJ-142/09-tests-that-lie.md for why
+pass if the decision function is deleted — see course/tickets/PROJ-142/09-tests-that-lie.md for why
 that is the bar in this repo.
 
 The exit-code tests exist because the codes ARE the contract: 2 blocks and feeds the model,

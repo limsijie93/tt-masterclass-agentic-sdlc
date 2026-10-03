@@ -12,7 +12,7 @@ million rows assembled in memory does not finish.
 
 The fix added `chunk_size`. It defaults to `None`, and `None` means unbounded — so the default
 preserves the old behaviour for callers that were never updated. That is exactly the footgun
-finding 1 of example/PROJ-142/08-review.md identified, in a review of this change, on the
+finding 1 of course/tickets/PROJ-142/08-review.md identified, in a review of this change, on the
 grounds that `myapp/service/reports/legacy.py` calls the same builder and was not touched.
 
 The default is still `None`. It was not changed to a safe value, and that is deliberate: the
@@ -77,7 +77,7 @@ def stream_export_csv(
 
     It also changes what a timing test must do: a timer that stops on return measures
     time-to-first-byte, so criterion 1's test has to drain the iterator first. Missing that is
-    finding 3 of example/PROJ-142/08-review.md — the planted false positive.
+    finding 3 of course/tickets/PROJ-142/08-review.md — the planted false positive.
     """
     yield _csv_row(CSV_COLUMNS)
     rows = queries.fetch_export_rows(connection, query.account_id, chunk_size=query.chunk_size)

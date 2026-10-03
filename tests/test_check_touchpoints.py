@@ -1,7 +1,7 @@
 """Tests for tools/check_touchpoints.py.
 
 These assert on the parser, not on a mock of the parser — see
-example/PROJ-142/09-tests-that-lie.md for why that distinction is the whole point.
+course/tickets/PROJ-142/09-tests-that-lie.md for why that distinction is the whole point.
 """
 
 from __future__ import annotations

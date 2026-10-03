@@ -2,7 +2,7 @@
 
 Each test writes real files to a tmp_path and runs the real parser over them. Nothing is
 mocked, so nothing here can pass if the parser is deleted — see
-example/PROJ-142/09-tests-that-lie.md for why that is the bar.
+course/tickets/PROJ-142/09-tests-that-lie.md for why that is the bar.
 """
 
 from __future__ import annotations

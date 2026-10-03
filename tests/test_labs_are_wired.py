@@ -24,7 +24,7 @@ from eval_assertions import REGISTRY, EvalContext
 from lab import LAB_ONLY, command_exits, parse_lab, run_checks
 
 REPO = Path(__file__).resolve().parent.parent
-LABS = sorted((REPO / "labs").glob("*/lab.md"))
+LABS = sorted((REPO / "course" / "labs").glob("*/lab.md"))
 REQUIRED_SECTIONS = ("brief", "start", "what good looks like")
 
 

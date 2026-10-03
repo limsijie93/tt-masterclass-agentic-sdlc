@@ -15,7 +15,7 @@ exactly the shape of the `semgrep --test --config` false green documented in
 paired with a positive one that a no-op engine cannot satisfy.
 
 THE FIXTURE PROBLEM, and how it is avoided. The tempting design is to feed the worked ticket in
-and compare the output against example/PROJ-142/02-interrogation.md. That is non-deterministic
+and compare the output with course/tickets/PROJ-142/02-interrogation.md. It is non-deterministic
 AND tautological: it asserts the model reproduces one hand-polished past output. Applying this
 repo's own test — delete the thing under test, does the check still pass? — three rules follow:
 
@@ -24,7 +24,7 @@ repo's own test — delete the thing under test, does the check still pass? — 
      skills need code to ground in, not application code, and scripts/, tools/ and tests/ are
      real and citable by line. The ticket is written for the eval, by no skill, so there is
      nothing to reproduce.
-  3. The worktree is sanitised before the engine sees it: example/PROJ-142/ and evals/ are
+  3. The worktree is sanitised before the engine sees it: course/tickets/PROJ-142/ and evals/ are
      deleted, so the worked chain is physically absent and cannot be copied from.
 
 Rule 3 is enforced by a unit test, so removing it is a pytest failure rather than something a
@@ -52,7 +52,7 @@ CASES_DIR = REPO_ROOT / "evals" / "cases"
 
 # Removed from the eval worktree before the engine runs. The worked chain is the answer key,
 # and evals/ contains the assertions — neither may be visible to the thing under test.
-SANITISE = ("example/PROJ-142", "evals")
+SANITISE = ("course/tickets/PROJ-142", "evals")
 
 
 @dataclass

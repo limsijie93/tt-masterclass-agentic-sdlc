@@ -22,7 +22,7 @@ from pathlib import Path
 
 from conftest import instructor_only
 
-EXAMPLES = Path(__file__).resolve().parent.parent / "example"
+EXAMPLES = Path(__file__).resolve().parent.parent / "course" / "tickets"
 
 
 @dataclass(frozen=True)
@@ -270,12 +270,12 @@ def test_fixtures_with_deliberate_errors_are_protected_by_the_nested_context_fil
 
 # --- The stack examples ------------------------------------------------------------------
 #
-# example/PROJ-142/ is one ticket through the pipeline. examples/ is one directory per
+# course/tickets/PROJ-142/ is one ticket through the pipeline. course/templates/ has one folder per
 # ecosystem. Different things, confusingly adjacent names, so the assertions live together
 # to make the distinction hard to miss.
 
 ECOSYSTEMS = ("python", "typescript")
-STACK_EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
+STACK_EXAMPLES = Path(__file__).resolve().parent.parent / "course" / "templates"
 
 
 def test_every_ecosystem_has_the_pair_the_checker_needs() -> None:
@@ -286,14 +286,14 @@ def test_every_ecosystem_has_the_pair_the_checker_needs() -> None:
 
 
 def test_templates_name_no_language() -> None:
-    """templates/ is the stack-neutral shape. A tool name in it defeats the point."""
+    """course/templates/ is the stack-neutral shape. A tool name in it defeats the point."""
     leaked = []
-    for path in (Path(__file__).resolve().parent.parent / "templates").glob("*"):
+    for path in (Path(__file__).resolve().parent.parent / "course" / "templates").glob("*"):
         if not path.is_file():
             continue
         body = path.read_text(encoding="utf-8").lower()
         for tool in ("ruff", "mypy", "pytest", "lint-imports", "eslint", "vitest"):
-            # templates/README.md may name tools when explaining the ratchet; the configs
+            # course/templates/README.md may name tools when explaining the ratchet; the configs
             # and the AGENTS.md skeleton may not.
             if tool in body and path.name != "README.md":
                 leaked.append(f"{path.name}: {tool}")
@@ -456,5 +456,5 @@ def test_each_hazard_line_really_is_a_second_caller_of_its_shared_helper() -> No
     assert "has_feature(" in _line_at("myapp/service/billing/upgrade.py:44")
     assert "default=True" in _line_at("myapp/service/billing/upgrade.py:44"), (
         "the second caller must keep its explicit optimistic default, "
-        "or example/PROJ-207/03-answers.md answer 4 no longer describes this code"
+        "or course/tickets/PROJ-207/03-answers.md answer 4 no longer describes this code"
     )

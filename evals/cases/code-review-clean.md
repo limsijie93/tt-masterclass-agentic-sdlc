@@ -45,7 +45,7 @@ Each ecosystem's context file and its hook config are checked against each other
 divergence fails the build rather than rotting quietly.
 
 ## Acceptance criteria
-1. **Every directory under examples/ is checked on its own terms**
+1. **Every directory under course/templates/ is checked on its own terms**
 2. **A directory missing either file is skipped rather than failed**
 
 ## Out of scope

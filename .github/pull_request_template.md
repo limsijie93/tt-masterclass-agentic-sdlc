@@ -47,7 +47,7 @@ Once tiers 1 and 2 have run, three questions are left:
 | What you noticed | Where it goes |
 |---|---|
 | A mistake the agent repeated | `AGENTS.md` |
-| A field the spec kept missing | `templates/spec.md` |
+| A field the spec kept missing | `course/templates/spec.md` |
 | Something a human caught that a machine could have | a ruff rule, an `.importlinter` contract, a `.semgrep/` rule, or a test |
 | A procedure used more than twice | a new skill in `.github/skills/` |
 | A way an agent broke a skill's own contract, seen twice | an eval case |

@@ -202,7 +202,7 @@ def _target_of(tool_input: dict[str, object]) -> tuple[str, str] | None:
     """Resolve (repo-relative path, current on-disk content), or None to allow.
 
     Split out of run_guard so each half stays inside the complexity ceiling this repo
-    enforces on itself — the same C901 rule templates/pyproject.toml sets for adopters.
+    enforces on itself — the same C901 rule course/templates/pyproject.toml sets for adopters.
     """
     raw_path = tool_input.get("file_path") or tool_input.get("notebook_path")
     if not isinstance(raw_path, str) or not raw_path:
@@ -226,7 +226,7 @@ def _target_of(tool_input: dict[str, object]) -> tuple[str, str] | None:
 
 def _emit(decision: Decision, path: str) -> int:
     """Turn a verdict into the host's vocabulary. The only host-shaped function here."""
-    # Land in log mode. templates/README.md prescribes the gentler first step — measure before
+    # Land in log mode. course/templates/README.md prescribes the gentler step — measure before
     # enforcing — and gates-draft demands it of every generated gate. This is our own gate.
     if os.environ.get("GUARD_MODE", "log") != "enforce":
         if decision.verdict != ALLOW:

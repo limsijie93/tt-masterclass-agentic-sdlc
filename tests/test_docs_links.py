@@ -8,30 +8,32 @@ thesis is that everything in it is real. This is cheap, deterministic, and never
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
-# RECORDING.md is instructor-only; the learner copy has no such file to check.
+# Every tracked doc a reader is sent to. Tracked only, so a learner's own gitignored lab work
+# (pruned.md, report.md) never fails the check; teach/ simply matches nothing in the learner copy.
 DOCS = tuple(
-    doc
-    for doc in (
-        "README.md",
-        "RECORDING.md",
-        "TEACH.md",
-        "docs/demos.md",
-        "docs/storyboard.md",
-        "LEARN.md",
-        "docs/learner-guide.md",
-        "example/PROJ-142/README.md",
-        "templates/README.md",
-        "examples/README.md",
-        "evals/README.md",
-        "labs/README.md",
-        ".devcontainer/README.md",
-        ".semgrep/README.md",
-    )
-    if (REPO / doc).exists()
+    subprocess.run(
+        [
+            "git",
+            "ls-files",
+            "--",
+            "README.md",
+            "LEARN.md",
+            "course/*.md",
+            "teach/*.md",
+            "evals/README.md",
+            ".semgrep/README.md",
+            ".devcontainer/README.md",
+        ],
+        cwd=REPO,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.split()
 )
 
 LINK = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -71,7 +73,7 @@ def test_the_learner_path_exists_and_is_routed_to() -> None:
 def test_the_learner_path_covers_every_file_in_the_worked_chain() -> None:
     """The walkthrough's 'what to notice' table must not silently fall behind the chain."""
     learn = (REPO / "LEARN.md").read_text(encoding="utf-8")
-    chain = sorted(p.name for p in (REPO / "example" / "PROJ-142").glob("*.md"))
+    chain = sorted(p.name for p in (REPO / "course" / "tickets" / "PROJ-142").glob("*.md"))
     missing = [
         name for name in chain if name not in {"README.md", "AGENTS.md"} and name not in learn
     ]

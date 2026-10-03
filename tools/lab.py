@@ -30,8 +30,8 @@ fails, the report says so and points at LEARN.md. A learner on a weaker host mus
 
 WHERE LABS RUN. In the learner's own checkout, not a temp worktree. They need their editor,
 their assistant and their history; an eval needs isolation and a lab needs the opposite. The
-answer key is kept out of reach by labs/AGENTS.md rather than by deletion -- the same device
-example/PROJ-142/AGENTS.md uses for the two planted fixtures.
+answer key is kept out of reach by course/labs/AGENTS.md rather than by deletion -- the same device
+course/tickets/PROJ-142/AGENTS.md uses for the two planted fixtures.
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ from eval_assertions import REGISTRY, EvalContext, Result
 from run_evals import parse_frontmatter, split_top_sections
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-LABS_DIR = REPO_ROOT / "labs"
+LABS_DIR = REPO_ROOT / "course" / "labs"
 
 # Assertions whose failure is a finding about the learner's ASSISTANT, not about the learner.
 # Every one of them is a stop condition -- the thing this repo says is its actual product, and

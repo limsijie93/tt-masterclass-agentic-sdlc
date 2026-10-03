@@ -1,6 +1,6 @@
 """The export tests — both acceptance criteria, and the regression for finding 1.
 
-`example/PROJ-142/07-pr-body.md` cites two lines of this file as where the criteria are
+`course/tickets/PROJ-142/07-pr-body.md` cites two lines of this file as where the criteria are
 verified: line 41 for criterion 1 and line 88 for criterion 2.
 `tests/test_example_consistency.py` asserts those citations, so moving a test here fails the
 build until the artifact is updated to match it.

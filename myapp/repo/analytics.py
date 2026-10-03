@@ -6,7 +6,7 @@ plausible-looking CSV with the wrong number of rows in it.
 
 It is here on purpose. An agent given the PROJ-142 ticket with no context file and no spec
 reaches for the table whose name sounds most like a report, and this is that table — see D1
-in docs/demos.md. Removing it removes the cold open.
+in course/demos.md. Removing it removes the cold open.
 """
 
 from __future__ import annotations

@@ -230,13 +230,13 @@ uv.lock
 
 # --- labs ------------------------------------------------------------------------------
 # A learner's work and their score. Theirs to keep, share or throw away; not ours to track.
-# The fixtures and the answer keys ARE tracked -- everything under labs/*/solution/ and the
+# The fixtures and the answer keys ARE tracked -- everything under course/labs/*/solution/ and the
 # lab.md files are the material.
-labs/*/report.md
-labs/01-prune-the-context-file/pruned.md
-labs/02-make-the-gate-bite/yours.ini
-labs/03-the-test-that-lies/test_yours.py
-labs/03-the-test-that-lies/.exporter.orig
+course/labs/*/report.md
+course/labs/01-prune-the-context-file/pruned.md
+course/labs/02-make-the-gate-bite/yours.ini
+course/labs/03-the-test-that-lies/test_yours.py
+course/labs/03-the-test-that-lies/.exporter.orig
 specs/LAB-*
 reviews/LAB-*
 

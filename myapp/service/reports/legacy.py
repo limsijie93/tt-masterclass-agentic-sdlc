@@ -8,7 +8,7 @@ blast radius from the start. Grounding found it by searching for other callers o
 `build_export_query()`, nobody had asked about it, and a human then decided it was out of
 scope but must not regress.
 
-That decision is recorded in `example/PROJ-142/05-spec.md` under `Known dependents / blast
+That decision is recorded in `course/tickets/PROJ-142/05-spec.md` under `Known dependents / blast
 radius`, and it still was not enough: the change shipped with a `chunk_size` default that
 meant unbounded, this caller was not updated, and a previously-bounded query became
 unbounded. That is finding 1 of `08-review.md`, the blocking one.

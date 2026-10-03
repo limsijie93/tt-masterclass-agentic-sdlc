@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-EXAMPLES = REPO_ROOT / "examples"
+EXAMPLES = REPO_ROOT / "course" / "templates"
 
 # Hooks that are housekeeping rather than a standard anyone states in prose. A context file
 # that listed "trim trailing whitespace" under Commands would be noise, and noise in a
@@ -112,7 +112,7 @@ def tools_in_precommit(path: Path) -> set[str]:
 def check_example(directory: Path) -> bool:
     """Check one ecosystem's AGENTS.md against its own pre-commit config.
 
-    Every directory under examples/ is a self-contained fill of the same shape, so each one
+    Every directory under course/templates/ is a self-contained fill of the same shape, so each one
     has to be internally consistent on its own terms. Checking them as a set would compare a
     Python tool list against a TypeScript gate, which is meaningless.
     """

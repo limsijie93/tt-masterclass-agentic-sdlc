@@ -1,5 +1,8 @@
 # evals/
 
+> **Machinery, not course material.** This runs the checks behind the masterclass. You use it
+> through the commands in [`course/`](../course/); you don't edit it for a lab.
+
 `scripts/lint_skills.py` proves the skills' **declared** contracts fit together — it reads
 `## Output contract` as text. Until this directory existed, nothing ever executed a skill, so
 nothing checked that a skill **honours** the contract it declares. A skill whose Procedure was
@@ -61,21 +64,21 @@ and when it fails you cannot tell whether the skill regressed or the judge did.
 ## The fixture problem
 
 The tempting design is to feed the worked ticket in and compare the output to
-`example/PROJ-142/02-interrogation.md`. That is non-deterministic **and** tautological — it
+`course/tickets/PROJ-142/02-interrogation.md`. That is non-deterministic **and** tautological — it
 asserts the model reproduces one hand-polished past output. Apply this repo's own test from
-[`09-tests-that-lie.md`](../example/PROJ-142/09-tests-that-lie.md): *delete the thing under
+[`09-tests-that-lie.md`](../course/tickets/PROJ-142/09-tests-that-lie.md): *delete the thing under
 test, does the check still pass?*
 
 Three rules follow:
 
 1. **A case's expected outcome is a list of properties, never a file.** Mechanised — a case
-   mentioning `example/PROJ-142` fails `tests/test_evals_are_wired.py`.
+   mentioning `course/tickets/PROJ-142` fails `tests/test_evals_are_wired.py`.
 2. **The codebase under test is this repository, and each ticket is a real gap in it.** The
    README names the absence of application code, but these skills need *code*, not
    *application* code — and `scripts/`, `tools/` and `tests/` are real and citable by line. Each
    ticket is written for the eval, by no skill, so there is nothing to reproduce, and
    `citations_resolve` becomes a genuine hallucination check rather than a formality.
-3. **The worktree is sanitised.** `sanitise_worktree()` deletes `example/PROJ-142/` and `evals/`
+3. **The worktree is sanitised.** `sanitise_worktree()` deletes `course/tickets/PROJ-142/` and `evals/`
    before the engine sees anything, so the answer key is physically absent. Unit-tested, so
    removing it is a pytest failure rather than a review miss.
 

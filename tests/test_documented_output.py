@@ -4,7 +4,7 @@ This exists because of a real miss. README.md and evals/README.md both printed
 
     EVAL_ENGINE_CMD=true python3 tools/run_evals.py --all      ->  0/1 passed
 
-against a suite of six cases. docs/demos.md had `0/6` and was right, so the repo contradicted
+against a suite of six cases. course/demos.md had `0/6` and was right, so the repo contradicted
 itself about the output of its own flagship demonstration -- in the section about tests that
 lie, in a file that tells the presenter "the number in the narration has to be the number on
 screen".
@@ -31,7 +31,7 @@ SUITE_SCORE = re.compile(r"(\d+)/(\d+) passed")
 SCORED_DOCS = (
     "README.md",
     "evals/README.md",
-    "docs/demos.md",
+    "course/demos.md",
     "tools/run_evals.py",
 )
 

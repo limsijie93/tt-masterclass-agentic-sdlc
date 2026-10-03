@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS account_plan (
 
 #: Seeded at account creation. An account with no rows at all is not "entitled to nothing" —
 #: it is an account whose entitlements have not been written yet, and the difference is the
-#: whole of finding 1 in example/PROJ-207/08-review.md.
+#: whole of finding 1 in course/tickets/PROJ-207/08-review.md.
 BOOTSTRAP_PLAN = "free"
 
 
@@ -65,7 +65,7 @@ def count_entitlements(connection: sqlite3.Connection, account_id: int) -> int:
 
 def seed(connection: sqlite3.Connection, account_id: int, flags: tuple[str, ...]) -> None:
     """Give an account exactly these flags. No rows at all is a different state — see
-    `count_entitlements` and finding 1 of example/PROJ-207/08-review.md."""
+    `count_entitlements` and finding 1 of course/tickets/PROJ-207/08-review.md."""
     connection.executemany(
         "INSERT INTO entitlement (account_id, flag, plan) VALUES (?, ?, ?)",
         [(account_id, flag, BOOTSTRAP_PLAN) for flag in flags],

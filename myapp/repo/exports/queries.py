@@ -67,7 +67,7 @@ def fetch_export_rows(
 
     `chunk_size=None` means no server-side batching: the driver materialises the whole result
     set. That default is the footgun PROJ-142's review found — see finding 1 of
-    example/PROJ-142/08-review.md — and it is why callers must pass it explicitly.
+    course/tickets/PROJ-142/08-review.md — and it is why callers must pass it explicitly.
     """
     cursor = connection.execute(
         "SELECT id, account_id, occurred, amount FROM export_row WHERE account_id = ?",

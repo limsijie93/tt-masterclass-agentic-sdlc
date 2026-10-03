@@ -49,7 +49,7 @@ def offers_for(connection: sqlite3.Connection, account_id: int) -> list[UpgradeO
 def change_plan(connection: sqlite3.Connection, account_id: int, plan: str) -> None:
     """Record a plan change and drop the cached entitlements for the account.
 
-    THIS is the invalidation hook finding 3 of example/PROJ-207/08-review.md missed. Without
+    THIS is the invalidation hook finding 3 of course/tickets/PROJ-207/08-review.md missed. Without
     it the reviewer would be right that a revoked entitlement survives for up to the TTL.
     """
     connection.execute(

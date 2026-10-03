@@ -13,8 +13,8 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 
-# RECORDING.md is left out of every learner copy, so its presence is what "instructor" means.
-INSTRUCTOR = (REPO / "RECORDING.md").exists()
+# teach/ is left out of every learner copy, so its presence is what "instructor" means.
+INSTRUCTOR = (REPO / "teach").is_dir()
 
 instructor_only = pytest.mark.skipif(
     not INSTRUCTOR, reason="needs the answer keys, which live in the instructor repo"

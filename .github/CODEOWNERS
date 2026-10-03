@@ -9,7 +9,7 @@
 #   3. Require status checks to pass — add `tier1` ONLY. Never add the tier-2 job.
 # Those need repo admin. Until they are set, this file documents intent and blocks nothing.
 #
-# The copy-me version with placeholders is templates/CODEOWNERS.example.
+# The copy-me version with placeholders is course/templates/CODEOWNERS.example.
 
 *                       @limsijie93
 /AGENTS.md              @limsijie93

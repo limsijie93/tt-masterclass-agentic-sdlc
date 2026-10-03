@@ -21,7 +21,7 @@ THE HONEST LIMIT, and it is a large one. This sees the edit tools. It does not s
 visible in the diff. That is the same hole read-only-explorer.md names when it refuses to
 allowlist a shell, and it is the reason this file is a guard rather than a control: the control
 is admin-set managed settings a developer cannot override, which is what
-templates/managed-settings.example.json is for.
+course/templates/managed-settings.example.json is for.
 """
 
 from __future__ import annotations

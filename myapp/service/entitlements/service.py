@@ -14,7 +14,7 @@ because acceptance criterion 1 says sixty and not because sixty is a good number
 
 `has_feature` takes `default`, and it defaults to `True`. That is FAIL-OPEN: an account whose
 entitlements cannot be read gets the feature. It is the footgun finding 1 of
-example/PROJ-207/08-review.md identified, on the grounds that
+course/tickets/PROJ-207/08-review.md identified, on the grounds that
 `myapp/service/billing/upgrade.py:44` calls the same helper and was not touched.
 
 The default is still `True`, and that is deliberate for the same reason
@@ -59,7 +59,7 @@ def _now() -> float:
 def invalidate(account_id: int) -> None:
     """Drop this account's cached entitlements.
 
-    THE HOOK THE REVIEWER MISSED. Finding 3 of example/PROJ-207/08-review.md says the cache is
+    THE HOOK THE REVIEWER MISSED. Finding 3 in course/tickets/PROJ-207/08-review.md: the cache is
     stale-unsafe because a revoked entitlement is served for up to the TTL. That would be true
     if nothing called this. `myapp/service/billing/upgrade.py` calls it on every plan change,
     so a revocation is visible on the next request rather than in sixty seconds.

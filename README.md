@@ -3,8 +3,8 @@
 Files from the lecture **Agentic SDLC: Specs → Quality → Review**, by Si Jie Lim.
 
 ### → Just watched the lecture? Read [**LEARN.md**](LEARN.md) instead.
-### → Want one page to pin up? [**docs/reference-card.md**](docs/reference-card.md).
-### → Following the masterclass? [**docs/learner-guide.md**](docs/learner-guide.md) maps each lesson to its files.
+### → Want one page to pin up? [**course/reference-card.md**](course/reference-card.md).
+### → Following the masterclass? [**course/guide.md**](course/guide.md) maps each lesson to its files.
 
 It is the hour after: one ticket end to end, one skill you can try without installing anything,
 a lab with your hands on the keyboard, and two deliberately-wrong files to check yourself
@@ -16,14 +16,32 @@ when you want it in your own repository.
 
 ## What's yours
 
-| | Folder | What you do with it |
-|---|---|---|
-| **Start** | [`LEARN.md`](LEARN.md), [`docs/learner-guide.md`](docs/learner-guide.md), [`docs/reference-card.md`](docs/reference-card.md) | Read first: which path to take, a map of each lesson to its files, and the one-page summary |
-| **Do** | [`labs/`](labs/) | The hands-on labs. `python3 tools/lab.py` lists them, then `start`, `check`, `solution` |
-| **Read** | [`example/`](example/) | Two worked tickets, every step as a file, numbered in reading order |
-| **Run** | [`docs/demos.md`](docs/demos.md) | Every lecture demo, with the exact commands, so you can reproduce it |
-| **Copy into your repo** | [`.github/skills/`](.github/skills/), [`templates/`](templates/), [`examples/`](examples/) | The skills, the stack-neutral file shapes, and those shapes filled in for Python and TypeScript |
-| **Leave alone** | `myapp/`, `tools/`, `tests/`, `scripts/`, `evals/`, `.semgrep/`, `harvest/`, config files | The practice app the labs break, and the machinery that checks this repo. Read it freely; you don't edit it for a lab |
+**Everything for the masterclass is in [`course/`](course/).** The skills are in
+[`.github/skills/`](.github/skills/). Everything else is machinery that runs the checks: you use
+it through commands, and you never need to edit it.
+
+```
+course/                  ← the masterclass
+  guide.md                 which file goes with which lesson
+  reference-card.md        the one-page summary
+  demos.md                 every lecture demo, with the commands to replay it
+  tickets/                 two worked tickets, every step as a file      (read)
+  labs/                    six hands-on labs                              (do)
+  templates/               blank file shapes, plus python/ and typescript/ fills   (copy)
+.github/skills/          the eight skills                                 (install or copy)
+myapp/                   the practice app the labs and demos break     ┐
+tools/  scripts/         the lab runner, the guards, the checks        │ machinery:
+tests/  evals/           the repo's own tests                          │ read freely,
+harvest/  .semgrep/      the harvest ledger, and the rules it produced ┘ don't edit
+```
+
+| To | Open |
+|---|---|
+| Follow a lesson | [`course/guide.md`](course/guide.md) |
+| Read a worked ticket | [`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) |
+| Do a lab | `python3 tools/lab.py`, then `start 01`, `check 01`, `solution 01` |
+| Replay a demo | [`course/demos.md`](course/demos.md) |
+| Copy something into your repo | [`course/templates/`](course/templates/), and the skills: [Install the skills](#install-the-skills) |
 
 Your own work (`pruned.md`, `yours.ini`, `test_yours.py`, `specs/LAB-*`, `reviews/LAB-*`, each
 `report.md`) is gitignored, so it never collides with an update.
@@ -69,9 +87,9 @@ Three pull requests, each under an hour:
    matters. Put a name in the H1 and the path in `CODEOWNERS`.
 3. Add `tier1` to your branch's required status checks. Only `tier1`.
 
-Prefer to copy rather than generate? [`templates/`](templates/) has the stack-neutral shapes and
-[`examples/`](examples/) has them filled in for Python and TypeScript. Read
-[`templates/README.md`](templates/README.md) first — turning these on repo-wide on day one is how
+Prefer to copy rather than generate? [`course/templates/`](course/templates/) has the stack-neutral shapes, and
+its [`python/`](course/templates/python/) and [`typescript/`](course/templates/typescript/) folders have them filled in. Read
+[`course/templates/README.md`](course/templates/README.md) first — turning these on repo-wide on day one is how
 the initiative dies in week two.
 
 ## Honestly: what runs, and what is a template
@@ -90,14 +108,14 @@ Both had been green for weeks. Neither is findable without code to run against.
 
 | Runs green in this repo | Illustrative template |
 |---|---|
-| `myapp/` — the app, with the full tier-1 stack: ruff, mypy strict, `lint-imports`, semgrep, tests | `templates/*` — written for the same fictional service, stack-neutral |
-| `scripts/` and `tools/` — with tests, ruff-clean, mypy-strict-clean | `examples/python/*`, `examples/typescript/*` — two fills of those shapes |
+| `myapp/` — the app, with the full tier-1 stack: ruff, mypy strict, `lint-imports`, semgrep, tests | `course/templates/*` — written for the same fictional service, stack-neutral |
+| `scripts/` and `tools/` — with tests, ruff-clean, mypy-strict-clean | `course/templates/python/*`, `course/templates/typescript/*` — two fills of those shapes |
 | `.semgrep/` — the rules have their own unit tests, and now real code to fire on | |
 | `.importlinter` — three contracts, and a test proves the third one bites | |
 | `.pre-commit-config.yaml` — this repo's own gates | |
 | `.github/workflows/review.yml` — language-agnostic; it runs whatever your pre-commit config declares | |
 
-`example/PROJ-142/*` are still artifacts rather than code — but every `path:line` they cite now
+`course/tickets/PROJ-142/*` are still artifacts rather than code — but every `path:line` they cite now
 resolves, and `tests/test_example_consistency.py` fails if one stops resolving. They were
 consistent with each other before; they are correct now.
 
@@ -105,7 +123,7 @@ One file is named to *avoid* being picked up automatically: the skill template i
 `SKILL.template.md`, not `SKILL.md`, because anything named `SKILL.md` under a skills directory
 registers as a live skill.
 
-`templates/importlinter.example.ini` used to be the second such file — it would have failed on
+`course/templates/importlinter.example.ini` used to be the second such file — it would have failed on
 every commit as a root `.importlinter`, because there was no `myapp` for `lint-imports` to
 import. That is no longer true, and the root [`.importlinter`](.importlinter) is now real and
 enforced. The template stays, because it carries the baseline-and-ratchet commentary an
@@ -137,7 +155,7 @@ That is the argument for the *ordering*. The argument for there being four layer
 good one is the **Swiss Cheese Model**: capability gaps are unpredictable and are not correlated
 between layers, so a hole in any single one is expected and only the stack is reliable. It is
 also why no tier is allowed to be excused as redundant. Sources for both claims, including the
-measured non-determinism, are in [`docs/citations.md`](docs/citations.md).
+measured non-determinism, are in [`course/citations.md`](course/citations.md).
 
 ### Tier 0 exists because of a rule we were not keeping
 
@@ -155,7 +173,7 @@ file, add a failing test, edit production code. None of that weakens an assertio
 you cannot do silently is turn a red test green by editing the test.
 
 **It ships in log mode.** `GUARD_MODE=log` is the default: it reports and blocks nothing, because
-[`templates/README.md`](templates/README.md) tells adopters to measure for a week before
+[`course/templates/README.md`](course/templates/README.md) tells adopters to measure for a week before
 enforcing and this is our own gate. Flip to `enforce` in a PR carrying the observed counts.
 
 **The second guard protects the first.** `guard_protected_paths.py` refuses agent edits to
@@ -177,8 +195,8 @@ deleted by someone in a hurry. A test asserts the list has not grown.
 `sed -i`, `python -c`, `git checkout` are all invisible to them and all visible in the diff. That
 is the same hole the read-only agent names when it refuses to allowlist a shell — and it is why
 these are *guards* and not *controls*. The control is admin-set settings a developer cannot
-override — `templates/managed-settings.example.json`, with the paths, the three locks, and the
-tension it creates, in [`templates/README.md`](templates/README.md).
+override — `course/templates/managed-settings.example.json`, with the paths, the three locks, and the
+tension it creates, in [`course/templates/README.md`](course/templates/README.md).
 
 That tension is worth naming here too: **`allowManagedHooksOnly: true` stops this repo's own
 committed guards from running**, because they live in a project source and that is precisely what
@@ -263,7 +281,7 @@ Bodies load when triggered; `references/` files load when read.
 **Language lock, and where it is unavoidable.** An executable check cannot be
 language-agnostic — parsing the language is what makes it checkable. So the split is: the
 *decision* about what to enforce is a skill (`gates-draft`), and the *executable* is its
-generated output. `templates/` names no language; `examples/` holds one fill per ecosystem;
+generated output. `course/templates/` names no language; `course/templates/` holds one fill per ecosystem;
 [`gates-by-stack.md`](.github/skills/gates-draft/references/gates-by-stack.md) maps between
 them.
 
@@ -287,7 +305,7 @@ a permission boundary is spelled in host vocabulary the body is not allowed to u
 capability claim is prose in `## Inputs required` — *reads files; writes one file; runs no
 commands* — and the enforceable allowlist is `allowed-tools` in the frontmatter, where the ban
 does not reach. Prose is the contract and travels; frontmatter is one host's fill and is
-expected to be rewritten per host, exactly like the `templates/` and `examples/` split used
+expected to be rewritten per host, exactly like the blank-versus-filled split in `course/templates/` used
 everywhere else here. `lint_skills.py` check 11 compares them, so the two halves cannot drift:
 a body claiming it runs no commands beside an allowlist granting a shell fails the build.
 
@@ -297,7 +315,7 @@ skill can do by reading.
 
 ## The labs
 
-[`labs/`](labs/) is the keyboard time. Six, about two and a half hours, and **the first three need no
+[`course/labs/`](course/labs/) is the keyboard time. Six, about two and a half hours, and **the first three need no
 agent, no API key and no account** — which is the ordering decision that matters, because a
 learner who meets "you will need a key" at lab 01 stops at lab 01.
 
@@ -322,7 +340,7 @@ turns out to be exactly what may be asserted about a learner's, for the same rea
 stopping behaviour are checkable and prose is not.
 
 Marking is the ladder again — machine blocks, a key comments, you decide — and the checker
-holds itself to the two rules in [`labs/README.md`](labs/README.md). The first one cost
+holds itself to the two rules in [`course/labs/README.md`](course/labs/README.md). The first one cost
 something: an untouched checkout scored **3/7** on lab 01 the first time, because `max_lines`
 and `banned_tokens` are both vacuously true of a file nobody wrote. Eight assertions carry an
 existence guard now.
@@ -332,12 +350,12 @@ existence guard now.
 **If you are here to learn rather than to adopt, [`LEARN.md`](LEARN.md) walks this in order with
 what to notice in each file.**
 
-[`example/PROJ-142/`](example/PROJ-142/) is one ticket from vague report to reviewed pull
+[`course/tickets/PROJ-142/`](course/tickets/PROJ-142/) is one ticket from vague report to reviewed pull
 request, in reading order — including the bloated `AGENTS.md` draft that
-`templates/AGENTS.md` was pruned *from*, so the pruning is a diff rather than a claim.
+`course/templates/AGENTS.md` was pruned *from*, so the pruning is a diff rather than a claim.
 
 **Two files there are deliberately wrong.** One review finding is a false positive and one test
-verifies nothing; the lecture polls the room on both. `example/PROJ-142/AGENTS.md` tells an
+verifies nothing; the lecture polls the room on both. `course/tickets/PROJ-142/AGENTS.md` tells an
 agent not to correct them, which matters because the first thing most people do with this repo
 is point an agent at it.
 
@@ -404,7 +422,7 @@ sabotaged fixture. See [`.semgrep/README.md`](.semgrep/README.md).
 
 ## Demos
 
-[`docs/demos.md`](docs/demos.md) maps every recording to its lecture segment and the exact
+[`course/demos.md`](course/demos.md) maps every recording to its lecture segment and the exact
 commands that produce it. All twelve have written, verified beats; none of them is filmed.
 
 
@@ -412,14 +430,14 @@ commands that produce it. All twelve have written, verified beats; none of them 
 
 Named so the gaps read as decisions:
 
-- **Governance** (segment 11) — the shape is now `templates/governance.example.md`: visibility
+- **Governance** (segment 11) — the shape is now `course/templates/governance.example.md`: visibility
   before limits, four adoption metrics chosen so that gaming one moves another the wrong way, and
   the trust boundary. What is still absent is a **filled** one, and deliberately: the vendor rows
   are a purchasing decision and the thresholds need a month of measurement, so a default here would
   be the aspirational content this repo warns about, in the file a manager is most likely to copy.
 - **Per-host install guides** — largely obviated by `sync-skills.sh` and `--print`.
 - **More practice PRs with planted problems.** One exists —
-  [lab 05](labs/05-review-a-planted-pr/lab.md), three real findings and a decoy — and one is
+  [lab 05](course/labs/05-review-a-planted-pr/lab.md), three real findings and a decoy — and one is
   not a set.
 - **Ticket ingestion via a read-only Jira MCP.** Copy-paste is the committed path; a pasted
   description does miss the criteria filed as a subtask, the decision in a comment, and the

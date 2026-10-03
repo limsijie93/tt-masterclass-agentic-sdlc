@@ -88,14 +88,14 @@ def test_a_stability_claim_carries_the_date_and_the_model() -> None:
 def test_no_case_expects_a_worked_example_artifact() -> None:
     """THE ANTI-TAUTOLOGY RULE, mechanised.
 
-    Comparing a skill's output to example/PROJ-142/02-interrogation.md asserts that the model
+    Comparing a skill's output to course/tickets/PROJ-142/02-interrogation.md asserts that the model
     reproduces one hand-polished past output — non-deterministic AND circular. A case's
     expected outcome is a list of properties, never a file.
     """
     for path in CASES:
         body = path.read_text(encoding="utf-8")
         assert (
-            "example/PROJ-142" not in body
+            "course/tickets/PROJ-142" not in body
         ), f"{path.name} references the worked example; expectations are properties, not files"
 
 
@@ -123,21 +123,23 @@ def test_every_negative_control_has_a_positive_companion() -> None:
 
 def test_the_sanitiser_removes_the_answer_key(tmp_path: Path) -> None:
     """Rule 3 of the fixture design. Deleting this call must be a test failure."""
-    (tmp_path / "example" / "PROJ-142").mkdir(parents=True)
-    (tmp_path / "example" / "PROJ-142" / "02-interrogation.md").write_text("answers", "utf-8")
+    (tmp_path / "course" / "tickets" / "PROJ-142").mkdir(parents=True)
+    (tmp_path / "course" / "tickets" / "PROJ-142" / "02-interrogation.md").write_text(
+        "answers", "utf-8"
+    )
     (tmp_path / "evals" / "cases").mkdir(parents=True)
     (tmp_path / "keep.py").write_text("x = 1", "utf-8")
 
     removed = sanitise_worktree(tmp_path)
 
     assert set(removed) == set(SANITISE)
-    assert not (tmp_path / "example" / "PROJ-142").exists()
+    assert not (tmp_path / "course" / "tickets" / "PROJ-142").exists()
     assert not (tmp_path / "evals").exists()
     assert (tmp_path / "keep.py").exists(), "the sanitiser must not remove the code under test"
 
 
 def test_the_sanitise_list_names_both_directories() -> None:
-    assert "example/PROJ-142" in SANITISE
+    assert "course/tickets/PROJ-142" in SANITISE
     assert "evals" in SANITISE
 
 

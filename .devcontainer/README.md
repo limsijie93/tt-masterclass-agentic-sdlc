@@ -40,5 +40,5 @@ in `requirements-dev.txt`, against the same revs `.pre-commit-config.yaml` uses.
 
 And this file has not been run on Windows or in Codespaces by anyone here. It is assembled
 from the documented behaviour of the base image, which is the same standard
-`templates/managed-settings.example.json` is held to and is worth saying out loud rather than
+`course/templates/managed-settings.example.json` is held to and is worth saying out loud rather than
 discovering. If it fails for you, that is a bug and a one-line fix; say so.

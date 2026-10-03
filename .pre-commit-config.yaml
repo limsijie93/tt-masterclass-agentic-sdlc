@@ -15,7 +15,7 @@
 # living here, in one paragraph.
 #
 # The copy-me version, with the baseline and ratchet blocks an established repo needs, is
-# templates/pre-commit-config.python.yaml.
+# course/templates/pre-commit-config.python.yaml.
 
 default_install_hook_types: [pre-commit, pre-push]
 minimum_pre_commit_version: "3.5.0"
@@ -29,7 +29,7 @@ repos:
       - id: check-merge-conflict
       # A patch file is a format where trailing whitespace is load-bearing: a blank context
       # line in a unified diff is a single space, and stripping it makes `git apply` reject
-      # the hunk. labs/05's pr.diff is a real `git diff`, so these three leave it alone.
+      # the hunk. course/labs/05's pr.diff is a real `git diff`, so these three leave it alone.
       - id: end-of-file-fixer
         exclude: '\.diff$'
       - id: trailing-whitespace

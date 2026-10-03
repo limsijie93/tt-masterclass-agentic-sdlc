@@ -3,14 +3,14 @@
 
 WHY THIS EXISTS
 
-`example/PROJ-142/09-tests-that-lie.md` ends with a human noticing that a test asserts on its
+`course/tickets/PROJ-142/09-tests-that-lie.md` ends with a human noticing that a test asserts on its
 own mock. That is tier 2 — a person read carefully — in a repository whose argument is that a
 standard a machine cannot check is a preference. Test quality was therefore a preference. This
 is the sensor that moves it to tier 1.
 
 WHY NOT mutmut
 
-`labs/03-the-test-that-lies/lab.md` says the production version of that lab's hand-rolled
+`course/labs/03-the-test-that-lies/lab.md` says the production version of that lab's hand-rolled
 `mutate.sh` is mutmut, and for a team adopting mutation testing generally that is still the
 right advice. It is not the right tool for this gate, for two reasons that are about the gate
 rather than about mutmut: the decision recorded on 24 September was `myapp/` only, diff-scoped

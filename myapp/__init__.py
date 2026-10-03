@@ -1,8 +1,8 @@
 """myapp — the deliberately minimal service the worked example is written against.
 
-It exists to be broken in five specific ways (see docs/demos.md), and for nothing else. It is
+It exists to be broken in five specific ways (see course/demos.md), and for nothing else. It is
 not a product: no auth, no migrations, no deployment, no front end. Read
-example/PROJ-142/README.md for the ticket it is shaped by.
+course/tickets/PROJ-142/README.md for the ticket it is shaped by.
 
 Layers, enforced by .importlinter and not by this docstring:
 
